@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../core/widgets/app_text_field.dart';
-import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/widgets/gradient_button.dart';
 import '../../domain/entities/body_measurement.dart';
 import '../providers/progress_providers.dart';
 
@@ -112,7 +112,7 @@ class LogMeasurementScreen extends HookConsumerWidget {
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
           ),
           const SizedBox(height: 20),
-          PrimaryButton(label: 'Save', isLoading: isSaving.value, onPressed: save),
+          GradientButton(label: 'Save', isLoading: isSaving.value, onPressed: save),
         ],
       ),
     );

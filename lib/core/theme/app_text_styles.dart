@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// Centralized typography scale built on Material 3's [TextTheme], using
-/// Inter for body/UI text and Sora for display/headline text.
+/// Inter for body/UI text and Space Grotesk for display/headline text —
+/// matching the Claude Design handoff's type tokens.
 abstract final class AppTextStyles {
   static TextTheme textTheme(Color baseColor) {
     final body = GoogleFonts.interTextTheme();
-    final display = GoogleFonts.soraTextTheme();
+    final display = GoogleFonts.spaceGroteskTextTheme();
 
     return body
         .copyWith(

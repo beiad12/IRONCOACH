@@ -43,12 +43,12 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<AppUser>> signUpWithEmail({
     required String email,
     required String password,
-    required String username,
+    String? username,
   }) => _guard(() async {
         final response = await _client.auth.signUp(
           email: email,
           password: password,
-          data: {'username': username},
+          data: username == null ? null : {'username': username},
         );
         final user = response.user;
         if (user == null) throw const UnauthorizedException('Sign-up failed');

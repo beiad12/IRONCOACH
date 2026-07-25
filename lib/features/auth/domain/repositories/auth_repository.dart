@@ -14,10 +14,14 @@ abstract interface class AuthRepository {
     required String password,
   });
 
+  /// [username] is optional — when omitted, the `handle_new_user()` DB
+  /// trigger assigns a default (`user_<id prefix>`) that the user can
+  /// change later in Edit Profile, matching the design's minimal-friction
+  /// signup (email + password only).
   Future<Result<AppUser>> signUpWithEmail({
     required String email,
     required String password,
-    required String username,
+    String? username,
   });
 
   Future<Result<void>> signInWithGoogle();

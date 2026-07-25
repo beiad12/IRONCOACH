@@ -89,6 +89,12 @@ Future<List<WorkoutSession>> workoutHistory(Ref ref) async {
 }
 
 @riverpod
+Future<int> completedWorkoutCount(Ref ref) async {
+  final result = await ref.watch(workoutSessionRepositoryProvider).getCompletedWorkoutCount();
+  return result.match((failure) => throw failure, (count) => count);
+}
+
+@riverpod
 Future<WorkoutSession> workoutSessionById(Ref ref, String sessionId) async {
   final result = await ref.watch(workoutSessionRepositoryProvider).getSessionById(sessionId);
   return result.match((failure) => throw failure, (session) => session);

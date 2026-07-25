@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../core/widgets/app_text_field.dart';
-import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/widgets/gradient_button.dart';
 import '../providers/auth_providers.dart';
 
 class ForgotPasswordScreen extends HookConsumerWidget {
@@ -70,7 +70,7 @@ class ForgotPasswordScreen extends HookConsumerWidget {
                             (value == null || !value.contains('@')) ? 'Enter a valid email' : null,
                       ),
                       const SizedBox(height: 24),
-                      PrimaryButton(label: 'Send reset link', isLoading: isLoading.value, onPressed: submit),
+                      GradientButton(label: 'Send reset link', isLoading: isLoading.value, onPressed: submit),
                     ],
                   ),
                 ),

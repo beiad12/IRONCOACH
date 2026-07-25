@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../core/router/route_paths.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/async_value_widget.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../domain/entities/workout_template.dart';
@@ -16,37 +18,55 @@ class WorkoutsScreen extends ConsumerWidget {
     final templatesAsync = ref.watch(workoutTemplatesProvider());
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Workouts')),
+      appBar: AppBar(
+        title: const Text('Train'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () => context.push(RoutePaths.workoutHistory),
+          ),
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () => context.push(RoutePaths.exerciseLibrary),
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(workoutTemplatesProvider),
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: _ActionCard(
-                    icon: Icons.auto_awesome,
-                    label: 'Generate workout',
-                    onTap: () => context.push(RoutePaths.workoutGenerator),
+            AppCard(
+              gradient: AppColors.heroCardGradient,
+              borderColor: AppColors.electricBlue.withValues(alpha: 0.22),
+              onTap: () => context.push(RoutePaths.workoutGenerator),
+              child: Row(
+                children: [
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: AppColors.electricBlue.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: const Icon(Icons.auto_awesome, color: AppColors.electricBlue),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _ActionCard(
-                    icon: Icons.search,
-                    label: 'Exercise library',
-                    onTap: () => context.push(RoutePaths.exerciseLibrary),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Generate a workout', style: Theme.of(context).textTheme.titleSmall),
+                        const Text(
+                          'Goal, duration, equipment — ready in seconds',
+                          style: TextStyle(color: AppColors.darkTextSecondary, fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            _ActionCard(
-              icon: Icons.history,
-              label: 'Workout history',
-              onTap: () => context.push(RoutePaths.workoutHistory),
-              fullWidth: true,
+                  const Icon(Icons.chevron_right, color: AppColors.darkTextTertiary),
+                ],
+              ),
             ),
             const SizedBox(height: 24),
             Text('Your templates', style: Theme.of(context).textTheme.titleMedium),
@@ -74,54 +94,41 @@ class WorkoutsScreen extends ConsumerWidget {
   }
 }
 
-class _ActionCard extends StatelessWidget {
-  const _ActionCard({required this.icon, required this.label, required this.onTap, this.fullWidth = false});
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-  final bool fullWidth;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
-            children: [
-              Icon(icon, color: Theme.of(context).colorScheme.primary),
-              const SizedBox(width: 10),
-              Flexible(child: Text(label, style: Theme.of(context).textTheme.labelLarge)),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _TemplateTile extends ConsumerWidget {
   const _TemplateTile({required this.template});
   final WorkoutTemplate template;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      child: ListTile(
-        title: Text(template.name),
-        subtitle: Text('${template.exercises.length} exercises · ${template.estimatedDurationMinutes ?? "-"} min'),
-        trailing: IconButton(
-          icon: Icon(template.isFavorite ? Icons.favorite : Icons.favorite_border),
-          onPressed: () => ref
-              .read(workoutTemplateRepositoryProvider)
-              .toggleFavorite(template.id, isFavorite: !template.isFavorite)
-              .then((_) => ref.invalidate(workoutTemplatesProvider)),
-        ),
-        onTap: () => context.push(RoutePaths.workoutTemplateDetail.replaceFirst(':templateId', template.id)),
+    return AppCard(
+      margin: const EdgeInsets.only(bottom: 10),
+      onTap: () => context.push(RoutePaths.workoutTemplateDetail.replaceFirst(':templateId', template.id)),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(template.name, style: Theme.of(context).textTheme.titleSmall),
+                const SizedBox(height: 2),
+                Text(
+                  '${template.exercises.length} exercises · ${template.estimatedDurationMinutes ?? "-"} min',
+                  style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: Icon(
+              template.isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: template.isFavorite ? AppColors.error : AppColors.darkTextTertiary,
+            ),
+            onPressed: () => ref
+                .read(workoutTemplateRepositoryProvider)
+                .toggleFavorite(template.id, isFavorite: !template.isFavorite)
+                .then((_) => ref.invalidate(workoutTemplatesProvider)),
+          ),
+        ],
       ),
     );
   }

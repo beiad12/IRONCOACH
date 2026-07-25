@@ -19,4 +19,8 @@ abstract interface class WorkoutSessionRepository {
   Future<Result<List<WorkoutSession>>> getHistory({int limit = 30});
 
   Future<Result<void>> deleteSession(String sessionId);
+
+  /// True lifetime count of completed sessions (unlike [getHistory], which
+  /// is capped for list-rendering performance) — used for profile stats.
+  Future<Result<int>> getCompletedWorkoutCount();
 }

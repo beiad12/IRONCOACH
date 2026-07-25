@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../core/widgets/primary_button.dart';
+import '../../../../core/widgets/gradient_button.dart';
 import '../../../ai_coach/presentation/providers/ai_coach_providers.dart';
 import '../../domain/entities/food_item.dart';
 import '../../domain/entities/meal_entry.dart';
@@ -161,7 +161,7 @@ class LogMealScreen extends HookConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(16),
-            child: PrimaryButton(label: 'Save meal', isLoading: isBusy.value, onPressed: save),
+            child: GradientButton(label: 'Save meal', isLoading: isBusy.value, onPressed: save),
           ),
         ],
       ),

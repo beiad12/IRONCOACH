@@ -28,4 +28,14 @@ class WorkoutSessionRemoteDataSource {
         .order('set_number');
     return List<Map<String, dynamic>>.from(rows as List);
   }
+
+  Future<int> countCompletedSessions(String userId) async {
+    final response = await _client
+        .from(AppConstants.tableWorkoutSessions)
+        .select()
+        .eq('user_id', userId)
+        .not('completed_at', 'is', null)
+        .count(CountOption.exact);
+    return response.count;
+  }
 }

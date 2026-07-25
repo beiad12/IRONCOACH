@@ -4,198 +4,167 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../core/router/route_paths.dart';
-import '../../../../core/widgets/primary_button.dart';
-import '../../../profile/domain/entities/user_profile.dart';
-import '../../../profile/presentation/providers/profile_providers.dart';
-import '../providers/auth_providers.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/gradient_button.dart';
+import '../providers/onboarding_providers.dart';
 
-/// Three-step goal/level/units capture shown once after sign-up, so the
-/// AI coaches and workout generator have enough context to be useful
-/// immediately instead of asking the user to fill in a blank profile.
+class _Slide {
+  const _Slide({required this.icon, required this.iconColor, required this.title, required this.body});
+  final IconData icon;
+  final Color iconColor;
+  final String title;
+  final String body;
+}
+
+const _slides = [
+  _Slide(
+    icon: Icons.auto_awesome,
+    iconColor: AppColors.electricBlue,
+    title: 'Coaching that adapts to you',
+    body: 'IronCoach reads your recovery, effort and history to rebuild your plan every single '
+        'day — no generic templates.',
+  ),
+  _Slide(
+    icon: Icons.fitness_center,
+    iconColor: AppColors.emerald,
+    title: 'Train anywhere, anytime',
+    body: 'From full gyms to bodyweight-only sessions — every workout is built around the '
+        'equipment you actually have.',
+  ),
+  _Slide(
+    icon: Icons.bar_chart_rounded,
+    iconColor: AppColors.electricBlue,
+    title: 'See real progress',
+    body: 'Track weight, measurements and performance trends with analytics that actually '
+        'explain what changed.',
+  ),
+];
+
+/// Pre-auth marketing carousel — matches the design's `onboarding` stage
+/// exactly: three slides, a Skip shortcut, and no data collection (goal/
+/// experience-level/units now live in Edit Profile instead of gating
+/// signup).
 class OnboardingScreen extends HookConsumerWidget {
   const OnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pageController = usePageController();
-    final currentPage = useState(0);
-    final selectedGoal = useState<PrimaryGoal?>(null);
-    final selectedLevel = useState(FitnessLevel.beginner);
-    final selectedUnits = useState(MeasurementUnits.metric);
-    final isSaving = useState(false);
+    final index = useState(0);
 
-    Future<void> finish() async {
-      final user = ref.read(currentUserProvider);
-      if (user == null) return;
-      isSaving.value = true;
-
-      final profileResult = await ref.read(profileRepositoryProvider).getProfile(user.id);
-      await profileResult.match(
-        (_) async {},
-        (profile) => ref.read(profileRepositoryProvider).updateProfile(
-              profile.copyWith(
-                primaryGoal: selectedGoal.value,
-                fitnessLevel: selectedLevel.value,
-                units: selectedUnits.value,
-              ),
-            ),
-      );
-      await ref.read(authRepositoryProvider).markOnboardingComplete();
-      isSaving.value = false;
-      if (context.mounted) context.go(RoutePaths.home);
+    void finish() {
+      ref.read(hasSeenOnboardingProvider.notifier).markSeen();
+      context.go(RoutePaths.auth);
     }
 
     void next() {
-      if (currentPage.value == 2) {
-        finish();
+      if (index.value < _slides.length - 1) {
+        pageController.nextPage(duration: const Duration(milliseconds: 320), curve: Curves.easeOut);
       } else {
-        pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+        finish();
       }
     }
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                children: List.generate(3, (i) {
-                  return Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: i <= currentPage.value
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.outline,
-                        borderRadius: BorderRadius.circular(2),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(28, 20, 28, 40),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: finish,
+                  child: const Text('Skip', style: TextStyle(color: AppColors.darkTextSecondary)),
+                ),
+              ),
+              Expanded(
+                child: PageView.builder(
+                  controller: pageController,
+                  itemCount: _slides.length,
+                  onPageChanged: (i) => index.value = i,
+                  itemBuilder: (context, i) => _SlideView(slide: _slides[i]),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (var i = 0; i < _slides.length; i++)
+                    GestureDetector(
+                      onTap: () => pageController.animateToPage(
+                        i,
+                        duration: const Duration(milliseconds: 280),
+                        curve: Curves.easeOut,
+                      ),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 220),
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        width: i == index.value ? 20 : 6,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          color: i == index.value ? AppColors.electricBlue : AppColors.darkText(0.2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
                       ),
                     ),
-                  );
-                }),
-              ),
-            ),
-            Expanded(
-              child: PageView(
-                controller: pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                onPageChanged: (i) => currentPage.value = i,
-                children: [
-                  _GoalStep(selected: selectedGoal.value, onSelect: (g) => selectedGoal.value = g),
-                  _LevelStep(selected: selectedLevel.value, onSelect: (l) => selectedLevel.value = l),
-                  _UnitsStep(selected: selectedUnits.value, onSelect: (u) => selectedUnits.value = u),
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: PrimaryButton(
-                label: currentPage.value == 2 ? "Let's go" : 'Continue',
-                isLoading: isSaving.value,
-                onPressed: currentPage.value == 0 && selectedGoal.value == null ? null : next,
-              ),
-            ),
-          ],
+              const SizedBox(height: 24),
+              GradientButton(label: 'Continue', onPressed: next),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _GoalStep extends StatelessWidget {
-  const _GoalStep({required this.selected, required this.onSelect});
-  final PrimaryGoal? selected;
-  final ValueChanged<PrimaryGoal> onSelect;
+class _SlideView extends StatelessWidget {
+  const _SlideView({required this.slide});
+  final _Slide slide;
 
   @override
   Widget build(BuildContext context) {
-    return _StepScaffold(
-      title: "What's your main goal?",
-      child: Column(
-        children: PrimaryGoal.values
-            .map(
-              (goal) => RadioListTile<PrimaryGoal>(
-                title: Text(goal.label),
-                value: goal,
-                groupValue: selected,
-                onChanged: (v) => onSelect(v!),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 180,
+          height: 180,
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF1A1C22), Color(0xFF111216)],
+            ),
+            borderRadius: BorderRadius.circular(40),
+            border: Border.all(color: AppColors.darkBorder),
+            boxShadow: [
+              BoxShadow(color: AppColors.electricBlue.withValues(alpha: 0.14), blurRadius: 70),
+            ],
+          ),
+          child: Icon(slide.icon, size: 70, color: slide.iconColor),
+        ),
+        const SizedBox(height: 40),
+        SizedBox(
+          height: 130,
+          child: Column(
+            children: [
+              Text(
+                slide.title,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
-            )
-            .toList(),
-      ),
-    );
-  }
-}
-
-class _LevelStep extends StatelessWidget {
-  const _LevelStep({required this.selected, required this.onSelect});
-  final FitnessLevel selected;
-  final ValueChanged<FitnessLevel> onSelect;
-
-  @override
-  Widget build(BuildContext context) {
-    return _StepScaffold(
-      title: "What's your training experience?",
-      child: Column(
-        children: FitnessLevel.values
-            .map(
-              (level) => RadioListTile<FitnessLevel>(
-                title: Text(level.name[0].toUpperCase() + level.name.substring(1)),
-                value: level,
-                groupValue: selected,
-                onChanged: (v) => onSelect(v!),
+              const SizedBox(height: 12),
+              Text(
+                slide.body,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 14, height: 1.5),
               ),
-            )
-            .toList(),
-      ),
-    );
-  }
-}
-
-class _UnitsStep extends StatelessWidget {
-  const _UnitsStep({required this.selected, required this.onSelect});
-  final MeasurementUnits selected;
-  final ValueChanged<MeasurementUnits> onSelect;
-
-  @override
-  Widget build(BuildContext context) {
-    return _StepScaffold(
-      title: 'Which units do you prefer?',
-      child: Column(
-        children: MeasurementUnits.values
-            .map(
-              (unit) => RadioListTile<MeasurementUnits>(
-                title: Text(unit == MeasurementUnits.metric ? 'Metric (kg, cm)' : 'Imperial (lb, in)'),
-                value: unit,
-                groupValue: selected,
-                onChanged: (v) => onSelect(v!),
-              ),
-            )
-            .toList(),
-      ),
-    );
-  }
-}
-
-class _StepScaffold extends StatelessWidget {
-  const _StepScaffold({required this.title, required this.child});
-  final String title;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: Theme.of(context).textTheme.headlineSmall),
-          const SizedBox(height: 16),
-          child,
-        ],
-      ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -18,7 +18,7 @@ class CalorieRing extends StatelessWidget {
       lineWidth: 14,
       percent: percent,
       backgroundColor: AppColors.darkBorder,
-      progressColor: AppColors.emberOrange,
+      progressColor: AppColors.electricBlue,
       circularStrokeCap: CircularStrokeCap.round,
       center: Column(
         mainAxisSize: MainAxisSize.min,

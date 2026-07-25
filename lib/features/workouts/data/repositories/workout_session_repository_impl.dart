@@ -176,6 +176,17 @@ class WorkoutSessionRepositoryImpl implements WorkoutSessionRepository {
     return const Right(null);
   }
 
+  @override
+  Future<Result<int>> getCompletedWorkoutCount() async {
+    final userId = _currentUserId();
+    if (userId == null) return const Left(Failure.unauthorized());
+    try {
+      return Right(await _remote.countCompletedSessions(userId));
+    } on Object catch (e) {
+      return Left(Failure.server(message: e.toString()));
+    }
+  }
+
   Future<void> _enqueue({
     required String table,
     required String id,

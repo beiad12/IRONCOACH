@@ -4,17 +4,15 @@
 abstract final class RoutePaths {
   // Auth
   static const String splash = '/splash';
-  static const String login = '/login';
-  static const String register = '/register';
-  static const String forgotPassword = '/forgot-password';
   static const String onboarding = '/onboarding';
+  static const String auth = '/auth';
+  static const String forgotPassword = '/forgot-password';
 
-  // Shell tabs
+  // Shell tabs — Home / Train / Coach / Progress / Profile
   static const String home = '/home';
   static const String workouts = '/workouts';
-  static const String nutrition = '/nutrition';
-  static const String progress = '/progress';
   static const String aiCoach = '/ai-coach';
+  static const String progress = '/progress';
   static const String profile = '/profile';
 
   // Workouts
@@ -26,7 +24,8 @@ abstract final class RoutePaths {
   static const String workoutHistory = '/workouts/history';
   static const String workoutSummary = '/workouts/summary/:sessionId';
 
-  // Nutrition
+  // Nutrition — reached from a Home card / Profile menu, not a bottom tab
+  static const String nutrition = '/nutrition';
   static const String logMeal = '/nutrition/log';
   static const String barcodeScanner = '/nutrition/scan';
   static const String mealDetail = '/nutrition/meals/:mealId';
@@ -39,17 +38,20 @@ abstract final class RoutePaths {
   // AI Coach
   static const String aiChat = '/ai-coach/chat/:agentType';
 
-  // Social
+  // Community hub (Achievements/Challenges/Leaderboard/Friends)
+  static const String community = '/community';
   static const String friends = '/social/friends';
   static const String leaderboard = '/social/leaderboard';
   static const String postDetail = '/social/posts/:postId';
-
-  // Gamification
   static const String achievements = '/achievements';
   static const String challenges = '/challenges';
+
+  // Premium
+  static const String premium = '/premium';
 
   // Settings
   static const String settings = '/settings';
   static const String editProfile = '/profile/edit-profile';
+  static const String notifications = '/notifications';
   static const String notificationSettings = '/settings/notifications';
 }

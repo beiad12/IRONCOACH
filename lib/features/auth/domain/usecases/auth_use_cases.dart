@@ -23,7 +23,7 @@ class SignUpWithEmail {
   Future<Result<AppUser>> call({
     required String email,
     required String password,
-    required String username,
+    String? username,
   }) {
     return _repository.signUpWithEmail(email: email, password: password, username: username);
   }
