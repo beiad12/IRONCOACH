@@ -11,7 +11,8 @@ class SignInWithEmail {
   const SignInWithEmail(this._repository);
   final AuthRepository _repository;
 
-  Future<Result<AppUser>> call({required String email, required String password}) {
+  Future<Result<AppUser>> call(
+      {required String email, required String password}) {
     return _repository.signInWithEmail(email: email, password: password);
   }
 }
@@ -25,7 +26,8 @@ class SignUpWithEmail {
     required String password,
     String? username,
   }) {
-    return _repository.signUpWithEmail(email: email, password: password, username: username);
+    return _repository.signUpWithEmail(
+        email: email, password: password, username: username);
   }
 }
 
@@ -47,14 +49,16 @@ class SendPasswordResetEmail {
   const SendPasswordResetEmail(this._repository);
   final AuthRepository _repository;
 
-  Future<Result<void>> call(String email) => _repository.sendPasswordResetEmail(email);
+  Future<Result<void>> call(String email) =>
+      _repository.sendPasswordResetEmail(email);
 }
 
 class UpdatePassword {
   const UpdatePassword(this._repository);
   final AuthRepository _repository;
 
-  Future<Result<void>> call(String newPassword) => _repository.updatePassword(newPassword);
+  Future<Result<void>> call(String newPassword) =>
+      _repository.updatePassword(newPassword);
 }
 
 class SignOut {

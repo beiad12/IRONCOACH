@@ -7,7 +7,11 @@ import '../theme/app_colors.dart';
 /// [SegmentedTabs]' single equal-width track). Same active-state visual
 /// language as [SegmentedTabs] for consistency.
 class AppChip extends StatelessWidget {
-  const AppChip({required this.label, required this.selected, required this.onTap, super.key});
+  const AppChip(
+      {required this.label,
+      required this.selected,
+      required this.onTap,
+      super.key});
 
   final String label;
   final bool selected;
@@ -41,7 +45,9 @@ class AppChip extends StatelessWidget {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: selected ? const Color(0xFFEAF4FF) : AppColors.darkTextTertiary,
+              color: selected
+                  ? const Color(0xFFEAF4FF)
+                  : AppColors.darkTextTertiary,
             ),
           ),
         ),

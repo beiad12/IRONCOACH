@@ -14,7 +14,8 @@ abstract interface class AiRepository {
   /// Streams the assistant's reply token-by-token via the `ai-proxy` edge
   /// function. The full reply is persisted server-side once the stream
   /// completes, so callers don't need to separately save it.
-  Stream<String> streamMessage({required AgentType agentType, required String message});
+  Stream<String> streamMessage(
+      {required AgentType agentType, required String message});
 
   Future<Result<DailyPlan>> generateDailyPlan();
 

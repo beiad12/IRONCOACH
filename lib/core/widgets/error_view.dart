@@ -19,7 +19,8 @@ class ErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.error_outline_rounded, size: 48, color: theme.colorScheme.error),
+            Icon(Icons.error_outline_rounded,
+                size: 48, color: theme.colorScheme.error),
             const SizedBox(height: 12),
             Text(
               failure.displayMessage,
@@ -28,7 +29,8 @@ class ErrorView extends StatelessWidget {
             ),
             if (onRetry != null) ...[
               const SizedBox(height: 16),
-              OutlinedButton(onPressed: onRetry, child: const Text('Try again')),
+              OutlinedButton(
+                  onPressed: onRetry, child: const Text('Try again')),
             ],
           ],
         ),

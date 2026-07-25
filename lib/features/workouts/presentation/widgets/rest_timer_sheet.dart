@@ -83,7 +83,8 @@ class _RestTimerSheetContent extends ConsumerWidget {
                         value: timer.progress,
                         strokeWidth: 6,
                         backgroundColor: AppColors.darkActivePill,
-                        valueColor: const AlwaysStoppedAnimation(AppColors.electricBlue),
+                        valueColor: const AlwaysStoppedAnimation(
+                            AppColors.electricBlue),
                       ),
                     ),
                     Text(
@@ -98,15 +99,19 @@ class _RestTimerSheetContent extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () => ref.read(restTimerControllerProvider.notifier).addSeconds(15),
-                      style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(50)),
+                      onPressed: () => ref
+                          .read(restTimerControllerProvider.notifier)
+                          .addSeconds(15),
+                      style: OutlinedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(50)),
                       child: const Text('+15 sec'),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: FilledButton(
-                      onPressed: () => ref.read(restTimerControllerProvider.notifier).skip(),
+                      onPressed: () =>
+                          ref.read(restTimerControllerProvider.notifier).skip(),
                       style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(50),
                         backgroundColor: AppColors.electricBlue,

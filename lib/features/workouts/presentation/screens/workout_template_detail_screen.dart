@@ -26,12 +26,14 @@ class WorkoutTemplateDetailScreen extends ConsumerWidget {
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              Text(template.name, style: Theme.of(context).textTheme.headlineSmall),
+              Text(template.name,
+                  style: Theme.of(context).textTheme.headlineSmall),
               const SizedBox(height: 4),
               Text(
                 '${template.exercises.length} exercises · ${template.estimatedDurationMinutes ?? "-"} min'
                 '${template.difficulty != null ? " · ${template.difficulty!.name}" : ""}',
-                style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 13),
+                style: const TextStyle(
+                    color: AppColors.darkTextSecondary, fontSize: 13),
               ),
               const SizedBox(height: 20),
               for (var i = 0; i < template.exercises.length; i++)
@@ -52,9 +54,10 @@ class WorkoutTemplateDetailScreen extends ConsumerWidget {
                         alignment: Alignment.center,
                         child: Text(
                           '${i + 1}',
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: AppColors.electricBlue,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: AppColors.electricBlue,
+                                  ),
                         ),
                       ),
                       const SizedBox(width: 14),
@@ -64,19 +67,25 @@ class WorkoutTemplateDetailScreen extends ConsumerWidget {
                           children: [
                             Text(
                               template.exercises[i].exercise.name,
-                              style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 14, fontWeight: FontWeight.w600),
+                              style: const TextStyle(
+                                  color: AppColors.darkTextPrimary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               '${template.exercises[i].targetSets} sets × '
                               '${template.exercises[i].targetRepsMin ?? "-"}-${template.exercises[i].targetRepsMax ?? "-"} reps'
                               ' · ${template.exercises[i].exercise.primaryMuscle}',
-                              style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 12),
+                              style: const TextStyle(
+                                  color: AppColors.darkTextTertiary,
+                                  fontSize: 12),
                             ),
                           ],
                         ),
                       ),
-                      const Icon(Icons.chevron_right, color: AppColors.darkTextTertiary, size: 18),
+                      const Icon(Icons.chevron_right,
+                          color: AppColors.darkTextTertiary, size: 18),
                     ],
                   ),
                 ),
@@ -91,13 +100,14 @@ class WorkoutTemplateDetailScreen extends ConsumerWidget {
                 onPressed: () async {
                   final result = await ref
                       .read(workoutSessionRepositoryProvider)
-                      .startSession(templateId: template.id, name: template.name);
+                      .startSession(
+                          templateId: template.id, name: template.name);
                   if (!context.mounted) return;
                   result.match(
-                    (failure) => ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text(failure.displayMessage))),
-                    (session) =>
-                        context.push(RoutePaths.activeWorkout.replaceFirst(':sessionId', session.id)),
+                    (failure) => ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(failure.displayMessage))),
+                    (session) => context.push(RoutePaths.activeWorkout
+                        .replaceFirst(':sessionId', session.id)),
                   );
                 },
               ),

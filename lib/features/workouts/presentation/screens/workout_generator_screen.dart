@@ -38,7 +38,9 @@ class WorkoutGeneratorScreen extends HookConsumerWidget {
 
     Future<void> generate() async {
       isWorking.value = true;
-      final libraryResult = await ref.read(exerciseRepositoryProvider).getExercises(const ExerciseFilter());
+      final libraryResult = await ref
+          .read(exerciseRepositoryProvider)
+          .getExercises(const ExerciseFilter());
       isWorking.value = false;
       libraryResult.match(
         (failure) => ScaffoldMessenger.of(context)
@@ -63,7 +65,9 @@ class WorkoutGeneratorScreen extends HookConsumerWidget {
       if (template == null) return;
       isWorking.value = true;
 
-      final saveResult = await ref.read(workoutTemplateRepositoryProvider).saveTemplate(template);
+      final saveResult = await ref
+          .read(workoutTemplateRepositoryProvider)
+          .saveTemplate(template);
       final saved = saveResult.match((failure) {
         isWorking.value = false;
         if (context.mounted) {
@@ -83,7 +87,8 @@ class WorkoutGeneratorScreen extends HookConsumerWidget {
       sessionResult.match(
         (failure) => ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(failure.displayMessage))),
-        (session) => context.push(RoutePaths.activeWorkout.replaceFirst(':sessionId', session.id)),
+        (session) => context.push(
+            RoutePaths.activeWorkout.replaceFirst(':sessionId', session.id)),
       );
     }
 
@@ -110,7 +115,10 @@ class WorkoutGeneratorScreen extends HookConsumerWidget {
             spacing: 8,
             runSpacing: 8,
             children: WorkoutGoal.values
-                .map((g) => AppChip(label: g.label, selected: goal.value == g, onTap: () => goal.value = g))
+                .map((g) => AppChip(
+                    label: g.label,
+                    selected: goal.value == g,
+                    onTap: () => goal.value = g))
                 .toList(),
           ),
           const SizedBox(height: 20),
@@ -136,7 +144,10 @@ class WorkoutGeneratorScreen extends HookConsumerWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8),
-                    child: AppChip(label: '$d min', selected: duration.value == d, onTap: () => duration.value = d),
+                    child: AppChip(
+                        label: '$d min',
+                        selected: duration.value == d,
+                        onTap: () => duration.value = d),
                   ),
                 ),
               ],
@@ -166,7 +177,10 @@ class WorkoutGeneratorScreen extends HookConsumerWidget {
             ],
           ),
           const SizedBox(height: 28),
-          GradientButton(label: 'Generate Plan', isLoading: isWorking.value, onPressed: generate),
+          GradientButton(
+              label: 'Generate Plan',
+              isLoading: isWorking.value,
+              onPressed: generate),
           if (generated.value != null) ...[
             const SizedBox(height: 20),
             AppCard(
@@ -180,13 +194,17 @@ class WorkoutGeneratorScreen extends HookConsumerWidget {
                       color: AppColors.emerald.withOpacity(0.15),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.check, color: AppColors.emerald, size: 18),
+                    child: const Icon(Icons.check,
+                        color: AppColors.emerald, size: 18),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       'New plan ready — ${generated.value!.exercises.length} exercises, ${duration.value} min',
-                      style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 13, fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                          color: AppColors.darkTextPrimary,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -197,12 +215,17 @@ class WorkoutGeneratorScreen extends HookConsumerWidget {
               ListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.fitness_center, color: AppColors.electricBlue),
+                leading: const Icon(Icons.fitness_center,
+                    color: AppColors.electricBlue),
                 title: Text(te.exercise.name),
-                subtitle: Text('${te.targetSets} × ${te.targetRepsMin}-${te.targetRepsMax} reps · ${te.targetRestSeconds}s rest'),
+                subtitle: Text(
+                    '${te.targetSets} × ${te.targetRepsMin}-${te.targetRepsMax} reps · ${te.targetRestSeconds}s rest'),
               ),
             const SizedBox(height: 16),
-            GradientButton(label: 'Start workout', isLoading: isWorking.value, onPressed: startWorkout),
+            GradientButton(
+                label: 'Start workout',
+                isLoading: isWorking.value,
+                onPressed: startWorkout),
           ],
         ],
       ),

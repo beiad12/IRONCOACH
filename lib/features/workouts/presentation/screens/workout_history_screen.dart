@@ -23,7 +23,8 @@ class WorkoutHistoryScreen extends ConsumerWidget {
         onRetry: () => ref.invalidate(workoutHistoryProvider),
         data: (sessions) {
           if (sessions.isEmpty) {
-            return const EmptyState(icon: Icons.history, title: 'No workouts logged yet');
+            return const EmptyState(
+                icon: Icons.history, title: 'No workouts logged yet');
           }
           return ListView.builder(
             padding: const EdgeInsets.all(16),
@@ -40,7 +41,9 @@ class WorkoutHistoryScreen extends ConsumerWidget {
                       ? const Chip(label: Text('In progress'))
                       : const Icon(Icons.chevron_right),
                   onTap: () => context.push(
-                    (session.isActive ? RoutePaths.activeWorkout : RoutePaths.workoutSummary)
+                    (session.isActive
+                            ? RoutePaths.activeWorkout
+                            : RoutePaths.workoutSummary)
                         .replaceFirst(':sessionId', session.id),
                   ),
                 ),

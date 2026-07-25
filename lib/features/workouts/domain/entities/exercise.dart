@@ -29,15 +29,18 @@ class Exercise with _$Exercise {
 
 extension ExerciseCategoryX on ExerciseCategory {
   static ExerciseCategory fromKey(String key) =>
-      ExerciseCategory.values.firstWhere((e) => e.name == key, orElse: () => ExerciseCategory.strength);
+      ExerciseCategory.values.firstWhere((e) => e.name == key,
+          orElse: () => ExerciseCategory.strength);
 }
 
 extension ExerciseDifficultyX on ExerciseDifficulty {
-  static ExerciseDifficulty fromKey(String key) => ExerciseDifficulty.values
-      .firstWhere((e) => e.name == key, orElse: () => ExerciseDifficulty.beginner);
+  static ExerciseDifficulty fromKey(String key) =>
+      ExerciseDifficulty.values.firstWhere((e) => e.name == key,
+          orElse: () => ExerciseDifficulty.beginner);
 }
 
 extension ExerciseMechanicX on ExerciseMechanic {
-  static ExerciseMechanic? fromKey(String? key) =>
-      key == null ? null : ExerciseMechanic.values.firstWhereOrNull((e) => e.name == key);
+  static ExerciseMechanic? fromKey(String? key) => key == null
+      ? null
+      : ExerciseMechanic.values.firstWhereOrNull((e) => e.name == key);
 }

@@ -14,11 +14,14 @@ class ChatBubble extends StatelessWidget {
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.78),
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.78),
         margin: const EdgeInsets.symmetric(vertical: 6),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: isUser ? theme.colorScheme.primary : theme.colorScheme.surfaceContainerHighest,
+          color: isUser
+              ? theme.colorScheme.primary
+              : theme.colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(16),
             topRight: const Radius.circular(16),
@@ -31,7 +34,9 @@ class ChatBubble extends StatelessWidget {
             : Text(
                 message.content,
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: isUser ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface,
+                  color: isUser
+                      ? theme.colorScheme.onPrimary
+                      : theme.colorScheme.onSurface,
                 ),
               ),
       ),
@@ -47,7 +52,11 @@ class _TypingDots extends StatelessWidget {
     return const SizedBox(
       width: 24,
       height: 12,
-      child: Center(child: SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))),
+      child: Center(
+          child: SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(strokeWidth: 2))),
     );
   }
 }

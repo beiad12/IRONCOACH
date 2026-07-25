@@ -33,7 +33,9 @@ class AiChatScreen extends HookConsumerWidget {
       if (message.trim().isEmpty || isSending.value) return;
       textController.clear();
       isSending.value = true;
-      await ref.read(chatControllerProvider(agentType).notifier).sendMessage(message);
+      await ref
+          .read(chatControllerProvider(agentType).notifier)
+          .sendMessage(message);
       isSending.value = false;
       if (scrollController.hasClients) {
         scrollController.animateTo(
@@ -55,7 +57,8 @@ class AiChatScreen extends HookConsumerWidget {
                 color: AppColors.electricBlue.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(Icons.auto_awesome, color: AppColors.electricBlue, size: 16),
+              child: const Icon(Icons.auto_awesome,
+                  color: AppColors.electricBlue, size: 16),
             ),
             const SizedBox(width: 10),
             Text(agentType.label),
@@ -66,8 +69,8 @@ class AiChatScreen extends HookConsumerWidget {
         children: [
           AgentSelector(
             selected: agentType,
-            onSelected: (agent) =>
-                context.pushReplacement(RoutePaths.aiChat.replaceFirst(':agentType', agent.key)),
+            onSelected: (agent) => context.pushReplacement(
+                RoutePaths.aiChat.replaceFirst(':agentType', agent.key)),
           ),
           const Divider(height: 1, color: AppColors.darkBorder),
           Expanded(
@@ -81,7 +84,8 @@ class AiChatScreen extends HookConsumerWidget {
                       child: Text(
                         agentType.description,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(color: AppColors.darkTextSecondary),
+                        style:
+                            const TextStyle(color: AppColors.darkTextSecondary),
                       ),
                     ),
                   );
@@ -110,7 +114,9 @@ class AiChatScreen extends HookConsumerWidget {
                       separatorBuilder: (_, __) => const SizedBox(width: 8),
                       itemBuilder: (context, i) => _QuickReplyChip(
                         label: _quickReplies[i],
-                        onTap: isSending.value ? null : () => send(_quickReplies[i]),
+                        onTap: isSending.value
+                            ? null
+                            : () => send(_quickReplies[i]),
                       ),
                     ),
                   ),
@@ -124,8 +130,9 @@ class AiChatScreen extends HookConsumerWidget {
                           maxLines: 4,
                           textInputAction: TextInputAction.send,
                           onSubmitted: (_) => send(),
-                          decoration:
-                              InputDecoration(hintText: 'Ask your ${agentType.label.toLowerCase()}...'),
+                          decoration: InputDecoration(
+                              hintText:
+                                  'Ask your ${agentType.label.toLowerCase()}...'),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -137,7 +144,8 @@ class AiChatScreen extends HookConsumerWidget {
                           shape: BoxShape.circle,
                         ),
                         child: IconButton(
-                          icon: Icon(Icons.arrow_forward, color: AppColors.onPrimaryGradient),
+                          icon: Icon(Icons.arrow_forward,
+                              color: AppColors.onPrimaryGradient),
                           onPressed: isSending.value ? null : () => send(),
                         ),
                       ),
@@ -171,7 +179,9 @@ class _QuickReplyChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          child: Text(label, style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 12)),
+          child: Text(label,
+              style: const TextStyle(
+                  color: AppColors.darkTextSecondary, fontSize: 12)),
         ),
       ),
     );

@@ -27,7 +27,8 @@ class NotificationsScreen extends ConsumerWidget {
         onRetry: () => ref.invalidate(aiInsightsProvider),
         data: (insights) {
           if (insights.isEmpty) {
-            return const EmptyState(icon: Icons.notifications_none, title: 'No notifications yet');
+            return const EmptyState(
+                icon: Icons.notifications_none, title: 'No notifications yet');
           }
           return ListView.builder(
             padding: const EdgeInsets.all(16),
@@ -37,7 +38,9 @@ class NotificationsScreen extends ConsumerWidget {
               dateLabel: dateFormat.format(insights[i].createdAt),
               onTap: () async {
                 if (insights[i].readAt == null) {
-                  await ref.read(notificationRepositoryProvider).markInsightRead(insights[i].id);
+                  await ref
+                      .read(notificationRepositoryProvider)
+                      .markInsightRead(insights[i].id);
                   ref.invalidate(aiInsightsProvider);
                 }
               },
@@ -50,7 +53,8 @@ class NotificationsScreen extends ConsumerWidget {
 }
 
 class _NotificationRow extends StatelessWidget {
-  const _NotificationRow({required this.insight, required this.dateLabel, required this.onTap});
+  const _NotificationRow(
+      {required this.insight, required this.dateLabel, required this.onTap});
   final AiInsight insight;
   final String dateLabel;
   final VoidCallback onTap;
@@ -73,7 +77,8 @@ class _NotificationRow extends StatelessWidget {
                 color: AppColors.electricBlue.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(11),
               ),
-              child: const Icon(Icons.auto_awesome, color: AppColors.electricBlue, size: 16),
+              child: const Icon(Icons.auto_awesome,
+                  color: AppColors.electricBlue, size: 16),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -82,17 +87,23 @@ class _NotificationRow extends StatelessWidget {
                 children: [
                   Text(
                     insight.title,
-                    style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 13, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                        color: AppColors.darkTextPrimary,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     insight.body,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 12),
+                    style: const TextStyle(
+                        color: AppColors.darkTextTertiary, fontSize: 12),
                   ),
                   const SizedBox(height: 4),
-                  Text(dateLabel, style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 11)),
+                  Text(dateLabel,
+                      style: const TextStyle(
+                          color: AppColors.darkTextTertiary, fontSize: 11)),
                 ],
               ),
             ),

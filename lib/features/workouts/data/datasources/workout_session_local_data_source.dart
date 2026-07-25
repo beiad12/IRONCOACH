@@ -8,7 +8,9 @@ class WorkoutSessionLocalDataSource {
   final AppDatabase _db;
 
   Future<void> upsertSession(CachedWorkoutSessionsCompanion companion) {
-    return _db.into(_db.cachedWorkoutSessions).insertOnConflictUpdate(companion);
+    return _db
+        .into(_db.cachedWorkoutSessions)
+        .insertOnConflictUpdate(companion);
   }
 
   Future<void> upsertSet(CachedWorkoutSetsCompanion companion) {
@@ -16,15 +18,19 @@ class WorkoutSessionLocalDataSource {
   }
 
   Future<void> deleteSet(String setId) {
-    return (_db.delete(_db.cachedWorkoutSets)..where((t) => t.id.equals(setId))).go();
+    return (_db.delete(_db.cachedWorkoutSets)..where((t) => t.id.equals(setId)))
+        .go();
   }
 
   Future<void> deleteSession(String sessionId) {
-    return (_db.delete(_db.cachedWorkoutSessions)..where((t) => t.id.equals(sessionId))).go();
+    return (_db.delete(_db.cachedWorkoutSessions)
+          ..where((t) => t.id.equals(sessionId)))
+        .go();
   }
 
   Future<CachedWorkoutSession?> getSession(String sessionId) {
-    return (_db.select(_db.cachedWorkoutSessions)..where((t) => t.id.equals(sessionId)))
+    return (_db.select(_db.cachedWorkoutSessions)
+          ..where((t) => t.id.equals(sessionId)))
         .getSingleOrNull();
   }
 
@@ -35,7 +41,8 @@ class WorkoutSessionLocalDataSource {
         .get();
   }
 
-  Future<List<CachedWorkoutSession>> getRecentSessions({required String userId, int limit = 30}) {
+  Future<List<CachedWorkoutSession>> getRecentSessions(
+      {required String userId, int limit = 30}) {
     return (_db.select(_db.cachedWorkoutSessions)
           ..where((t) => t.userId.equals(userId))
           ..orderBy([(t) => OrderingTerm.desc(t.startedAt)])
@@ -52,7 +59,9 @@ class WorkoutSessionLocalDataSource {
         name: row['name'] as String,
         startedAt: DateTime.parse(row['started_at'] as String),
         completedAt: Value(
-          row['completed_at'] == null ? null : DateTime.parse(row['completed_at'] as String),
+          row['completed_at'] == null
+              ? null
+              : DateTime.parse(row['completed_at'] as String),
         ),
         notes: Value(row['notes'] as String?),
         isDirty: const Value(false),

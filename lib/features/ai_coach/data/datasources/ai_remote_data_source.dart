@@ -40,7 +40,8 @@ class AiRemoteDataSource {
 
   /// Streams raw text deltas by parsing the SSE response forwarded by the
   /// `ai-proxy` function (which itself forwards Mistral's stream verbatim).
-  Stream<String> streamChat({required String agentType, required String message}) async* {
+  Stream<String> streamChat(
+      {required String agentType, required String message}) async* {
     final session = _client.auth.currentSession;
     if (session == null) throw const HttpException('Not authenticated');
 
@@ -81,9 +82,11 @@ class AiRemoteDataSource {
   }
 
   Future<Map<String, dynamic>> generateDailyPlan() async {
-    final response = await _client.functions.invoke(AppConstants.fnDailyPlanner);
+    final response =
+        await _client.functions.invoke(AppConstants.fnDailyPlanner);
     _throwIfError(response);
-    return (response.data as Map<String, dynamic>)['plan'] as Map<String, dynamic>;
+    return (response.data as Map<String, dynamic>)['plan']
+        as Map<String, dynamic>;
   }
 
   Future<Map<String, dynamic>> analyzeMealPhoto({
@@ -100,12 +103,14 @@ class AiRemoteDataSource {
       },
     );
     _throwIfError(response);
-    return (response.data as Map<String, dynamic>)['result'] as Map<String, dynamic>;
+    return (response.data as Map<String, dynamic>)['result']
+        as Map<String, dynamic>;
   }
 
   void _throwIfError(FunctionResponse response) {
     if (response.status != 200) {
-      throw HttpException('Edge function returned ${response.status}: ${response.data}');
+      throw HttpException(
+          'Edge function returned ${response.status}: ${response.data}');
     }
   }
 }

@@ -49,27 +49,32 @@ class WorkoutsScreen extends ConsumerWidget {
                       color: AppColors.electricBlue.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(14),
                     ),
-                    child: const Icon(Icons.auto_awesome, color: AppColors.electricBlue),
+                    child: const Icon(Icons.auto_awesome,
+                        color: AppColors.electricBlue),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Generate a workout', style: Theme.of(context).textTheme.titleSmall),
+                        Text('Generate a workout',
+                            style: Theme.of(context).textTheme.titleSmall),
                         const Text(
                           'Goal, duration, equipment — ready in seconds',
-                          style: TextStyle(color: AppColors.darkTextSecondary, fontSize: 12),
+                          style: TextStyle(
+                              color: AppColors.darkTextSecondary, fontSize: 12),
                         ),
                       ],
                     ),
                   ),
-                  const Icon(Icons.chevron_right, color: AppColors.darkTextTertiary),
+                  const Icon(Icons.chevron_right,
+                      color: AppColors.darkTextTertiary),
                 ],
               ),
             ),
             const SizedBox(height: 24),
-            Text('Your templates', style: Theme.of(context).textTheme.titleMedium),
+            Text('Your templates',
+                style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
             AsyncValueWidget(
               value: templatesAsync,
@@ -79,11 +84,13 @@ class WorkoutsScreen extends ConsumerWidget {
                   return const EmptyState(
                     icon: Icons.fitness_center_outlined,
                     title: 'No templates yet',
-                    message: 'Generate a workout or ask your AI coach to build one.',
+                    message:
+                        'Generate a workout or ask your AI coach to build one.',
                   );
                 }
                 return Column(
-                  children: templates.map((t) => _TemplateTile(template: t)).toList(),
+                  children:
+                      templates.map((t) => _TemplateTile(template: t)).toList(),
                 );
               },
             ),
@@ -102,18 +109,21 @@ class _TemplateTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return AppCard(
       margin: const EdgeInsets.only(bottom: 10),
-      onTap: () => context.push(RoutePaths.workoutTemplateDetail.replaceFirst(':templateId', template.id)),
+      onTap: () => context.push(RoutePaths.workoutTemplateDetail
+          .replaceFirst(':templateId', template.id)),
       child: Row(
         children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(template.name, style: Theme.of(context).textTheme.titleSmall),
+                Text(template.name,
+                    style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 2),
                 Text(
                   '${template.exercises.length} exercises · ${template.estimatedDurationMinutes ?? "-"} min',
-                  style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 12),
+                  style: const TextStyle(
+                      color: AppColors.darkTextSecondary, fontSize: 12),
                 ),
               ],
             ),
@@ -121,7 +131,9 @@ class _TemplateTile extends ConsumerWidget {
           IconButton(
             icon: Icon(
               template.isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: template.isFavorite ? AppColors.error : AppColors.darkTextTertiary,
+              color: template.isFavorite
+                  ? AppColors.error
+                  : AppColors.darkTextTertiary,
             ),
             onPressed: () => ref
                 .read(workoutTemplateRepositoryProvider)

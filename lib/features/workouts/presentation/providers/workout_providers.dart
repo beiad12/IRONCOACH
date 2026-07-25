@@ -52,17 +52,20 @@ WorkoutTemplateRepository workoutTemplateRepository(Ref ref) {
 }
 
 @riverpod
-WorkoutGeneratorService workoutGeneratorService(Ref ref) => const WorkoutGeneratorService();
+WorkoutGeneratorService workoutGeneratorService(Ref ref) =>
+    const WorkoutGeneratorService();
 
 @riverpod
 Future<List<Exercise>> exerciseList(Ref ref, ExerciseFilter filter) async {
-  final result = await ref.watch(exerciseRepositoryProvider).getExercises(filter);
+  final result =
+      await ref.watch(exerciseRepositoryProvider).getExercises(filter);
   return result.match((failure) => throw failure, (list) => list);
 }
 
 @riverpod
 Future<Exercise> exerciseById(Ref ref, String id) async {
-  final result = await ref.watch(exerciseRepositoryProvider).getExerciseById(id);
+  final result =
+      await ref.watch(exerciseRepositoryProvider).getExerciseById(id);
   return result.match((failure) => throw failure, (exercise) => exercise);
 }
 
@@ -72,14 +75,18 @@ Stream<Set<String>> favoriteExerciseIds(Ref ref) {
 }
 
 @riverpod
-Future<List<WorkoutTemplate>> workoutTemplates(Ref ref, {bool favoritesOnly = false}) async {
-  final result = await ref.watch(workoutTemplateRepositoryProvider).getTemplates(favoritesOnly: favoritesOnly);
+Future<List<WorkoutTemplate>> workoutTemplates(Ref ref,
+    {bool favoritesOnly = false}) async {
+  final result = await ref
+      .watch(workoutTemplateRepositoryProvider)
+      .getTemplates(favoritesOnly: favoritesOnly);
   return result.match((failure) => throw failure, (list) => list);
 }
 
 @riverpod
 Future<WorkoutTemplate> workoutTemplateById(Ref ref, String id) async {
-  final result = await ref.watch(workoutTemplateRepositoryProvider).getTemplateById(id);
+  final result =
+      await ref.watch(workoutTemplateRepositoryProvider).getTemplateById(id);
   return result.match((failure) => throw failure, (template) => template);
 }
 
@@ -91,12 +98,16 @@ Future<List<WorkoutSession>> workoutHistory(Ref ref) async {
 
 @riverpod
 Future<int> completedWorkoutCount(Ref ref) async {
-  final result = await ref.watch(workoutSessionRepositoryProvider).getCompletedWorkoutCount();
+  final result = await ref
+      .watch(workoutSessionRepositoryProvider)
+      .getCompletedWorkoutCount();
   return result.match((failure) => throw failure, (count) => count);
 }
 
 @riverpod
 Future<WorkoutSession> workoutSessionById(Ref ref, String sessionId) async {
-  final result = await ref.watch(workoutSessionRepositoryProvider).getSessionById(sessionId);
+  final result = await ref
+      .watch(workoutSessionRepositoryProvider)
+      .getSessionById(sessionId);
   return result.match((failure) => throw failure, (session) => session);
 }

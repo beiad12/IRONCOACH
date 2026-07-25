@@ -45,7 +45,10 @@ class HomeScreen extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(_greeting(), style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 13)),
+                      Text(_greeting(),
+                          style: const TextStyle(
+                              color: AppColors.darkTextSecondary,
+                              fontSize: 13)),
                       const SizedBox(height: 2),
                       profileAsync.when(
                         data: (profile) => Text(
@@ -57,12 +60,14 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  _BellButton(onTap: () => context.push(RoutePaths.notifications)),
+                  _BellButton(
+                      onTap: () => context.push(RoutePaths.notifications)),
                 ],
               ),
               const SizedBox(height: 20),
               templatesAsync.when(
-                data: (templates) => _TodayWorkoutCard(template: _pickTodayTemplate(templates)),
+                data: (templates) =>
+                    _TodayWorkoutCard(template: _pickTodayTemplate(templates)),
                 loading: () => const AppCard(child: SizedBox(height: 120)),
                 error: (_, __) => _TodayWorkoutCard(template: null),
               ),
@@ -72,12 +77,15 @@ class HomeScreen extends ConsumerWidget {
                   Expanded(
                     child: _StatCard(
                       label: 'Streak',
-                      value: '${streakAsync.valueOrNull?.currentStreak ?? 0} days',
+                      value:
+                          '${streakAsync.valueOrNull?.currentStreak ?? 0} days',
                       valueColor: AppColors.darkTextPrimary,
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Expanded(child: _WeightStatCard(measurementsAsync: measurementsAsync)),
+                  Expanded(
+                      child: _WeightStatCard(
+                          measurementsAsync: measurementsAsync)),
                 ],
               ),
               const SizedBox(height: 14),
@@ -85,20 +93,25 @@ class HomeScreen extends ConsumerWidget {
                 data: (insights) => insights.isEmpty
                     ? _PlanMyDayCard(
                         onTap: () async {
-                          final result = await ref.read(aiRepositoryProvider).generateDailyPlan();
+                          final result = await ref
+                              .read(aiRepositoryProvider)
+                              .generateDailyPlan();
                           ref.invalidate(aiInsightsProvider);
                           if (context.mounted) {
                             result.match(
                               (failure) => ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(content: Text(failure.displayMessage))),
+                                  .showSnackBar(SnackBar(
+                                      content: Text(failure.displayMessage))),
                               (_) => ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Today's plan is ready")),
+                                const SnackBar(
+                                    content: Text("Today's plan is ready")),
                               ),
                             );
                           }
                         },
                       )
-                    : _CoachNoteCard(title: insights.first.title, body: insights.first.body),
+                    : _CoachNoteCard(
+                        title: insights.first.title, body: insights.first.body),
                 loading: () => const SizedBox.shrink(),
                 error: (_, __) => const SizedBox.shrink(),
               ),
@@ -160,7 +173,8 @@ class _BellButton extends StatelessWidget {
       child: const SizedBox(
         width: 44,
         height: 44,
-        child: Icon(Icons.notifications_outlined, color: AppColors.darkTextPrimary, size: 19),
+        child: Icon(Icons.notifications_outlined,
+            color: AppColors.darkTextPrimary, size: 19),
       ),
     );
   }
@@ -177,7 +191,8 @@ class _TodayWorkoutCard extends StatelessWidget {
       borderColor: AppColors.electricBlue.withOpacity(0.22),
       onTap: () => template == null
           ? context.push(RoutePaths.workoutGenerator)
-          : context.push(RoutePaths.workoutTemplateDetail.replaceFirst(':templateId', template!.id)),
+          : context.push(RoutePaths.workoutTemplateDetail
+              .replaceFirst(':templateId', template!.id)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -201,7 +216,8 @@ class _TodayWorkoutCard extends StatelessWidget {
                 ? 'Tell us your goal and we\'ll build one in seconds'
                 : '${template!.exercises.length} exercises · ${template!.estimatedDurationMinutes ?? "-"} min'
                     '${template!.difficulty != null ? " · ${template!.difficulty!.name}" : ""}',
-            style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 13),
+            style: const TextStyle(
+                color: AppColors.darkTextSecondary, fontSize: 13),
           ),
           const SizedBox(height: 14),
           GradientButton(
@@ -209,7 +225,8 @@ class _TodayWorkoutCard extends StatelessWidget {
             height: 44,
             onPressed: () => template == null
                 ? context.push(RoutePaths.workoutGenerator)
-                : context.push(RoutePaths.workoutTemplateDetail.replaceFirst(':templateId', template!.id)),
+                : context.push(RoutePaths.workoutTemplateDetail
+                    .replaceFirst(':templateId', template!.id)),
           ),
         ],
       ),
@@ -218,7 +235,8 @@ class _TodayWorkoutCard extends StatelessWidget {
 }
 
 class _StatCard extends StatelessWidget {
-  const _StatCard({required this.label, required this.value, required this.valueColor});
+  const _StatCard(
+      {required this.label, required this.value, required this.valueColor});
   final String label;
   final String value;
   final Color valueColor;
@@ -241,7 +259,10 @@ class _StatCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             value,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: valueColor),
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(color: valueColor),
           ),
         ],
       ),
@@ -255,11 +276,13 @@ class _WeightStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final measurements = measurementsAsync.valueOrNull ?? const <BodyMeasurement>[];
+    final measurements =
+        measurementsAsync.valueOrNull ?? const <BodyMeasurement>[];
     final withWeight = measurements.where((m) => m.weightKg != null).toList();
 
     if (withWeight.length < 2) {
-      return const _StatCard(label: 'Weight', value: '—', valueColor: AppColors.darkTextPrimary);
+      return const _StatCard(
+          label: 'Weight', value: '—', valueColor: AppColors.darkTextPrimary);
     }
     final newest = withWeight.first.weightKg!;
     final oldest = withWeight.last.weightKg!;
@@ -291,20 +314,26 @@ class _CoachNoteCard extends StatelessWidget {
               color: AppColors.electricBlue.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.auto_awesome, color: AppColors.electricBlue, size: 18),
+            child: const Icon(Icons.auto_awesome,
+                color: AppColors.electricBlue, size: 18),
           ),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 13, fontWeight: FontWeight.w600)),
+                Text(title,
+                    style: const TextStyle(
+                        color: AppColors.darkTextPrimary,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600)),
                 const SizedBox(height: 2),
                 Text(
                   body,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 12),
+                  style: const TextStyle(
+                      color: AppColors.darkTextTertiary, fontSize: 12),
                 ),
               ],
             ),
@@ -332,13 +361,17 @@ class _PlanMyDayCard extends StatelessWidget {
               color: AppColors.electricBlue.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.auto_awesome, color: AppColors.electricBlue, size: 18),
+            child: const Icon(Icons.auto_awesome,
+                color: AppColors.electricBlue, size: 18),
           ),
           const SizedBox(width: 14),
           const Expanded(
             child: Text(
               'Your coach is ready — plan my day',
-              style: TextStyle(color: AppColors.darkTextPrimary, fontSize: 13, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                  color: AppColors.darkTextPrimary,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600),
             ),
           ),
           const Icon(Icons.chevron_right, color: AppColors.darkTextTertiary),
@@ -369,7 +402,11 @@ class _QuickActionCard extends StatelessWidget {
         children: [
           Icon(icon, color: iconColor, size: 22),
           const SizedBox(height: 6),
-          Text(label, style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 12, fontWeight: FontWeight.w600)),
+          Text(label,
+              style: const TextStyle(
+                  color: AppColors.darkTextPrimary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -392,11 +429,13 @@ class _PremiumBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Go Premium', style: Theme.of(context).textTheme.titleSmall),
+                Text('Go Premium',
+                    style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 2),
                 const Text(
                   'Unlimited AI coaching & analytics',
-                  style: TextStyle(color: AppColors.darkTextSecondary, fontSize: 12),
+                  style: TextStyle(
+                      color: AppColors.darkTextSecondary, fontSize: 12),
                 ),
               ],
             ),

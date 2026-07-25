@@ -32,8 +32,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<AppUser>> signInWithEmail({
     required String email,
     required String password,
-  }) => _guard(() async {
-        final response = await _client.auth.signInWithPassword(email: email, password: password);
+  }) =>
+      _guard(() async {
+        final response = await _client.auth
+            .signInWithPassword(email: email, password: password);
         final user = response.user;
         if (user == null) throw const UnauthorizedException('Sign-in failed');
         return _mapUserWithProfile(user);
@@ -44,7 +46,8 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
     String? username,
-  }) => _guard(() async {
+  }) =>
+      _guard(() async {
         final response = await _client.auth.signUp(
           email: email,
           password: password,
@@ -139,7 +142,8 @@ class AuthRepositoryImpl implements AuthRepository {
     } on UnauthorizedException catch (e) {
       return Left(Failure.unauthorized(e.message));
     } on PostgrestException catch (e) {
-      return Left(Failure.server(message: e.message, statusCode: int.tryParse(e.code ?? '')));
+      return Left(Failure.server(
+          message: e.message, statusCode: int.tryParse(e.code ?? '')));
     } on Object catch (e) {
       return Left(Failure.unexpected(e.toString()));
     }

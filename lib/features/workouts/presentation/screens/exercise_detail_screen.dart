@@ -26,9 +26,11 @@ class ExerciseDetailScreen extends ConsumerWidget {
                 children: [
                   Container(
                     height: 220,
-                    decoration: const BoxDecoration(gradient: AppColors.cardGradient),
+                    decoration:
+                        const BoxDecoration(gradient: AppColors.cardGradient),
                     alignment: Alignment.center,
-                    child: const Icon(Icons.play_circle_outline, size: 48, color: AppColors.darkTextTertiary),
+                    child: const Icon(Icons.play_circle_outline,
+                        size: 48, color: AppColors.darkTextTertiary),
                   ),
                   Positioned(
                     top: 16,
@@ -38,7 +40,8 @@ class ExerciseDetailScreen extends ConsumerWidget {
                       child: BackButton(
                         color: Colors.white,
                         style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(Colors.black.withOpacity(0.4)),
+                          backgroundColor: WidgetStatePropertyAll(
+                              Colors.black.withOpacity(0.4)),
                           shape: const WidgetStatePropertyAll(CircleBorder()),
                         ),
                       ),
@@ -53,16 +56,24 @@ class ExerciseDetailScreen extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        Expanded(child: Text(exercise.name, style: theme.textTheme.headlineSmall)),
+                        Expanded(
+                            child: Text(exercise.name,
+                                style: theme.textTheme.headlineSmall)),
                         IconButton(
                           icon: Icon(
-                            exercise.isFavorite ? Icons.favorite : Icons.favorite_border,
-                            color: exercise.isFavorite ? theme.colorScheme.error : null,
+                            exercise.isFavorite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: exercise.isFavorite
+                                ? theme.colorScheme.error
+                                : null,
                           ),
                           onPressed: () => ref
                               .read(exerciseRepositoryProvider)
-                              .toggleFavorite(exercise.id, isFavorite: !exercise.isFavorite)
-                              .then((_) => ref.invalidate(exerciseByIdProvider(exerciseId))),
+                              .toggleFavorite(exercise.id,
+                                  isFavorite: !exercise.isFavorite)
+                              .then((_) => ref.invalidate(
+                                  exerciseByIdProvider(exerciseId))),
                         ),
                       ],
                     ),
@@ -72,13 +83,15 @@ class ExerciseDetailScreen extends ConsumerWidget {
                       children: [
                         Chip(label: Text(exercise.category.name)),
                         Chip(label: Text(exercise.primaryMuscle)),
-                        if (exercise.equipment != null) Chip(label: Text(exercise.equipment!)),
+                        if (exercise.equipment != null)
+                          Chip(label: Text(exercise.equipment!)),
                         Chip(label: Text(exercise.difficulty.name)),
                       ],
                     ),
                     if (exercise.secondaryMuscles.isNotEmpty) ...[
                       const SizedBox(height: 16),
-                      Text('Secondary muscles', style: theme.textTheme.titleSmall),
+                      Text('Secondary muscles',
+                          style: theme.textTheme.titleSmall),
                       const SizedBox(height: 4),
                       Text(exercise.secondaryMuscles.join(', ')),
                     ],
@@ -86,12 +99,19 @@ class ExerciseDetailScreen extends ConsumerWidget {
                       const SizedBox(height: 20),
                       const Text(
                         'FORM CUES',
-                        style: TextStyle(color: AppColors.darkTextTertiary, fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 0.6),
+                        style: TextStyle(
+                            color: AppColors.darkTextTertiary,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.6),
                       ),
                       const SizedBox(height: 6),
                       Text(
                         exercise.instructions!,
-                        style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 14, height: 1.6),
+                        style: const TextStyle(
+                            color: AppColors.darkTextSecondary,
+                            fontSize: 14,
+                            height: 1.6),
                       ),
                     ],
                   ],

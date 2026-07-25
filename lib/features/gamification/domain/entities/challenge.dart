@@ -22,7 +22,8 @@ class Challenge with _$Challenge {
 
   const Challenge._();
 
-  double get progressPercent => targetValue == 0 ? 0 : (myProgress / targetValue).clamp(0, 1);
+  double get progressPercent =>
+      targetValue == 0 ? 0 : (myProgress / targetValue).clamp(0, 1);
   bool get isActive => DateTime.now().isBefore(endsAt);
 }
 

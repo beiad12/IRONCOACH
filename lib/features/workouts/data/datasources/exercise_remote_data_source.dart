@@ -8,7 +8,8 @@ class ExerciseRemoteDataSource {
   final SupabaseClient _client;
 
   Future<List<Map<String, dynamic>>> fetchAll() async {
-    final rows = await _client.from(AppConstants.tableExercises).select().order('name');
+    final rows =
+        await _client.from(AppConstants.tableExercises).select().order('name');
     return List<Map<String, dynamic>>.from(rows as List);
   }
 
@@ -22,7 +23,8 @@ class ExerciseRemoteDataSource {
         .toSet();
   }
 
-  Future<void> setFavorite(String userId, String exerciseId, {required bool isFavorite}) async {
+  Future<void> setFavorite(String userId, String exerciseId,
+      {required bool isFavorite}) async {
     if (isFavorite) {
       await _client
           .from(AppConstants.tableFavoriteExercises)

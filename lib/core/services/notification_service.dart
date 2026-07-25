@@ -8,10 +8,14 @@ import 'package:timezone/timezone.dart' as tz;
 part 'notification_service.g.dart';
 
 enum ReminderChannel {
-  workout('workout_reminders', 'Workout Reminders', 'Nudges to keep your training schedule'),
-  nutrition('nutrition_reminders', 'Nutrition Reminders', 'Meal and water logging reminders'),
-  recovery('recovery_reminders', 'Recovery Reminders', 'Sleep, mobility, and rest day nudges'),
-  aiInsight('ai_insights', 'AI Insights', 'Personalized coaching insights from your AI coaches');
+  workout('workout_reminders', 'Workout Reminders',
+      'Nudges to keep your training schedule'),
+  nutrition('nutrition_reminders', 'Nutrition Reminders',
+      'Meal and water logging reminders'),
+  recovery('recovery_reminders', 'Recovery Reminders',
+      'Sleep, mobility, and rest day nudges'),
+  aiInsight('ai_insights', 'AI Insights',
+      'Personalized coaching insights from your AI coaches');
 
   const ReminderChannel(this.id, this.name, this.description);
   final String id;
@@ -46,9 +50,11 @@ class NotificationService {
 
     for (final channel in ReminderChannel.values) {
       await _plugin
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(
-            AndroidNotificationChannel(channel.id, channel.name, description: channel.description),
+            AndroidNotificationChannel(channel.id, channel.name,
+                description: channel.description),
           );
     }
     _initialized = true;
@@ -57,12 +63,14 @@ class NotificationService {
   Future<bool> requestPermissions() async {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       final granted = await _plugin
-          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+          .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(alert: true, badge: true, sound: true);
       return granted ?? false;
     }
     final granted = await _plugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
     return granted ?? false;
   }
@@ -80,11 +88,13 @@ class NotificationService {
       body,
       _nextInstanceOfTime(time),
       NotificationDetails(
-        android: AndroidNotificationDetails(channel.id, channel.name, channelDescription: channel.description),
+        android: AndroidNotificationDetails(channel.id, channel.name,
+            channelDescription: channel.description),
         iOS: const DarwinNotificationDetails(),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
     );
   }
@@ -100,7 +110,8 @@ class NotificationService {
       title,
       body,
       NotificationDetails(
-        android: AndroidNotificationDetails(channel.id, channel.name, channelDescription: channel.description),
+        android: AndroidNotificationDetails(channel.id, channel.name,
+            channelDescription: channel.description),
         iOS: const DarwinNotificationDetails(),
       ),
     );
@@ -112,7 +123,8 @@ class NotificationService {
 
   tz.TZDateTime _nextInstanceOfTime(ReminderTime time) {
     final now = tz.TZDateTime.now(tz.local);
-    var scheduled = tz.TZDateTime(tz.local, now.year, now.month, now.day, time.hour, time.minute);
+    var scheduled = tz.TZDateTime(
+        tz.local, now.year, now.month, now.day, time.hour, time.minute);
     if (scheduled.isBefore(now)) {
       scheduled = scheduled.add(const Duration(days: 1));
     }

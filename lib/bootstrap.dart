@@ -30,7 +30,8 @@ Future<void> bootstrap() async {
   );
 
   FlutterError.onError = (details) {
-    logger.e('Uncaught Flutter error', error: details.exception, stackTrace: details.stack);
+    logger.e('Uncaught Flutter error',
+        error: details.exception, stackTrace: details.stack);
   };
 
   final sharedPreferences = await SharedPreferences.getInstance();

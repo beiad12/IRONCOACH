@@ -17,7 +17,9 @@ class ActiveWorkoutController extends _$ActiveWorkoutController {
 
   @override
   Future<WorkoutSession> build(String sessionId) async {
-    final result = await ref.read(workoutSessionRepositoryProvider).getSessionById(sessionId);
+    final result = await ref
+        .read(workoutSessionRepositoryProvider)
+        .getSessionById(sessionId);
     return result.match((failure) => throw failure, (session) => session);
   }
 
@@ -54,7 +56,10 @@ class ActiveWorkoutController extends _$ActiveWorkoutController {
 
     state = AsyncValue.data(
       current.copyWith(
-        sets: [for (final s in current.sets) if (s.id == updated.id) updated else s],
+        sets: [
+          for (final s in current.sets)
+            if (s.id == updated.id) updated else s
+        ],
       ),
     );
     await ref.read(workoutSessionRepositoryProvider).logSet(updated);
@@ -64,12 +69,15 @@ class ActiveWorkoutController extends _$ActiveWorkoutController {
     final current = state.valueOrNull;
     if (current == null) return;
 
-    state = AsyncValue.data(current.copyWith(sets: current.sets.where((s) => s.id != setId).toList()));
+    state = AsyncValue.data(current.copyWith(
+        sets: current.sets.where((s) => s.id != setId).toList()));
     await ref.read(workoutSessionRepositoryProvider).deleteSet(setId);
   }
 
   Future<WorkoutSession> finish() async {
-    final result = await ref.read(workoutSessionRepositoryProvider).completeSession(sessionId);
+    final result = await ref
+        .read(workoutSessionRepositoryProvider)
+        .completeSession(sessionId);
     return result.match((failure) => throw failure, (session) {
       state = AsyncValue.data(session);
       return session;

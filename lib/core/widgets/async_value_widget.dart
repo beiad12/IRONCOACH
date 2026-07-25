@@ -26,9 +26,11 @@ class AsyncValueWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return value.when(
       data: data,
-      loading: () => loading ?? const Center(child: CircularProgressIndicator()),
+      loading: () =>
+          loading ?? const Center(child: CircularProgressIndicator()),
       error: (error, _) {
-        final failure = error is Failure ? error : Failure.unexpected(error.toString());
+        final failure =
+            error is Failure ? error : Failure.unexpected(error.toString());
         return ErrorView(failure: failure, onRetry: onRetry);
       },
     );

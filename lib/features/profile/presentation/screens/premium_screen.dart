@@ -42,19 +42,22 @@ class PremiumScreen extends StatelessWidget {
                     gradient: AppColors.brandIconGradient,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Icon(Icons.eco, color: AppColors.onPrimaryGradient, size: 28),
+                  child: const Icon(Icons.eco,
+                      color: AppColors.onPrimaryGradient, size: 28),
                 ),
               ),
               const SizedBox(height: 16),
               Center(
-                child: Text('IronCoach Premium', style: Theme.of(context).textTheme.headlineSmall),
+                child: Text('IronCoach Premium',
+                    style: Theme.of(context).textTheme.headlineSmall),
               ),
               const SizedBox(height: 6),
               const Center(
                 child: Text(
                   'Unlimited AI coaching, deep analytics, meal scanning',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: AppColors.darkTextSecondary, fontSize: 13),
+                  style: TextStyle(
+                      color: AppColors.darkTextSecondary, fontSize: 13),
                 ),
               ),
               const SizedBox(height: 24),
@@ -63,10 +66,14 @@ class PremiumScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   child: Row(
                     children: [
-                      const Icon(Icons.check, color: AppColors.emerald, size: 18),
+                      const Icon(Icons.check,
+                          color: AppColors.emerald, size: 18),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: Text(feature, style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 13)),
+                        child: Text(feature,
+                            style: const TextStyle(
+                                color: AppColors.darkTextPrimary,
+                                fontSize: 13)),
                       ),
                     ],
                   ),
@@ -80,12 +87,23 @@ class PremiumScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Annual', style: TextStyle(color: AppColors.darkTextPrimary, fontSize: 14, fontWeight: FontWeight.w700)),
-                          Text('\$79.99/yr · Save 33%', style: TextStyle(color: AppColors.darkTextSecondary, fontSize: 11)),
+                          Text('Annual',
+                              style: TextStyle(
+                                  color: AppColors.darkTextPrimary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700)),
+                          Text('\$79.99/yr · Save 33%',
+                              style: TextStyle(
+                                  color: AppColors.darkTextSecondary,
+                                  fontSize: 11)),
                         ],
                       ),
                     ),
-                    const Text('BEST VALUE', style: TextStyle(color: AppColors.electricBlue, fontSize: 12, fontWeight: FontWeight.w700)),
+                    const Text('BEST VALUE',
+                        style: TextStyle(
+                            color: AppColors.electricBlue,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700)),
                   ],
                 ),
               ),
@@ -97,8 +115,15 @@ class PremiumScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Monthly', style: TextStyle(color: AppColors.darkTextPrimary, fontSize: 14, fontWeight: FontWeight.w700)),
-                          Text('\$9.99/mo', style: TextStyle(color: AppColors.darkTextSecondary, fontSize: 11)),
+                          Text('Monthly',
+                              style: TextStyle(
+                                  color: AppColors.darkTextPrimary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700)),
+                          Text('\$9.99/mo',
+                              style: TextStyle(
+                                  color: AppColors.darkTextSecondary,
+                                  fontSize: 11)),
                         ],
                       ),
                     ),

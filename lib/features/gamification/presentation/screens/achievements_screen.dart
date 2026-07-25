@@ -32,7 +32,8 @@ class AchievementsScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Level ${level.level}', style: Theme.of(context).textTheme.titleLarge),
+                            Text('Level ${level.level}',
+                                style: Theme.of(context).textTheme.titleLarge),
                             const SizedBox(height: 8),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(6),
@@ -45,7 +46,9 @@ class AchievementsScreen extends ConsumerWidget {
                             const SizedBox(height: 4),
                             Text(
                               '${level.xpToNextLevel} XP to next level',
-                              style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 12),
+                              style: const TextStyle(
+                                  color: AppColors.darkTextSecondary,
+                                  fontSize: 12),
                             ),
                           ],
                         ),

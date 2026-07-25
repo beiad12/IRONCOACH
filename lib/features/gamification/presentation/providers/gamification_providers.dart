@@ -13,12 +13,14 @@ part 'gamification_providers.g.dart';
 
 @Riverpod(keepAlive: true)
 GamificationRepository gamificationRepository(Ref ref) {
-  return GamificationRepositoryImpl(ref.watch(supabaseClientProvider), () => ref.read(currentUserProvider)?.id);
+  return GamificationRepositoryImpl(ref.watch(supabaseClientProvider),
+      () => ref.read(currentUserProvider)?.id);
 }
 
 @riverpod
 Future<List<Achievement>> achievements(Ref ref) async {
-  final result = await ref.watch(gamificationRepositoryProvider).getAchievements();
+  final result =
+      await ref.watch(gamificationRepositoryProvider).getAchievements();
   return result.match((failure) => throw failure, (list) => list);
 }
 
@@ -38,6 +40,7 @@ Future<Streak?> myStreak(Ref ref) async {
 
 @riverpod
 Future<List<Challenge>> challenges(Ref ref) async {
-  final result = await ref.watch(gamificationRepositoryProvider).getChallenges();
+  final result =
+      await ref.watch(gamificationRepositoryProvider).getChallenges();
   return result.match((failure) => throw failure, (list) => list);
 }

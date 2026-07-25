@@ -20,7 +20,8 @@ class AiRepositoryImpl implements AiRepository {
   final _uuid = const Uuid();
 
   @override
-  Future<Result<List<ChatMessage>>> getConversationHistory(AgentType agentType) async {
+  Future<Result<List<ChatMessage>>> getConversationHistory(
+      AgentType agentType) async {
     try {
       final rows = await _remote.fetchHistory(agentType.key);
       return Right(
@@ -41,7 +42,8 @@ class AiRepositoryImpl implements AiRepository {
   }
 
   @override
-  Stream<String> streamMessage({required AgentType agentType, required String message}) {
+  Stream<String> streamMessage(
+      {required AgentType agentType, required String message}) {
     return _remote.streamChat(agentType: agentType.key, message: message);
   }
 

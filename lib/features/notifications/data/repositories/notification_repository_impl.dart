@@ -32,7 +32,8 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
-  Future<Result<NotificationPreferences>> updatePreferences(NotificationPreferences prefs) async {
+  Future<Result<NotificationPreferences>> updatePreferences(
+      NotificationPreferences prefs) async {
     final userId = _currentUserId();
     if (userId == null) return const Left(Failure.unauthorized());
     try {
@@ -77,7 +78,9 @@ class NotificationRepositoryImpl implements NotificationRepository {
                 title: row['title'] as String,
                 body: row['body'] as String,
                 createdAt: DateTime.parse(row['created_at'] as String),
-                readAt: row['read_at'] == null ? null : DateTime.parse(row['read_at'] as String),
+                readAt: row['read_at'] == null
+                    ? null
+                    : DateTime.parse(row['read_at'] as String),
               ),
             )
             .toList(),
@@ -90,7 +93,8 @@ class NotificationRepositoryImpl implements NotificationRepository {
   @override
   Future<Result<void>> markInsightRead(String insightId) async {
     try {
-      await _client.from('ai_insights').update({'read_at': DateTime.now().toIso8601String()}).eq('id', insightId);
+      await _client.from('ai_insights').update(
+          {'read_at': DateTime.now().toIso8601String()}).eq('id', insightId);
       return const Right(null);
     } on Object catch (e) {
       return Left(Failure.server(message: e.toString()));
@@ -98,16 +102,21 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   NotificationPreferences _map(Map<String, dynamic> row) {
-    final workoutTime = (row['workout_reminder_time'] as String? ?? '18:00:00').split(':');
-    final nutritionTime = (row['nutrition_reminder_time'] as String? ?? '12:00:00').split(':');
+    final workoutTime =
+        (row['workout_reminder_time'] as String? ?? '18:00:00').split(':');
+    final nutritionTime =
+        (row['nutrition_reminder_time'] as String? ?? '12:00:00').split(':');
     return NotificationPreferences(
-      workoutRemindersEnabled: row['workout_reminders_enabled'] as bool? ?? true,
+      workoutRemindersEnabled:
+          row['workout_reminders_enabled'] as bool? ?? true,
       workoutReminderHour: int.parse(workoutTime[0]),
       workoutReminderMinute: int.parse(workoutTime[1]),
-      nutritionRemindersEnabled: row['nutrition_reminders_enabled'] as bool? ?? true,
+      nutritionRemindersEnabled:
+          row['nutrition_reminders_enabled'] as bool? ?? true,
       nutritionReminderHour: int.parse(nutritionTime[0]),
       nutritionReminderMinute: int.parse(nutritionTime[1]),
-      recoveryRemindersEnabled: row['recovery_reminders_enabled'] as bool? ?? true,
+      recoveryRemindersEnabled:
+          row['recovery_reminders_enabled'] as bool? ?? true,
       aiInsightsEnabled: row['ai_insights_enabled'] as bool? ?? true,
     );
   }

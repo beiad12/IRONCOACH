@@ -35,10 +35,13 @@ class _EditForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final usernameController = useTextEditingController(text: profile.username);
-    final displayNameController = useTextEditingController(text: profile.displayName);
+    final displayNameController =
+        useTextEditingController(text: profile.displayName);
     final bioController = useTextEditingController(text: profile.bio);
-    final heightController = useTextEditingController(text: profile.heightCm?.toString() ?? '');
-    final weightController = useTextEditingController(text: profile.weightKg?.toString() ?? '');
+    final heightController =
+        useTextEditingController(text: profile.heightCm?.toString() ?? '');
+    final weightController =
+        useTextEditingController(text: profile.weightKg?.toString() ?? '');
     final isPublic = useState(profile.isPublic);
     final fitnessLevel = useState(profile.fitnessLevel);
     final primaryGoal = useState(profile.primaryGoal);
@@ -77,9 +80,13 @@ class _EditForm extends HookConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AppTextField(label: 'Username', controller: usernameController, prefixIcon: Icons.alternate_email),
+          AppTextField(
+              label: 'Username',
+              controller: usernameController,
+              prefixIcon: Icons.alternate_email),
           const SizedBox(height: 16),
-          AppTextField(label: 'Display name', controller: displayNameController),
+          AppTextField(
+              label: 'Display name', controller: displayNameController),
           const SizedBox(height: 16),
           AppTextField(label: 'Bio', controller: bioController),
           const SizedBox(height: 16),
@@ -89,7 +96,8 @@ class _EditForm extends HookConsumerWidget {
                 child: AppTextField(
                   label: 'Height (cm)',
                   controller: heightController,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
               const SizedBox(width: 16),
@@ -97,7 +105,8 @@ class _EditForm extends HookConsumerWidget {
                 child: AppTextField(
                   label: 'Weight (kg)',
                   controller: weightController,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
             ],
@@ -114,11 +123,13 @@ class _EditForm extends HookConsumerWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text('Experience level', style: Theme.of(context).textTheme.titleSmall),
+          Text('Experience level',
+              style: Theme.of(context).textTheme.titleSmall),
           ...FitnessLevel.values.map(
             (level) => RadioListTile<FitnessLevel>(
               contentPadding: EdgeInsets.zero,
-              title: Text(level.name[0].toUpperCase() + level.name.substring(1)),
+              title:
+                  Text(level.name[0].toUpperCase() + level.name.substring(1)),
               value: level,
               groupValue: fitnessLevel.value,
               onChanged: (v) => fitnessLevel.value = v!,
@@ -129,7 +140,9 @@ class _EditForm extends HookConsumerWidget {
           ...MeasurementUnits.values.map(
             (unit) => RadioListTile<MeasurementUnits>(
               contentPadding: EdgeInsets.zero,
-              title: Text(unit == MeasurementUnits.metric ? 'Metric (kg, cm)' : 'Imperial (lb, in)'),
+              title: Text(unit == MeasurementUnits.metric
+                  ? 'Metric (kg, cm)'
+                  : 'Imperial (lb, in)'),
               value: unit,
               groupValue: units.value,
               onChanged: (v) => units.value = v!,
@@ -139,12 +152,16 @@ class _EditForm extends HookConsumerWidget {
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             title: const Text('Public profile'),
-            subtitle: const Text('Allow others to find and follow your progress'),
+            subtitle:
+                const Text('Allow others to find and follow your progress'),
             value: isPublic.value,
             onChanged: (v) => isPublic.value = v,
           ),
           const SizedBox(height: 16),
-          GradientButton(label: 'Save changes', isLoading: isSaving.value, onPressed: save),
+          GradientButton(
+              label: 'Save changes',
+              isLoading: isSaving.value,
+              onPressed: save),
           const SizedBox(height: 8),
         ],
       ),

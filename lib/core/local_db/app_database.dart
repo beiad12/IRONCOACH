@@ -50,7 +50,8 @@ class CachedExercises extends Table {
   TextColumn get name => text()();
   TextColumn get category => text()();
   TextColumn get primaryMuscle => text()();
-  TextColumn get secondaryMusclesJson => text().withDefault(const Constant('[]'))();
+  TextColumn get secondaryMusclesJson =>
+      text().withDefault(const Constant('[]'))();
   TextColumn get equipment => text().nullable()();
   TextColumn get difficulty => text()();
   TextColumn get instructions => text().nullable()();

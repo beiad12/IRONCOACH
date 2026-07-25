@@ -16,7 +16,8 @@ class ChallengesList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (challenges.isEmpty) {
-      return const EmptyState(icon: Icons.flag_outlined, title: 'No active challenges');
+      return const EmptyState(
+          icon: Icons.flag_outlined, title: 'No active challenges');
     }
     return Column(
       children: [
@@ -31,16 +32,22 @@ class ChallengesList extends ConsumerWidget {
                     Expanded(
                       child: Text(
                         challenge.name,
-                        style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 14, fontWeight: FontWeight.w600),
+                        style: const TextStyle(
+                            color: AppColors.darkTextPrimary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
-                    Text('+${challenge.xpReward} XP', style: const TextStyle(color: AppColors.xpGold, fontSize: 12)),
+                    Text('+${challenge.xpReward} XP',
+                        style: const TextStyle(
+                            color: AppColors.xpGold, fontSize: 12)),
                   ],
                 ),
                 const SizedBox(height: 4),
                 Text(
                   challenge.description,
-                  style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 12),
+                  style: const TextStyle(
+                      color: AppColors.darkTextSecondary, fontSize: 12),
                 ),
                 const SizedBox(height: 12),
                 ClipRRect(
@@ -58,12 +65,15 @@ class ChallengesList extends ConsumerWidget {
                   children: [
                     Text(
                       '${challenge.participantCount} participants',
-                      style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 12),
+                      style: const TextStyle(
+                          color: AppColors.darkTextTertiary, fontSize: 12),
                     ),
                     if (!challenge.isJoined)
                       OutlinedButton(
                         onPressed: () async {
-                          await ref.read(gamificationRepositoryProvider).joinChallenge(challenge.id);
+                          await ref
+                              .read(gamificationRepositoryProvider)
+                              .joinChallenge(challenge.id);
                           ref.invalidate(challengesProvider);
                         },
                         child: const Text('Join'),

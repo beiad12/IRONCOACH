@@ -11,7 +11,8 @@ class WorkoutSuggestion with _$WorkoutSuggestion {
     required List<String> exercises,
   }) = _WorkoutSuggestion;
 
-  factory WorkoutSuggestion.fromJson(Map<String, dynamic> json) => _$WorkoutSuggestionFromJson(json);
+  factory WorkoutSuggestion.fromJson(Map<String, dynamic> json) =>
+      _$WorkoutSuggestionFromJson(json);
 }
 
 @freezed
@@ -24,7 +25,8 @@ class NutritionTargets with _$NutritionTargets {
     required int waterMl,
   }) = _NutritionTargets;
 
-  factory NutritionTargets.fromJson(Map<String, dynamic> json) => _$NutritionTargetsFromJson(json);
+  factory NutritionTargets.fromJson(Map<String, dynamic> json) =>
+      _$NutritionTargetsFromJson(json);
 }
 
 @freezed
@@ -36,5 +38,6 @@ class DailyPlan with _$DailyPlan {
     required String recoveryTip,
   }) = _DailyPlan;
 
-  factory DailyPlan.fromJson(Map<String, dynamic> json) => _$DailyPlanFromJson(json);
+  factory DailyPlan.fromJson(Map<String, dynamic> json) =>
+      _$DailyPlanFromJson(json);
 }

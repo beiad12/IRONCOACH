@@ -29,7 +29,11 @@ void main() {
     _exercise(id: 'squat', primaryMuscle: 'quadriceps', equipment: 'barbell'),
     _exercise(id: 'bench', primaryMuscle: 'chest', equipment: 'barbell'),
     _exercise(id: 'row', primaryMuscle: 'back', equipment: 'barbell'),
-    _exercise(id: 'curl', primaryMuscle: 'biceps', mechanic: ExerciseMechanic.isolation, equipment: 'dumbbell'),
+    _exercise(
+        id: 'curl',
+        primaryMuscle: 'biceps',
+        mechanic: ExerciseMechanic.isolation,
+        equipment: 'dumbbell'),
     _exercise(
       id: 'pushdown',
       primaryMuscle: 'triceps',
@@ -75,7 +79,8 @@ void main() {
       library: library,
     );
 
-    final usedEquipment = template.exercises.map((te) => te.exercise.equipment).toSet();
+    final usedEquipment =
+        template.exercises.map((te) => te.exercise.equipment).toSet();
     expect(usedEquipment.difference({'dumbbell', 'bodyweight', null}), isEmpty);
   });
 

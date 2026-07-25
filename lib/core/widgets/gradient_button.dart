@@ -30,8 +30,11 @@ class GradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPrimary = variant == GradientButtonVariant.primary;
-    final gradient = isPrimary ? AppColors.primaryButtonGradient : AppColors.successButtonGradient;
-    final onColor = isPrimary ? AppColors.onPrimaryGradient : AppColors.onSuccessGradient;
+    final gradient = isPrimary
+        ? AppColors.primaryButtonGradient
+        : AppColors.successButtonGradient;
+    final onColor =
+        isPrimary ? AppColors.onPrimaryGradient : AppColors.onSuccessGradient;
     final shadowColor = isPrimary
         ? AppColors.electricBlue.withOpacity(0.3)
         : AppColors.emerald.withOpacity(0.25);
@@ -50,14 +53,20 @@ class GradientButton extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: gradient,
               borderRadius: BorderRadius.circular(18),
-              boxShadow: [BoxShadow(color: shadowColor, blurRadius: 28, offset: const Offset(0, 12))],
+              boxShadow: [
+                BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 28,
+                    offset: const Offset(0, 12))
+              ],
             ),
             child: Center(
               child: isLoading
                   ? SizedBox(
                       height: 22,
                       width: 22,
-                      child: CircularProgressIndicator(strokeWidth: 2.5, color: onColor),
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2.5, color: onColor),
                     )
                   : Row(
                       mainAxisSize: MainAxisSize.min,
@@ -68,7 +77,10 @@ class GradientButton extends StatelessWidget {
                         ],
                         Text(
                           label,
-                          style: TextStyle(color: onColor, fontWeight: FontWeight.w700, fontSize: 16),
+                          style: TextStyle(
+                              color: onColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16),
                         ),
                       ],
                     ),

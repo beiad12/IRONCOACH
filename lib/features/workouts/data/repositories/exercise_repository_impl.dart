@@ -37,19 +37,25 @@ class ExerciseRepositoryImpl implements ExerciseRepository {
 
       if (filter.query != null && filter.query!.trim().isNotEmpty) {
         final q = filter.query!.toLowerCase();
-        exercises = exercises.where((e) => e.name.toLowerCase().contains(q)).toList();
+        exercises =
+            exercises.where((e) => e.name.toLowerCase().contains(q)).toList();
       }
       if (filter.category != null) {
-        exercises = exercises.where((e) => e.category == filter.category).toList();
+        exercises =
+            exercises.where((e) => e.category == filter.category).toList();
       }
       if (filter.primaryMuscle != null) {
-        exercises = exercises.where((e) => e.primaryMuscle == filter.primaryMuscle).toList();
+        exercises = exercises
+            .where((e) => e.primaryMuscle == filter.primaryMuscle)
+            .toList();
       }
       if (filter.equipment != null) {
-        exercises = exercises.where((e) => e.equipment == filter.equipment).toList();
+        exercises =
+            exercises.where((e) => e.equipment == filter.equipment).toList();
       }
       if (filter.difficulty != null) {
-        exercises = exercises.where((e) => e.difficulty == filter.difficulty).toList();
+        exercises =
+            exercises.where((e) => e.difficulty == filter.difficulty).toList();
       }
       if (filter.favoritesOnly) {
         exercises = exercises.where((e) => e.isFavorite).toList();
@@ -74,7 +80,8 @@ class ExerciseRepositoryImpl implements ExerciseRepository {
   }
 
   @override
-  Future<Result<void>> toggleFavorite(String exerciseId, {required bool isFavorite}) async {
+  Future<Result<void>> toggleFavorite(String exerciseId,
+      {required bool isFavorite}) async {
     await _local.setFavoriteLocally(exerciseId, isFavorite: isFavorite);
     final userId = _currentUserId();
     if (userId == null) return const Left(Failure.unauthorized());
@@ -124,7 +131,8 @@ class ExerciseRepositoryImpl implements ExerciseRepository {
       name: row.name,
       category: ExerciseCategoryX.fromKey(row.category),
       primaryMuscle: row.primaryMuscle,
-      secondaryMuscles: List<String>.from(jsonDecode(row.secondaryMusclesJson) as List),
+      secondaryMuscles:
+          List<String>.from(jsonDecode(row.secondaryMusclesJson) as List),
       equipment: row.equipment,
       difficulty: ExerciseDifficultyX.fromKey(row.difficulty),
       instructions: row.instructions,

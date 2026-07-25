@@ -17,24 +17,30 @@ void main() {
     useCase = SignInWithEmail(repository);
   });
 
-  const user = AppUser(id: 'u1', email: 'test@ironcoach.app', emailConfirmed: true);
+  const user =
+      AppUser(id: 'u1', email: 'test@ironcoach.app', emailConfirmed: true);
 
   test('delegates to the repository and returns its success result', () async {
-    when(() => repository.signInWithEmail(email: any(named: 'email'), password: any(named: 'password')))
+    when(() => repository.signInWithEmail(
+            email: any(named: 'email'), password: any(named: 'password')))
         .thenAnswer((_) async => const Right(user));
 
-    final result = await useCase(email: 'test@ironcoach.app', password: 'password123');
+    final result =
+        await useCase(email: 'test@ironcoach.app', password: 'password123');
 
     expect(result, const Right<Failure, AppUser>(user));
-    verify(() => repository.signInWithEmail(email: 'test@ironcoach.app', password: 'password123')).called(1);
+    verify(() => repository.signInWithEmail(
+        email: 'test@ironcoach.app', password: 'password123')).called(1);
   });
 
   test('propagates a failure from the repository unchanged', () async {
     const failure = Failure.unauthorized('Invalid credentials');
-    when(() => repository.signInWithEmail(email: any(named: 'email'), password: any(named: 'password')))
+    when(() => repository.signInWithEmail(
+            email: any(named: 'email'), password: any(named: 'password')))
         .thenAnswer((_) async => const Left(failure));
 
-    final result = await useCase(email: 'test@ironcoach.app', password: 'wrong');
+    final result =
+        await useCase(email: 'test@ironcoach.app', password: 'wrong');
 
     expect(result, const Left<Failure, AppUser>(failure));
   });

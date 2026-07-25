@@ -32,7 +32,9 @@ class ProgressPhotosScreen extends ConsumerWidget {
         onRetry: () => ref.invalidate(progressPhotosProvider),
         data: (photos) {
           if (photos.isEmpty) {
-            return const EmptyState(icon: Icons.photo_camera_outlined, title: 'No progress photos yet');
+            return const EmptyState(
+                icon: Icons.photo_camera_outlined,
+                title: 'No progress photos yet');
           }
           return GridView.builder(
             padding: const EdgeInsets.all(12),
@@ -44,7 +46,8 @@ class ProgressPhotosScreen extends ConsumerWidget {
             itemCount: photos.length,
             itemBuilder: (context, i) => ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: CachedNetworkImage(imageUrl: photos[i].photoUrl, fit: BoxFit.cover),
+              child: CachedNetworkImage(
+                  imageUrl: photos[i].photoUrl, fit: BoxFit.cover),
             ),
           );
         },
@@ -53,13 +56,15 @@ class ProgressPhotosScreen extends ConsumerWidget {
   }
 
   Future<void> _capture(BuildContext context, WidgetRef ref) async {
-    final picked = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 85);
+    final picked = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 85);
     if (picked == null) return;
 
-    final result = await ref.read(progressRepositoryProvider).uploadProgressPhoto(
-          file: File(picked.path),
-          angle: PhotoAngle.front,
-        );
+    final result =
+        await ref.read(progressRepositoryProvider).uploadProgressPhoto(
+              file: File(picked.path),
+              angle: PhotoAngle.front,
+            );
     if (!context.mounted) return;
     result.match(
       (failure) => ScaffoldMessenger.of(context)

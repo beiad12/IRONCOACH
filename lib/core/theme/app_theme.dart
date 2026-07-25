@@ -25,14 +25,18 @@ abstract final class AppTheme {
       error: AppColors.error,
       onError: Colors.white,
       surface: isDark ? AppColors.darkSurface : AppColors.lightSurface,
-      onSurface: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
-      surfaceContainerHighest:
-          isDark ? AppColors.darkSurfaceElevatedTop : AppColors.lightSurfaceElevated,
+      onSurface:
+          isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+      surfaceContainerHighest: isDark
+          ? AppColors.darkSurfaceElevatedTop
+          : AppColors.lightSurfaceElevated,
       outline: isDark ? AppColors.darkBorder : AppColors.lightBorder,
     );
 
-    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
-    final background = isDark ? AppColors.darkBackground : AppColors.lightBackground;
+    final textColor =
+        isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
+    final background =
+        isDark ? AppColors.darkBackground : AppColors.lightBackground;
 
     return ThemeData(
       useMaterial3: true,
@@ -60,7 +64,9 @@ abstract final class AppTheme {
         ),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: isDark ? AppColors.darkSurface : colorScheme.surfaceContainerHighest,
+        backgroundColor: isDark
+            ? AppColors.darkSurface
+            : colorScheme.surfaceContainerHighest,
         side: BorderSide(color: colorScheme.outline),
         labelStyle: TextStyle(color: textColor),
         shape: const StadiumBorder(),
@@ -69,10 +75,12 @@ abstract final class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.electricBlue,
           foregroundColor: AppColors.onPrimaryGradient,
-          disabledBackgroundColor: isDark ? const Color(0x0AFFFFFF) : colorScheme.outline,
+          disabledBackgroundColor:
+              isDark ? const Color(0x0AFFFFFF) : colorScheme.outline,
           disabledForegroundColor: isDark ? AppColors.darkTextTertiary : null,
           minimumSize: const Size.fromHeight(52),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
         ),
       ),
@@ -81,7 +89,8 @@ abstract final class AppTheme {
           foregroundColor: textColor,
           minimumSize: const Size.fromHeight(52),
           side: BorderSide(color: colorScheme.outline),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
         ),
       ),
@@ -90,8 +99,11 @@ abstract final class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: isDark ? AppColors.darkInputSurface : colorScheme.surfaceContainerHighest,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        fillColor: isDark
+            ? AppColors.darkInputSurface
+            : colorScheme.surfaceContainerHighest,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: TextStyle(color: isDark ? AppColors.darkTextTertiary : null),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -103,7 +115,8 @@ abstract final class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.electricBlue, width: 1.5),
+          borderSide:
+              const BorderSide(color: AppColors.electricBlue, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -113,7 +126,8 @@ abstract final class AppTheme {
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: colorScheme.surface,
         selectedItemColor: AppColors.electricBlue,
-        unselectedItemColor: isDark ? AppColors.darkTextTertiary : AppColors.lightTextSecondary,
+        unselectedItemColor:
+            isDark ? AppColors.darkTextTertiary : AppColors.lightTextSecondary,
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
       ),
@@ -127,13 +141,17 @@ abstract final class AppTheme {
             fontWeight: FontWeight.w600,
             color: states.contains(WidgetState.selected)
                 ? AppColors.electricBlue
-                : (isDark ? AppColors.darkTextTertiary : AppColors.lightTextSecondary),
+                : (isDark
+                    ? AppColors.darkTextTertiary
+                    : AppColors.lightTextSecondary),
           ),
         ),
       ),
       dividerTheme: DividerThemeData(color: colorScheme.outline, space: 1),
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: isDark ? AppColors.darkActivePill : colorScheme.surfaceContainerHighest,
+        backgroundColor: isDark
+            ? AppColors.darkActivePill
+            : colorScheme.surfaceContainerHighest,
         contentTextStyle: TextStyle(color: textColor),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

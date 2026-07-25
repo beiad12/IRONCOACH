@@ -40,8 +40,8 @@ class MealEntry with _$MealEntry {
 }
 
 extension MealTypeX on MealType {
-  static MealType fromKey(String key) =>
-      MealType.values.firstWhere((e) => e.name == key, orElse: () => MealType.snack);
+  static MealType fromKey(String key) => MealType.values
+      .firstWhere((e) => e.name == key, orElse: () => MealType.snack);
 
   String get label => name[0].toUpperCase() + name.substring(1);
 }

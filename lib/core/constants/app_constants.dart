@@ -7,7 +7,8 @@ abstract final class AppConstants {
   static const String tableProfiles = 'profiles';
   static const String tableExercises = 'exercises';
   static const String tableWorkoutTemplates = 'workout_templates';
-  static const String tableWorkoutTemplateExercises = 'workout_template_exercises';
+  static const String tableWorkoutTemplateExercises =
+      'workout_template_exercises';
   static const String tableWorkoutSessions = 'workout_sessions';
   static const String tableWorkoutSets = 'workout_sets';
   static const String tableFavoriteExercises = 'favorite_exercises';

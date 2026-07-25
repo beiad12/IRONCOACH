@@ -20,7 +20,8 @@ class ProgressRepositoryImpl implements ProgressRepository {
   final _uuid = const Uuid();
 
   @override
-  Future<Result<BodyMeasurement>> logMeasurement(BodyMeasurement measurement) async {
+  Future<Result<BodyMeasurement>> logMeasurement(
+      BodyMeasurement measurement) async {
     final userId = _currentUserId();
     if (userId == null) return const Left(Failure.unauthorized());
     try {
@@ -48,7 +49,8 @@ class ProgressRepositoryImpl implements ProgressRepository {
   }
 
   @override
-  Future<Result<List<BodyMeasurement>>> getMeasurements({int limit = 90}) async {
+  Future<Result<List<BodyMeasurement>>> getMeasurements(
+      {int limit = 90}) async {
     final userId = _currentUserId();
     if (userId == null) return const Left(Failure.unauthorized());
     try {
@@ -58,7 +60,9 @@ class ProgressRepositoryImpl implements ProgressRepository {
           .eq('user_id', userId)
           .order('measured_at', ascending: false)
           .limit(limit);
-      return Right(List<Map<String, dynamic>>.from(rows as List).map(_mapMeasurement).toList());
+      return Right(List<Map<String, dynamic>>.from(rows as List)
+          .map(_mapMeasurement)
+          .toList());
     } on Object catch (e) {
       return Left(Failure.server(message: e.toString()));
     }
@@ -77,7 +81,9 @@ class ProgressRepositoryImpl implements ProgressRepository {
       final fileName = '${_uuid.v4()}.$extension';
       final path = '$userId/$fileName';
 
-      await _client.storage.from(AppConstants.bucketProgressPhotos).upload(path, file);
+      await _client.storage
+          .from(AppConstants.bucketProgressPhotos)
+          .upload(path, file);
       final photoUrl = await _client.storage
           .from(AppConstants.bucketProgressPhotos)
           .createSignedUrl(path, 60 * 60 * 24 * 365);
@@ -109,7 +115,9 @@ class ProgressRepositoryImpl implements ProgressRepository {
           .select()
           .eq('user_id', userId)
           .order('taken_at', ascending: false);
-      return Right(List<Map<String, dynamic>>.from(rows as List).map(_mapPhoto).toList());
+      return Right(List<Map<String, dynamic>>.from(rows as List)
+          .map(_mapPhoto)
+          .toList());
     } on Object catch (e) {
       return Left(Failure.server(message: e.toString()));
     }
@@ -131,7 +139,9 @@ class ProgressRepositoryImpl implements ProgressRepository {
               (row) => PersonalRecord(
                 id: row['id'] as String,
                 exerciseId: row['exercise_id'] as String,
-                exerciseName: (row['exercises'] as Map<String, dynamic>?)?['name'] as String? ?? 'Exercise',
+                exerciseName: (row['exercises']
+                        as Map<String, dynamic>?)?['name'] as String? ??
+                    'Exercise',
                 recordType: RecordTypeX.fromKey(row['record_type'] as String),
                 value: (row['value'] as num).toDouble(),
                 achievedAt: DateTime.parse(row['achieved_at'] as String),

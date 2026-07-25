@@ -40,21 +40,26 @@ class SettingsScreen extends ConsumerWidget {
                   leading: const Icon(Icons.straighten_outlined),
                   title: const Text('Units'),
                   trailing: Text(
-                    profile.units == MeasurementUnits.metric ? 'Metric' : 'Imperial',
+                    profile.units == MeasurementUnits.metric
+                        ? 'Metric'
+                        : 'Imperial',
                     style: const TextStyle(color: AppColors.darkTextSecondary),
                   ),
                   onTap: () async {
                     final next = profile.units == MeasurementUnits.metric
                         ? MeasurementUnits.imperial
                         : MeasurementUnits.metric;
-                    await ref.read(profileRepositoryProvider).updateProfile(profile.copyWith(units: next));
+                    await ref
+                        .read(profileRepositoryProvider)
+                        .updateProfile(profile.copyWith(units: next));
                     ref.invalidate(myProfileProvider);
                   },
                 ),
                 SwitchListTile(
                   secondary: const Icon(Icons.lock_outline),
                   title: const Text('Public profile'),
-                  subtitle: const Text('Visible on leaderboards and to friends'),
+                  subtitle:
+                      const Text('Visible on leaderboards and to friends'),
                   value: profile.isPublic,
                   onChanged: (v) async {
                     await ref
@@ -74,7 +79,9 @@ class SettingsScreen extends ConsumerWidget {
                     title: const Text('Help & Support'),
                     content: const Text('Reach us at support@ironcoach.app'),
                     actions: [
-                      TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close')),
+                      TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Close')),
                     ],
                   ),
                 ),
@@ -82,12 +89,14 @@ class SettingsScreen extends ConsumerWidget {
               const Divider(color: AppColors.darkBorder),
               ListTile(
                 leading: const Icon(Icons.logout, color: AppColors.error),
-                title: const Text('Log Out', style: TextStyle(color: AppColors.error)),
+                title: const Text('Log Out',
+                    style: TextStyle(color: AppColors.error)),
                 onTap: () => ref.read(signOutProvider).call(),
               ),
               const SizedBox(height: 24),
               Center(
-                child: Text('IronCoach v0.1.0', style: Theme.of(context).textTheme.bodySmall),
+                child: Text('IronCoach v0.1.0',
+                    style: Theme.of(context).textTheme.bodySmall),
               ),
               const SizedBox(height: 12),
             ],

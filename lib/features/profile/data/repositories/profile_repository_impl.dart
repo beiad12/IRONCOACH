@@ -25,7 +25,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
       });
 
   @override
-  Future<Result<UserProfile>> updateProfile(UserProfile profile) => _guard(() async {
+  Future<Result<UserProfile>> updateProfile(UserProfile profile) =>
+      _guard(() async {
         final row = await _client
             .from(AppConstants.tableProfiles)
             .update({
@@ -46,7 +47,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
       });
 
   @override
-  Future<Result<String>> uploadAvatar({required String userId, required File file}) =>
+  Future<Result<String>> uploadAvatar(
+          {required String userId, required File file}) =>
       _guard(() async {
         final extension = file.path.split('.').last;
         final path = '$userId/avatar.$extension';
@@ -55,8 +57,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
               file,
               fileOptions: const FileOptions(upsert: true),
             );
-        final publicUrl = _client.storage.from(AppConstants.bucketAvatars).getPublicUrl(path);
-        await _client.from(AppConstants.tableProfiles).update({'avatar_url': publicUrl}).eq('id', userId);
+        final publicUrl =
+            _client.storage.from(AppConstants.bucketAvatars).getPublicUrl(path);
+        await _client
+            .from(AppConstants.tableProfiles)
+            .update({'avatar_url': publicUrl}).eq('id', userId);
         return publicUrl;
       });
 
@@ -69,7 +74,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
       bio: row['bio'] as String?,
       heightCm: (row['height_cm'] as num?)?.toDouble(),
       weightKg: (row['weight_kg'] as num?)?.toDouble(),
-      fitnessLevel: FitnessLevelX.fromKey(row['fitness_level'] as String? ?? 'beginner'),
+      fitnessLevel:
+          FitnessLevelX.fromKey(row['fitness_level'] as String? ?? 'beginner'),
       primaryGoal: PrimaryGoalX.fromKey(row['primary_goal'] as String?),
       units: (row['units'] as String? ?? 'metric') == 'imperial'
           ? MeasurementUnits.imperial

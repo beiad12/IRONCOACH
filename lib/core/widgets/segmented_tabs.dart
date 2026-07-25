@@ -39,7 +39,8 @@ class SegmentedTabs<T> extends StatelessWidget {
         color: AppColors.darkTrack,
         borderRadius: BorderRadius.circular(14),
         boxShadow: const [
-          BoxShadow(color: Color(0x73000000), blurRadius: 4, offset: Offset(0, 1)),
+          BoxShadow(
+              color: Color(0x73000000), blurRadius: 4, offset: Offset(0, 1)),
         ],
       ),
       child: scrollable
@@ -48,7 +49,8 @@ class SegmentedTabs<T> extends StatelessWidget {
     );
 
     if (!scrollable) return track;
-    return SingleChildScrollView(scrollDirection: Axis.horizontal, child: track);
+    return SingleChildScrollView(
+        scrollDirection: Axis.horizontal, child: track);
   }
 
   List<Widget> _pills() {
@@ -64,7 +66,8 @@ class SegmentedTabs<T> extends StatelessWidget {
 }
 
 class _Pill extends StatelessWidget {
-  const _Pill({required this.label, required this.isActive, required this.onTap});
+  const _Pill(
+      {required this.label, required this.isActive, required this.onTap});
   final String label;
   final bool isActive;
   final VoidCallback onTap;
@@ -100,7 +103,9 @@ class _Pill extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: isActive ? const Color(0xFFEAF4FF) : AppColors.darkTextTertiary,
+                color: isActive
+                    ? const Color(0xFFEAF4FF)
+                    : AppColors.darkTextTertiary,
               ),
             ),
           ),

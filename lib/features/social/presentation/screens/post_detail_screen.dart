@@ -38,8 +38,10 @@ class PostDetailScreen extends HookConsumerWidget {
                 itemBuilder: (context, i) {
                   final comment = comments[i];
                   return ListTile(
-                    leading: CircleAvatar(child: Text(comment.author.username[0].toUpperCase())),
-                    title: Text(comment.author.displayName ?? comment.author.username),
+                    leading: CircleAvatar(
+                        child: Text(comment.author.username[0].toUpperCase())),
+                    title: Text(
+                        comment.author.displayName ?? comment.author.username),
                     subtitle: Text(comment.body),
                     trailing: Text(
                       dateFormat.format(comment.createdAt),
@@ -59,11 +61,13 @@ class PostDetailScreen extends HookConsumerWidget {
                   Expanded(
                     child: TextField(
                       controller: commentController,
-                      decoration: const InputDecoration(hintText: 'Add a comment...'),
+                      decoration:
+                          const InputDecoration(hintText: 'Add a comment...'),
                       onSubmitted: (_) => submitComment(),
                     ),
                   ),
-                  IconButton(icon: const Icon(Icons.send), onPressed: submitComment),
+                  IconButton(
+                      icon: const Icon(Icons.send), onPressed: submitComment),
                 ],
               ),
             ),

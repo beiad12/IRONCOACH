@@ -34,10 +34,14 @@ class CommunityScreen extends HookConsumerWidget {
             scrollable: true,
             onChanged: (v) => tab.value = v,
             options: const [
-              SegmentedTabOption(value: _CommunityTab.achievements, label: 'Achievements'),
-              SegmentedTabOption(value: _CommunityTab.challenges, label: 'Challenges'),
-              SegmentedTabOption(value: _CommunityTab.leaderboard, label: 'Leaderboard'),
-              SegmentedTabOption(value: _CommunityTab.friends, label: 'Friends'),
+              SegmentedTabOption(
+                  value: _CommunityTab.achievements, label: 'Achievements'),
+              SegmentedTabOption(
+                  value: _CommunityTab.challenges, label: 'Challenges'),
+              SegmentedTabOption(
+                  value: _CommunityTab.leaderboard, label: 'Leaderboard'),
+              SegmentedTabOption(
+                  value: _CommunityTab.friends, label: 'Friends'),
             ],
           ),
           const SizedBox(height: 20),

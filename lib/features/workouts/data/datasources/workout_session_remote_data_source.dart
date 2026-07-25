@@ -20,7 +20,8 @@ class WorkoutSessionRemoteDataSource {
     return List<Map<String, dynamic>>.from(rows as List);
   }
 
-  Future<List<Map<String, dynamic>>> fetchSetsForSession(String sessionId) async {
+  Future<List<Map<String, dynamic>>> fetchSetsForSession(
+      String sessionId) async {
     final rows = await _client
         .from(AppConstants.tableWorkoutSets)
         .select()

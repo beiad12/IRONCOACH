@@ -21,7 +21,8 @@ class ExerciseFilter extends Equatable {
   final bool favoritesOnly;
 
   @override
-  List<Object?> get props => [query, category, primaryMuscle, equipment, difficulty, favoritesOnly];
+  List<Object?> get props =>
+      [query, category, primaryMuscle, equipment, difficulty, favoritesOnly];
 }
 
 /// Offline-first: reads serve from the local cache instantly, refreshed
@@ -33,7 +34,8 @@ abstract interface class ExerciseRepository {
 
   Future<Result<Exercise>> getExerciseById(String id);
 
-  Future<Result<void>> toggleFavorite(String exerciseId, {required bool isFavorite});
+  Future<Result<void>> toggleFavorite(String exerciseId,
+      {required bool isFavorite});
 
   Stream<Set<String>> watchFavoriteIds();
 }

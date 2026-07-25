@@ -44,17 +44,26 @@ class WorkoutGeneratorService {
       final muscleOk = params.targetMuscles.isEmpty ||
           params.targetMuscles.contains(e.primaryMuscle) ||
           e.secondaryMuscles.any(params.targetMuscles.contains);
-      final difficultyOk = _difficultyRank(e.difficulty) <= _difficultyRank(params.difficulty) + 1;
-      return equipmentOk && muscleOk && difficultyOk && e.category == ExerciseCategory.strength;
+      final difficultyOk = _difficultyRank(e.difficulty) <=
+          _difficultyRank(params.difficulty) + 1;
+      return equipmentOk &&
+          muscleOk &&
+          difficultyOk &&
+          e.category == ExerciseCategory.strength;
     }).toList()
       ..shuffle(Random());
 
     // Prioritize compound movements first (bigger training effect per set),
     // then fill remaining slots with isolation work.
-    final compounds = eligible.where((e) => e.mechanic == ExerciseMechanic.compound).toList();
-    final isolations = eligible.where((e) => e.mechanic != ExerciseMechanic.compound).toList();
+    final compounds =
+        eligible.where((e) => e.mechanic == ExerciseMechanic.compound).toList();
+    final isolations =
+        eligible.where((e) => e.mechanic != ExerciseMechanic.compound).toList();
 
-    final totalSlots = (params.durationMinutes / _minutesPerSet / _setsFor(params.goal)).round().clamp(3, 8);
+    final totalSlots =
+        (params.durationMinutes / _minutesPerSet / _setsFor(params.goal))
+            .round()
+            .clamp(3, 8);
     final selected = <Exercise>[
       ...compounds.take((totalSlots * 0.6).ceil()),
       ...isolations.take(totalSlots),
@@ -66,8 +75,10 @@ class WorkoutGeneratorService {
 
     return WorkoutTemplate(
       id: '',
-      name: '${params.goal.label} — ${params.difficulty.name[0].toUpperCase()}${params.difficulty.name.substring(1)}',
-      description: 'Auto-generated ${params.durationMinutes}-minute session targeting '
+      name:
+          '${params.goal.label} — ${params.difficulty.name[0].toUpperCase()}${params.difficulty.name.substring(1)}',
+      description:
+          'Auto-generated ${params.durationMinutes}-minute session targeting '
           '${params.targetMuscles.isEmpty ? "full body" : params.targetMuscles.join(", ")}.',
       goal: params.goal,
       difficulty: params.difficulty,

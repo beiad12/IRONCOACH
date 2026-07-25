@@ -72,7 +72,8 @@ class LogMeasurementScreen extends HookConsumerWidget {
                 child: AppTextField(
                   label: 'Chest (cm)',
                   controller: chest,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
               const SizedBox(width: 12),
@@ -80,7 +81,8 @@ class LogMeasurementScreen extends HookConsumerWidget {
                 child: AppTextField(
                   label: 'Waist (cm)',
                   controller: waist,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
             ],
@@ -92,7 +94,8 @@ class LogMeasurementScreen extends HookConsumerWidget {
                 child: AppTextField(
                   label: 'Hips (cm)',
                   controller: hips,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
               const SizedBox(width: 12),
@@ -100,7 +103,8 @@ class LogMeasurementScreen extends HookConsumerWidget {
                 child: AppTextField(
                   label: 'Bicep (cm)',
                   controller: bicep,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
             ],
@@ -112,7 +116,8 @@ class LogMeasurementScreen extends HookConsumerWidget {
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
           ),
           const SizedBox(height: 20),
-          GradientButton(label: 'Save', isLoading: isSaving.value, onPressed: save),
+          GradientButton(
+              label: 'Save', isLoading: isSaving.value, onPressed: save),
         ],
       ),
     );

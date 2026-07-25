@@ -38,7 +38,8 @@ class ProfileScreen extends ConsumerWidget {
         data: (profile) {
           if (profile == null) return const SizedBox.shrink();
           final subtitle = [
-            profile.fitnessLevel.name[0].toUpperCase() + profile.fitnessLevel.name.substring(1),
+            profile.fitnessLevel.name[0].toUpperCase() +
+                profile.fitnessLevel.name.substring(1),
             if (profile.primaryGoal != null) profile.primaryGoal!.label,
           ].join(' · ');
 
@@ -57,7 +58,8 @@ class ProfileScreen extends ConsumerWidget {
                     clipBehavior: Clip.antiAlias,
                     child: profile.avatarUrl != null
                         ? Image.network(profile.avatarUrl!, fit: BoxFit.cover)
-                        : const Icon(Icons.person, color: Colors.white, size: 30),
+                        : const Icon(Icons.person,
+                            color: Colors.white, size: 30),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
@@ -68,7 +70,10 @@ class ProfileScreen extends ConsumerWidget {
                           profile.displayName ?? profile.username,
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        Text(subtitle, style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 12)),
+                        Text(subtitle,
+                            style: const TextStyle(
+                                color: AppColors.darkTextSecondary,
+                                fontSize: 12)),
                       ],
                     ),
                   ),
@@ -93,7 +98,8 @@ class ProfileScreen extends ConsumerWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: _StatTile(
-                      value: '${achievementsAsync.valueOrNull?.where((a) => a.isUnlocked).length ?? "—"}',
+                      value:
+                          '${achievementsAsync.valueOrNull?.where((a) => a.isUnlocked).length ?? "—"}',
                       label: 'Badges',
                     ),
                   ),
@@ -107,9 +113,11 @@ class ProfileScreen extends ConsumerWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Text('Go Premium', style: Theme.of(context).textTheme.titleSmall),
+                      child: Text('Go Premium',
+                          style: Theme.of(context).textTheme.titleSmall),
                     ),
-                    const Icon(Icons.arrow_forward, color: AppColors.electricBlue),
+                    const Icon(Icons.arrow_forward,
+                        color: AppColors.electricBlue),
                   ],
                 ),
               ),
@@ -138,7 +146,8 @@ class ProfileScreen extends ConsumerWidget {
               OutlinedButton.icon(
                 onPressed: () => ref.read(signOutProvider).call(),
                 icon: const Icon(Icons.logout, color: AppColors.error),
-                label: const Text('Sign out', style: TextStyle(color: AppColors.error)),
+                label: const Text('Sign out',
+                    style: TextStyle(color: AppColors.error)),
               ),
             ],
           );
@@ -157,14 +166,19 @@ class _StatTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14),
-      decoration: BoxDecoration(color: AppColors.darkSurface, borderRadius: BorderRadius.circular(16)),
+      decoration: BoxDecoration(
+          color: AppColors.darkSurface,
+          borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: [
           Text(value, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 2),
           Text(
             label.toUpperCase(),
-            style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 10, letterSpacing: 0.4),
+            style: const TextStyle(
+                color: AppColors.darkTextTertiary,
+                fontSize: 10,
+                letterSpacing: 0.4),
           ),
         ],
       ),
@@ -189,7 +203,9 @@ class _MenuRow extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label, style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 14)),
+            Text(label,
+                style: const TextStyle(
+                    color: AppColors.darkTextPrimary, fontSize: 14)),
             const Icon(Icons.chevron_right, color: AppColors.darkTextTertiary),
           ],
         ),

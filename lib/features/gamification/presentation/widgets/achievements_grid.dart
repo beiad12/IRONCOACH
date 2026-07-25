@@ -24,7 +24,8 @@ class AchievementsGrid extends StatelessWidget {
         childAspectRatio: 1.15,
       ),
       itemCount: achievements.length,
-      itemBuilder: (context, i) => _AchievementBadge(achievement: achievements[i]),
+      itemBuilder: (context, i) =>
+          _AchievementBadge(achievement: achievements[i]),
     );
   }
 }
@@ -45,14 +46,18 @@ class _AchievementBadge extends StatelessWidget {
             Container(
               width: 44,
               height: 44,
-              decoration: BoxDecoration(color: color.withOpacity(0.15), shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                  color: color.withOpacity(0.15), shape: BoxShape.circle),
               child: Icon(Icons.emoji_events, color: color, size: 20),
             ),
             const SizedBox(height: 8),
             Text(
               achievement.name,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 12, fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                  color: AppColors.darkTextPrimary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600),
             ),
           ],
         ),

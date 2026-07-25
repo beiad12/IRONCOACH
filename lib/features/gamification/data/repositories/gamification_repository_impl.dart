@@ -20,7 +20,10 @@ class GamificationRepositoryImpl implements GamificationRepository {
   Future<Result<List<Achievement>>> getAchievements() async {
     final userId = _currentUserId();
     try {
-      final all = await _client.from(AppConstants.tableAchievements).select().order('xp_reward');
+      final all = await _client
+          .from(AppConstants.tableAchievements)
+          .select()
+          .order('xp_reward');
       final unlockedRows = userId == null
           ? <Map<String, dynamic>>[]
           : List<Map<String, dynamic>>.from(
@@ -29,7 +32,10 @@ class GamificationRepositoryImpl implements GamificationRepository {
                   .select('achievement_id, unlocked_at')
                   .eq('user_id', userId) as List,
             );
-      final unlockedMap = {for (final r in unlockedRows) r['achievement_id'] as String: r['unlocked_at'] as String};
+      final unlockedMap = {
+        for (final r in unlockedRows)
+          r['achievement_id'] as String: r['unlocked_at'] as String
+      };
 
       return Right(
         List<Map<String, dynamic>>.from(all as List).map((row) {
@@ -58,9 +64,13 @@ class GamificationRepositoryImpl implements GamificationRepository {
     final userId = _currentUserId();
     if (userId == null) return const Left(Failure.unauthorized());
     try {
-      final row =
-          await _client.from(AppConstants.tableUserLevels).select().eq('user_id', userId).maybeSingle();
-      if (row == null) return const Right(UserLevel(level: 1, totalXp: 0, xpToNextLevel: 100));
+      final row = await _client
+          .from(AppConstants.tableUserLevels)
+          .select()
+          .eq('user_id', userId)
+          .maybeSingle();
+      if (row == null)
+        return const Right(UserLevel(level: 1, totalXp: 0, xpToNextLevel: 100));
       return Right(
         UserLevel(
           level: row['level'] as int,
@@ -78,14 +88,20 @@ class GamificationRepositoryImpl implements GamificationRepository {
     final userId = _currentUserId();
     if (userId == null) return const Left(Failure.unauthorized());
     try {
-      final row = await _client.from(AppConstants.tableStreaks).select().eq('user_id', userId).maybeSingle();
-      if (row == null) return const Right(Streak(currentStreak: 0, longestStreak: 0));
+      final row = await _client
+          .from(AppConstants.tableStreaks)
+          .select()
+          .eq('user_id', userId)
+          .maybeSingle();
+      if (row == null)
+        return const Right(Streak(currentStreak: 0, longestStreak: 0));
       return Right(
         Streak(
           currentStreak: row['current_streak'] as int,
           longestStreak: row['longest_streak'] as int,
-          lastActivityDate:
-              row['last_activity_date'] == null ? null : DateTime.parse(row['last_activity_date'] as String),
+          lastActivityDate: row['last_activity_date'] == null
+              ? null
+              : DateTime.parse(row['last_activity_date'] as String),
         ),
       );
     } on Object catch (e) {
@@ -104,13 +120,17 @@ class GamificationRepositoryImpl implements GamificationRepository {
 
       return Right(
         List<Map<String, dynamic>>.from(rows as List).map((row) {
-          final participants = List<Map<String, dynamic>>.from(row['challenge_participants'] as List? ?? []);
-          final mine = userId == null ? null : participants.where((p) => p['user_id'] == userId).firstOrNull;
+          final participants = List<Map<String, dynamic>>.from(
+              row['challenge_participants'] as List? ?? []);
+          final mine = userId == null
+              ? null
+              : participants.where((p) => p['user_id'] == userId).firstOrNull;
           return Challenge(
             id: row['id'] as String,
             name: row['name'] as String,
             description: row['description'] as String,
-            challengeType: ChallengeTypeX.fromKey(row['challenge_type'] as String),
+            challengeType:
+                ChallengeTypeX.fromKey(row['challenge_type'] as String),
             targetValue: (row['target_value'] as num).toDouble(),
             startsAt: DateTime.parse(row['starts_at'] as String),
             endsAt: DateTime.parse(row['ends_at'] as String),

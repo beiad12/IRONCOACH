@@ -82,8 +82,11 @@ GoRouter goRouter(Ref ref) {
       );
     },
     routes: [
-      GoRoute(path: RoutePaths.splash, builder: (_, __) => const SplashScreen()),
-      GoRoute(path: RoutePaths.onboarding, builder: (_, __) => const OnboardingScreen()),
+      GoRoute(
+          path: RoutePaths.splash, builder: (_, __) => const SplashScreen()),
+      GoRoute(
+          path: RoutePaths.onboarding,
+          builder: (_, __) => const OnboardingScreen()),
       GoRoute(path: RoutePaths.auth, builder: (_, __) => const AuthScreen()),
       GoRoute(
         path: RoutePaths.forgotPassword,
@@ -93,7 +96,8 @@ GoRouter goRouter(Ref ref) {
         builder: (context, state, shell) => MainShell(navigationShell: shell),
         branches: [
           StatefulShellBranch(routes: [
-            GoRoute(path: RoutePaths.home, builder: (_, __) => const HomeScreen()),
+            GoRoute(
+                path: RoutePaths.home, builder: (_, __) => const HomeScreen()),
           ]),
           StatefulShellBranch(routes: [
             GoRoute(
@@ -106,8 +110,8 @@ GoRouter goRouter(Ref ref) {
                   routes: [
                     GoRoute(
                       path: ':exerciseId',
-                      builder: (_, state) =>
-                          ExerciseDetailScreen(exerciseId: state.pathParameters['exerciseId']!),
+                      builder: (_, state) => ExerciseDetailScreen(
+                          exerciseId: state.pathParameters['exerciseId']!),
                     ),
                   ],
                 ),
@@ -124,14 +128,14 @@ GoRouter goRouter(Ref ref) {
                 GoRoute(
                   path: 'active/:sessionId',
                   parentNavigatorKey: _rootNavigatorKey,
-                  builder: (_, state) =>
-                      ActiveWorkoutScreen(sessionId: state.pathParameters['sessionId']!),
+                  builder: (_, state) => ActiveWorkoutScreen(
+                      sessionId: state.pathParameters['sessionId']!),
                 ),
                 GoRoute(
                   path: 'summary/:sessionId',
                   parentNavigatorKey: _rootNavigatorKey,
-                  builder: (_, state) =>
-                      WorkoutSummaryScreen(sessionId: state.pathParameters['sessionId']!),
+                  builder: (_, state) => WorkoutSummaryScreen(
+                      sessionId: state.pathParameters['sessionId']!),
                 ),
                 GoRoute(
                   path: 'history',
@@ -143,12 +147,14 @@ GoRouter goRouter(Ref ref) {
           StatefulShellBranch(routes: [
             GoRoute(
               path: RoutePaths.aiCoach,
-              builder: (_, __) => const AiChatScreen(agentType: AgentType.workoutCoach),
+              builder: (_, __) =>
+                  const AiChatScreen(agentType: AgentType.workoutCoach),
               routes: [
                 GoRoute(
                   path: 'chat/:agentType',
                   builder: (_, state) => AiChatScreen(
-                    agentType: AgentType.fromKey(state.pathParameters['agentType']!),
+                    agentType:
+                        AgentType.fromKey(state.pathParameters['agentType']!),
                   ),
                 ),
               ],
@@ -163,8 +169,12 @@ GoRouter goRouter(Ref ref) {
                   path: 'measurements/log',
                   builder: (_, __) => const LogMeasurementScreen(),
                 ),
-                GoRoute(path: 'photos', builder: (_, __) => const ProgressPhotosScreen()),
-                GoRoute(path: 'records', builder: (_, __) => const PersonalRecordsScreen()),
+                GoRoute(
+                    path: 'photos',
+                    builder: (_, __) => const ProgressPhotosScreen()),
+                GoRoute(
+                    path: 'records',
+                    builder: (_, __) => const PersonalRecordsScreen()),
               ],
             ),
           ]),
@@ -173,7 +183,9 @@ GoRouter goRouter(Ref ref) {
               path: RoutePaths.profile,
               builder: (_, __) => const ProfileScreen(),
               routes: [
-                GoRoute(path: 'edit-profile', builder: (_, __) => const EditProfileScreen()),
+                GoRoute(
+                    path: 'edit-profile',
+                    builder: (_, __) => const EditProfileScreen()),
               ],
             ),
           ]),
@@ -185,7 +197,8 @@ GoRouter goRouter(Ref ref) {
         builder: (_, __) => const NutritionScreen(),
         routes: [
           GoRoute(path: 'log', builder: (_, __) => const LogMealScreen()),
-          GoRoute(path: 'scan', builder: (_, __) => const BarcodeScannerScreen()),
+          GoRoute(
+              path: 'scan', builder: (_, __) => const BarcodeScannerScreen()),
         ],
       ),
       GoRoute(
@@ -237,7 +250,8 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: RoutePaths.postDetail,
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (_, state) => PostDetailScreen(postId: state.pathParameters['postId']!),
+        builder: (_, state) =>
+            PostDetailScreen(postId: state.pathParameters['postId']!),
       ),
     ],
   );

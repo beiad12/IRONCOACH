@@ -11,5 +11,6 @@ part 'shared_preferences_provider.g.dart';
 /// with a `Future`.
 @Riverpod(keepAlive: true)
 SharedPreferences sharedPreferences(Ref ref) {
-  throw UnimplementedError('sharedPreferencesProvider must be overridden in bootstrap.dart');
+  throw UnimplementedError(
+      'sharedPreferencesProvider must be overridden in bootstrap.dart');
 }

@@ -4,7 +4,8 @@ import '../../../../core/widgets/app_chip.dart';
 import '../../domain/entities/agent_type.dart';
 
 class AgentSelector extends StatelessWidget {
-  const AgentSelector({required this.selected, required this.onSelected, super.key});
+  const AgentSelector(
+      {required this.selected, required this.onSelected, super.key});
   final AgentType selected;
   final ValueChanged<AgentType> onSelected;
 

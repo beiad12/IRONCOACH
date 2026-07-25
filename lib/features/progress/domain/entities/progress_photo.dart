@@ -16,6 +16,6 @@ class ProgressPhoto with _$ProgressPhoto {
 }
 
 extension PhotoAngleX on PhotoAngle {
-  static PhotoAngle fromKey(String? key) =>
-      PhotoAngle.values.firstWhere((e) => e.name == key, orElse: () => PhotoAngle.front);
+  static PhotoAngle fromKey(String? key) => PhotoAngle.values
+      .firstWhere((e) => e.name == key, orElse: () => PhotoAngle.front);
 }

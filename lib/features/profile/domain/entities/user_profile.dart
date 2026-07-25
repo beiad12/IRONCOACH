@@ -4,7 +4,13 @@ part 'user_profile.freezed.dart';
 
 enum FitnessLevel { beginner, intermediate, advanced }
 
-enum PrimaryGoal { loseFat, buildMuscle, maintain, improveEndurance, generalHealth }
+enum PrimaryGoal {
+  loseFat,
+  buildMuscle,
+  maintain,
+  improveEndurance,
+  generalHealth
+}
 
 enum MeasurementUnits { metric, imperial }
 
@@ -27,8 +33,8 @@ class UserProfile with _$UserProfile {
 
 extension FitnessLevelX on FitnessLevel {
   String get key => name;
-  static FitnessLevel fromKey(String key) =>
-      FitnessLevel.values.firstWhere((e) => e.name == key, orElse: () => FitnessLevel.beginner);
+  static FitnessLevel fromKey(String key) => FitnessLevel.values
+      .firstWhere((e) => e.name == key, orElse: () => FitnessLevel.beginner);
 }
 
 extension PrimaryGoalX on PrimaryGoal {

@@ -25,7 +25,10 @@ class SocialSignInButtons extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 'OR',
-                style: TextStyle(color: AppColors.darkText(0.3), fontSize: 11, letterSpacing: 0.5),
+                style: TextStyle(
+                    color: AppColors.darkText(0.3),
+                    fontSize: 11,
+                    letterSpacing: 0.5),
               ),
             ),
             const Expanded(child: Divider(color: AppColors.darkBorder)),
@@ -39,7 +42,8 @@ class SocialSignInButtons extends StatelessWidget {
                 onPressed: isLoading ? null : onApplePressed,
                 icon: const Icon(Icons.apple_rounded, size: 20),
                 label: const Text('Apple'),
-                style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(50)),
+                style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50)),
               ),
             ),
             const SizedBox(width: 12),
@@ -48,7 +52,8 @@ class SocialSignInButtons extends StatelessWidget {
                 onPressed: isLoading ? null : onGooglePressed,
                 icon: const Icon(Icons.g_mobiledata_rounded, size: 24),
                 label: const Text('Google'),
-                style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(50)),
+                style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50)),
               ),
             ),
           ],

@@ -34,7 +34,8 @@ class ActiveWorkoutScreen extends ConsumerWidget {
         body: SafeArea(
           child: AsyncValueWidget(
             value: sessionAsync,
-            data: (session) => _ActiveWorkoutBody(session: session, onExit: () => _confirmExit(context)),
+            data: (session) => _ActiveWorkoutBody(
+                session: session, onExit: () => _confirmExit(context)),
           ),
         ),
       ),
@@ -46,9 +47,12 @@ class ActiveWorkoutScreen extends ConsumerWidget {
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: const Text('Leave workout?'),
-        content: const Text('Your progress is saved automatically — you can resume any time.'),
+        content: const Text(
+            'Your progress is saved automatically — you can resume any time.'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(dialogContext), child: const Text('Stay')),
+          TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Stay')),
           TextButton(
             onPressed: () {
               Navigator.pop(dialogContext);
@@ -72,17 +76,22 @@ class _ActiveWorkoutBody extends HookConsumerWidget {
     // Forces a rebuild once a second so the elapsed-time header stays live.
     final tick = useState(0);
     useEffect(() {
-      final timer = Timer.periodic(const Duration(seconds: 1), (_) => tick.value++);
+      final timer =
+          Timer.periodic(const Duration(seconds: 1), (_) => tick.value++);
       return timer.cancel;
     }, const []);
 
-    final templateAsync =
-        session.templateId == null ? null : ref.watch(workoutTemplateByIdProvider(session.templateId!));
+    final templateAsync = session.templateId == null
+        ? null
+        : ref.watch(workoutTemplateByIdProvider(session.templateId!));
 
     Future<void> finish() async {
-      final finished = await ref.read(activeWorkoutControllerProvider(session.id).notifier).finish();
+      final finished = await ref
+          .read(activeWorkoutControllerProvider(session.id).notifier)
+          .finish();
       if (!context.mounted) return;
-      context.pushReplacement(RoutePaths.workoutSummary.replaceFirst(':sessionId', finished.id));
+      context.pushReplacement(
+          RoutePaths.workoutSummary.replaceFirst(':sessionId', finished.id));
     }
 
     return templateAsync == null
@@ -90,7 +99,11 @@ class _ActiveWorkoutBody extends HookConsumerWidget {
         : templateAsync.when(
             data: (template) => template.exercises.isEmpty
                 ? _NoTemplateView(onExit: onExit, onFinish: finish)
-                : _SessionView(session: session, template: template, onExit: onExit, onFinish: finish),
+                : _SessionView(
+                    session: session,
+                    template: template,
+                    onExit: onExit,
+                    onFinish: finish),
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (_, __) => _NoTemplateView(onExit: onExit, onFinish: finish),
           );
@@ -141,36 +154,52 @@ class _SessionView extends HookConsumerWidget {
     final clampedIndex = index.value.clamp(0, template.exercises.length - 1);
     final current = template.exercises[clampedIndex];
 
-    final setsForExercise = session.setsByExercise[current.exercise.id] ?? const [];
-    final doneCount = setsForExercise.where((s) => s.isCompleted && !s.isWarmup).length;
+    final setsForExercise =
+        session.setsByExercise[current.exercise.id] ?? const [];
+    final doneCount =
+        setsForExercise.where((s) => s.isCompleted && !s.isWarmup).length;
 
     final weightController = useTextEditingController(
-      text: (current.targetWeightKg ?? _lastWeight(setsForExercise))?.toString() ?? '',
+      text: (current.targetWeightKg ?? _lastWeight(setsForExercise))
+              ?.toString() ??
+          '',
     );
     final repsController = useTextEditingController(
-      text: (current.targetRepsMin ?? _lastReps(setsForExercise))?.toString() ?? '',
+      text: (current.targetRepsMin ?? _lastReps(setsForExercise))?.toString() ??
+          '',
     );
 
     // Reset the input fields whenever the current exercise changes.
     useEffect(() {
-      weightController.text = (current.targetWeightKg ?? _lastWeight(setsForExercise))?.toString() ?? '';
-      repsController.text = (current.targetRepsMin ?? _lastReps(setsForExercise))?.toString() ?? '';
+      weightController.text =
+          (current.targetWeightKg ?? _lastWeight(setsForExercise))
+                  ?.toString() ??
+              '';
+      repsController.text =
+          (current.targetRepsMin ?? _lastReps(setsForExercise))?.toString() ??
+              '';
       return null;
     }, [clampedIndex]);
 
-    final totalSets = template.exercises.fold<int>(0, (sum, te) => sum + te.targetSets);
-    final doneSets = session.sets.where((s) => s.isCompleted && !s.isWarmup).length;
-    final progressPct = totalSets == 0 ? 0.0 : (doneSets / totalSets).clamp(0.0, 1.0);
+    final totalSets =
+        template.exercises.fold<int>(0, (sum, te) => sum + te.targetSets);
+    final doneSets =
+        session.sets.where((s) => s.isCompleted && !s.isWarmup).length;
+    final progressPct =
+        totalSets == 0 ? 0.0 : (doneSets / totalSets).clamp(0.0, 1.0);
 
     Future<void> logSet() async {
-      final controller = ref.read(activeWorkoutControllerProvider(session.id).notifier);
+      final controller =
+          ref.read(activeWorkoutControllerProvider(session.id).notifier);
       await controller.logSet(
         exerciseId: current.exercise.id,
         weightKg: double.tryParse(weightController.text),
         reps: int.tryParse(repsController.text),
       );
       if (!context.mounted) return;
-      ref.read(restTimerControllerProvider.notifier).start(current.targetRestSeconds);
+      ref
+          .read(restTimerControllerProvider.notifier)
+          .start(current.targetRestSeconds);
       await showRestTimerSheet(context);
     }
 
@@ -197,17 +226,21 @@ class _SessionView extends HookConsumerWidget {
               children: [
                 Text(
                   'Exercise ${clampedIndex + 1} of ${template.exercises.length}',
-                  style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 12),
+                  style: const TextStyle(
+                      color: AppColors.darkTextTertiary, fontSize: 12),
                 ),
                 const SizedBox(height: 4),
                 InkWell(
-                  onTap: () => context.push('${RoutePaths.exerciseLibrary}/${current.exercise.id}'),
-                  child: Text(current.exercise.name, style: Theme.of(context).textTheme.headlineSmall),
+                  onTap: () => context.push(
+                      '${RoutePaths.exerciseLibrary}/${current.exercise.id}'),
+                  child: Text(current.exercise.name,
+                      style: Theme.of(context).textTheme.headlineSmall),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   current.exercise.primaryMuscle,
-                  style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 13),
+                  style: const TextStyle(
+                      color: AppColors.darkTextSecondary, fontSize: 13),
                 ),
                 const SizedBox(height: 20),
                 AppCard(
@@ -215,9 +248,14 @@ class _SessionView extends HookConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          Expanded(child: _BigNumberField(label: 'Weight (kg)', controller: weightController)),
+                          Expanded(
+                              child: _BigNumberField(
+                                  label: 'Weight (kg)',
+                                  controller: weightController)),
                           const SizedBox(width: 14),
-                          Expanded(child: _BigNumberField(label: 'Reps', controller: repsController)),
+                          Expanded(
+                              child: _BigNumberField(
+                                  label: 'Reps', controller: repsController)),
                         ],
                       ),
                       const SizedBox(height: 16),
@@ -226,8 +264,10 @@ class _SessionView extends HookConsumerWidget {
                         children: [
                           for (var i = 0; i < current.targetSets; i++)
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
-                              child: _SetDot(filled: i < doneCount, label: '${i + 1}'),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              child: _SetDot(
+                                  filled: i < doneCount, label: '${i + 1}'),
                             ),
                         ],
                       ),
@@ -245,7 +285,9 @@ class _SessionView extends HookConsumerWidget {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: clampedIndex == 0 ? null : () => index.value = clampedIndex - 1,
+                        onPressed: clampedIndex == 0
+                            ? null
+                            : () => index.value = clampedIndex - 1,
                         child: const Text('← Prev'),
                       ),
                     ),
@@ -264,7 +306,8 @@ class _SessionView extends HookConsumerWidget {
                 Center(
                   child: TextButton(
                     onPressed: onFinish,
-                    child: const Text('Finish Workout', style: TextStyle(color: AppColors.darkTextTertiary)),
+                    child: const Text('Finish Workout',
+                        style: TextStyle(color: AppColors.darkTextTertiary)),
                   ),
                 ),
               ],
@@ -275,12 +318,14 @@ class _SessionView extends HookConsumerWidget {
     );
   }
 
-  double? _lastWeight(List<WorkoutSet> sets) => sets.isEmpty ? null : sets.last.weightKg;
+  double? _lastWeight(List<WorkoutSet> sets) =>
+      sets.isEmpty ? null : sets.last.weightKg;
   int? _lastReps(List<WorkoutSet> sets) => sets.isEmpty ? null : sets.last.reps;
 }
 
 class _TopBar extends StatelessWidget {
-  const _TopBar({required this.elapsed, required this.onExit, required this.onFinish});
+  const _TopBar(
+      {required this.elapsed, required this.onExit, required this.onFinish});
   final Duration elapsed;
   final VoidCallback onExit;
   final VoidCallback onFinish;
@@ -319,7 +364,10 @@ class _BigNumberField extends StatelessWidget {
       children: [
         Text(
           label.toUpperCase(),
-          style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 10, letterSpacing: 0.5),
+          style: const TextStyle(
+              color: AppColors.darkTextTertiary,
+              fontSize: 10,
+              letterSpacing: 0.5),
         ),
         const SizedBox(height: 4),
         TextField(
@@ -359,7 +407,8 @@ class _SetDot extends StatelessWidget {
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w700,
-          color: filled ? AppColors.onSuccessGradient : AppColors.darkTextTertiary,
+          color:
+              filled ? AppColors.onSuccessGradient : AppColors.darkTextTertiary,
         ),
       ),
     );

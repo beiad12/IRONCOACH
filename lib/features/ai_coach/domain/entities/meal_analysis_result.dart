@@ -17,5 +17,6 @@ class MealAnalysisResult with _$MealAnalysisResult {
     required String notes,
   }) = _MealAnalysisResult;
 
-  factory MealAnalysisResult.fromJson(Map<String, dynamic> json) => _$MealAnalysisResultFromJson(json);
+  factory MealAnalysisResult.fromJson(Map<String, dynamic> json) =>
+      _$MealAnalysisResultFromJson(json);
 }

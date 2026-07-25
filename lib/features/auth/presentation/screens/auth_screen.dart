@@ -30,7 +30,8 @@ class AuthScreen extends HookConsumerWidget {
     final obscurePassword = useState(true);
     final isLoading = useState(false);
 
-    Future<void> handleFailure<T>(void Function() onSuccess, Future<Result<T>> Function() action) async {
+    Future<void> handleFailure<T>(
+        void Function() onSuccess, Future<Result<T>> Function() action) async {
       isLoading.value = true;
       final result = await action();
       isLoading.value = false;
@@ -55,7 +56,8 @@ class AuthScreen extends HookConsumerWidget {
       } else {
         await handleFailure(
           () => ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Check your inbox to confirm your email.')),
+            const SnackBar(
+                content: Text('Check your inbox to confirm your email.')),
           ),
           () => ref.read(signUpWithEmailProvider).call(
                 email: emailController.text.trim(),
@@ -75,7 +77,9 @@ class AuthScreen extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  mode.value == _AuthMode.signIn ? 'Welcome back' : 'Create your account',
+                  mode.value == _AuthMode.signIn
+                      ? 'Welcome back'
+                      : 'Create your account',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 const SizedBox(height: 6),
@@ -83,15 +87,18 @@ class AuthScreen extends HookConsumerWidget {
                   mode.value == _AuthMode.signIn
                       ? 'Sign in to pick up where you left off'
                       : 'Start coaching that adapts to you',
-                  style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 14),
+                  style: const TextStyle(
+                      color: AppColors.darkTextSecondary, fontSize: 14),
                 ),
                 const SizedBox(height: 24),
                 SegmentedTabs<_AuthMode>(
                   selected: mode.value,
                   onChanged: (v) => mode.value = v,
                   options: const [
-                    SegmentedTabOption(value: _AuthMode.signIn, label: 'Sign In'),
-                    SegmentedTabOption(value: _AuthMode.signUp, label: 'Sign Up'),
+                    SegmentedTabOption(
+                        value: _AuthMode.signIn, label: 'Sign In'),
+                    SegmentedTabOption(
+                        value: _AuthMode.signUp, label: 'Sign Up'),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -101,8 +108,9 @@ class AuthScreen extends HookConsumerWidget {
                   keyboardType: TextInputType.emailAddress,
                   autofillHints: const [AutofillHints.email],
                   textInputAction: TextInputAction.next,
-                  validator: (value) =>
-                      (value == null || !value.contains('@')) ? 'Enter a valid email' : null,
+                  validator: (value) => (value == null || !value.contains('@'))
+                      ? 'Enter a valid email'
+                      : null,
                 ),
                 const SizedBox(height: 12),
                 AppTextField(
@@ -110,16 +118,22 @@ class AuthScreen extends HookConsumerWidget {
                   controller: passwordController,
                   obscureText: obscurePassword.value,
                   autofillHints: [
-                    mode.value == _AuthMode.signIn ? AutofillHints.password : AutofillHints.newPassword,
+                    mode.value == _AuthMode.signIn
+                        ? AutofillHints.password
+                        : AutofillHints.newPassword,
                   ],
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => submit(),
                   suffixIcon: IconButton(
-                    icon: Icon(obscurePassword.value ? Icons.visibility_off : Icons.visibility),
-                    onPressed: () => obscurePassword.value = !obscurePassword.value,
+                    icon: Icon(obscurePassword.value
+                        ? Icons.visibility_off
+                        : Icons.visibility),
+                    onPressed: () =>
+                        obscurePassword.value = !obscurePassword.value,
                   ),
-                  validator: (value) =>
-                      (value == null || value.length < 8) ? 'Minimum 8 characters' : null,
+                  validator: (value) => (value == null || value.length < 8)
+                      ? 'Minimum 8 characters'
+                      : null,
                 ),
                 if (mode.value == _AuthMode.signIn) ...[
                   Align(
@@ -133,7 +147,9 @@ class AuthScreen extends HookConsumerWidget {
                   const SizedBox(height: 10),
                 const SizedBox(height: 10),
                 GradientButton(
-                  label: mode.value == _AuthMode.signIn ? 'Sign In' : 'Create account',
+                  label: mode.value == _AuthMode.signIn
+                      ? 'Sign In'
+                      : 'Create account',
                   isLoading: isLoading.value,
                   onPressed: submit,
                 ),

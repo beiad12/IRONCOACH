@@ -22,20 +22,26 @@ class WorkoutTemplateRepositoryImpl implements WorkoutTemplateRepository {
       '*, workout_template_exercises(*, exercises(*))';
 
   @override
-  Future<Result<List<WorkoutTemplate>>> getTemplates({bool favoritesOnly = false}) async {
+  Future<Result<List<WorkoutTemplate>>> getTemplates(
+      {bool favoritesOnly = false}) async {
     try {
       final userId = _currentUserId();
-      var query = _client.from(AppConstants.tableWorkoutTemplates).select(_selectWithExercises);
+      var query = _client
+          .from(AppConstants.tableWorkoutTemplates)
+          .select(_selectWithExercises);
       if (userId != null) {
-        query = query.or('owner_id.eq.$userId,owner_id.is.null,is_public.eq.true');
+        query =
+            query.or('owner_id.eq.$userId,owner_id.is.null,is_public.eq.true');
       } else {
         query = query.or('owner_id.is.null,is_public.eq.true');
       }
       final rows = await query.order('created_at', ascending: false);
 
-      final favoriteIds = userId == null ? <String>{} : await _fetchFavoriteIds(userId);
-      var templates =
-          List<Map<String, dynamic>>.from(rows as List).map((r) => _mapTemplate(r, favoriteIds)).toList();
+      final favoriteIds =
+          userId == null ? <String>{} : await _fetchFavoriteIds(userId);
+      var templates = List<Map<String, dynamic>>.from(rows as List)
+          .map((r) => _mapTemplate(r, favoriteIds))
+          .toList();
 
       if (favoritesOnly) {
         templates = templates.where((t) => t.isFavorite).toList();
@@ -55,7 +61,8 @@ class WorkoutTemplateRepositoryImpl implements WorkoutTemplateRepository {
           .eq('id', id)
           .single();
       final userId = _currentUserId();
-      final favoriteIds = userId == null ? <String>{} : await _fetchFavoriteIds(userId);
+      final favoriteIds =
+          userId == null ? <String>{} : await _fetchFavoriteIds(userId);
       return Right(_mapTemplate(row, favoriteIds));
     } on Object catch (e) {
       return Left(Failure.server(message: e.toString()));
@@ -86,7 +93,10 @@ class WorkoutTemplateRepositoryImpl implements WorkoutTemplateRepository {
 
       final templateId = templateRow['id'] as String;
 
-      await _client.from(AppConstants.tableWorkoutTemplateExercises).delete().eq('template_id', templateId);
+      await _client
+          .from(AppConstants.tableWorkoutTemplateExercises)
+          .delete()
+          .eq('template_id', templateId);
       if (template.exercises.isNotEmpty) {
         await _client.from(AppConstants.tableWorkoutTemplateExercises).insert([
           for (final te in template.exercises)
@@ -113,7 +123,10 @@ class WorkoutTemplateRepositoryImpl implements WorkoutTemplateRepository {
   @override
   Future<Result<void>> deleteTemplate(String id) async {
     try {
-      await _client.from(AppConstants.tableWorkoutTemplates).delete().eq('id', id);
+      await _client
+          .from(AppConstants.tableWorkoutTemplates)
+          .delete()
+          .eq('id', id);
       return const Right(null);
     } on Object catch (e) {
       return Left(Failure.server(message: e.toString()));
@@ -121,7 +134,8 @@ class WorkoutTemplateRepositoryImpl implements WorkoutTemplateRepository {
   }
 
   @override
-  Future<Result<void>> toggleFavorite(String templateId, {required bool isFavorite}) async {
+  Future<Result<void>> toggleFavorite(String templateId,
+      {required bool isFavorite}) async {
     final userId = _currentUserId();
     if (userId == null) return const Left(Failure.unauthorized());
     try {
@@ -147,12 +161,17 @@ class WorkoutTemplateRepositoryImpl implements WorkoutTemplateRepository {
         .from(AppConstants.tableFavoriteTemplates)
         .select('template_id')
         .eq('user_id', userId);
-    return List<Map<String, dynamic>>.from(rows as List).map((r) => r['template_id'] as String).toSet();
+    return List<Map<String, dynamic>>.from(rows as List)
+        .map((r) => r['template_id'] as String)
+        .toSet();
   }
 
-  WorkoutTemplate _mapTemplate(Map<String, dynamic> row, Set<String> favoriteIds) {
-    final rawExercises = List<Map<String, dynamic>>.from(row['workout_template_exercises'] as List? ?? []);
-    rawExercises.sort((a, b) => (a['position'] as int).compareTo(b['position'] as int));
+  WorkoutTemplate _mapTemplate(
+      Map<String, dynamic> row, Set<String> favoriteIds) {
+    final rawExercises = List<Map<String, dynamic>>.from(
+        row['workout_template_exercises'] as List? ?? []);
+    rawExercises
+        .sort((a, b) => (a['position'] as int).compareTo(b['position'] as int));
 
     return WorkoutTemplate(
       id: row['id'] as String,
@@ -160,8 +179,9 @@ class WorkoutTemplateRepositoryImpl implements WorkoutTemplateRepository {
       name: row['name'] as String,
       description: row['description'] as String?,
       goal: WorkoutGoalX.fromKey(row['goal'] as String?),
-      difficulty:
-          row['difficulty'] == null ? null : ExerciseDifficultyX.fromKey(row['difficulty'] as String),
+      difficulty: row['difficulty'] == null
+          ? null
+          : ExerciseDifficultyX.fromKey(row['difficulty'] as String),
       estimatedDurationMinutes: row['estimated_duration_minutes'] as int?,
       isAiGenerated: row['is_ai_generated'] as bool? ?? false,
       isPublic: row['is_public'] as bool? ?? false,
@@ -180,12 +200,16 @@ class WorkoutTemplateRepositoryImpl implements WorkoutTemplateRepository {
           exercise: Exercise(
             id: exerciseRow['id'] as String,
             name: exerciseRow['name'] as String,
-            category: ExerciseCategoryX.fromKey(exerciseRow['category'] as String),
+            category:
+                ExerciseCategoryX.fromKey(exerciseRow['category'] as String),
             primaryMuscle: exerciseRow['primary_muscle'] as String,
-            secondaryMuscles: List<String>.from(exerciseRow['secondary_muscles'] as List? ?? []),
-            difficulty: ExerciseDifficultyX.fromKey(exerciseRow['difficulty'] as String),
+            secondaryMuscles: List<String>.from(
+                exerciseRow['secondary_muscles'] as List? ?? []),
+            difficulty: ExerciseDifficultyX.fromKey(
+                exerciseRow['difficulty'] as String),
             equipment: exerciseRow['equipment'] as String?,
-            mechanic: ExerciseMechanicX.fromKey(exerciseRow['mechanic'] as String?),
+            mechanic:
+                ExerciseMechanicX.fromKey(exerciseRow['mechanic'] as String?),
             instructions: exerciseRow['instructions'] as String?,
             videoUrl: exerciseRow['video_url'] as String?,
             imageUrl: exerciseRow['image_url'] as String?,

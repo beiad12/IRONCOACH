@@ -45,7 +45,8 @@ class ProgressScreen extends HookConsumerWidget {
             onChanged: (v) => tab.value = v,
             options: const [
               SegmentedTabOption(value: _ProgressTab.weight, label: 'Weight'),
-              SegmentedTabOption(value: _ProgressTab.measurements, label: 'Measurements'),
+              SegmentedTabOption(
+                  value: _ProgressTab.measurements, label: 'Measurements'),
             ],
           ),
           const SizedBox(height: 20),
@@ -68,12 +69,17 @@ class _WeightTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final withWeight = measurements.where((m) => m.weightKg != null).toList().reversed.toList();
+    final withWeight = measurements
+        .where((m) => m.weightKg != null)
+        .toList()
+        .reversed
+        .toList();
 
     if (withWeight.isEmpty) {
       return Column(
         children: [
-          const EmptyState(icon: Icons.monitor_weight_outlined, title: 'No weigh-ins yet'),
+          const EmptyState(
+              icon: Icons.monitor_weight_outlined, title: 'No weigh-ins yet'),
           const SizedBox(height: 16),
           OutlinedButton(
             onPressed: () => context.push(RoutePaths.logMeasurement),
@@ -99,13 +105,19 @@ class _WeightTab extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('CURRENT', style: TextStyle(color: AppColors.darkTextTertiary, fontSize: 11)),
-                      Text('${current.toStringAsFixed(1)}kg', style: Theme.of(context).textTheme.headlineSmall),
+                      const Text('CURRENT',
+                          style: TextStyle(
+                              color: AppColors.darkTextTertiary, fontSize: 11)),
+                      Text('${current.toStringAsFixed(1)}kg',
+                          style: Theme.of(context).textTheme.headlineSmall),
                     ],
                   ),
                   Text(
                     '${delta >= 0 ? "-" : "+"}${delta.abs().toStringAsFixed(1)}kg',
-                    style: const TextStyle(color: AppColors.emerald, fontSize: 13, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                        color: AppColors.emerald,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -116,10 +128,14 @@ class _WeightTab extends StatelessWidget {
                   LineChartData(
                     gridData: const FlGridData(show: false),
                     titlesData: const FlTitlesData(
-                      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      topTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      rightTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      bottomTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      leftTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
                     ),
                     borderData: FlBorderData(show: false),
                     lineBarsData: [
@@ -159,7 +175,8 @@ class _MeasurementsTab extends StatelessWidget {
     if (measurements.isEmpty) {
       return Column(
         children: [
-          const EmptyState(icon: Icons.straighten_outlined, title: 'No measurements yet'),
+          const EmptyState(
+              icon: Icons.straighten_outlined, title: 'No measurements yet'),
           const SizedBox(height: 16),
           OutlinedButton(
             onPressed: () => context.push(RoutePaths.logMeasurement),
@@ -189,18 +206,24 @@ class _MeasurementsTab extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(row.$1, style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 14)),
+                Text(row.$1,
+                    style: const TextStyle(
+                        color: AppColors.darkTextPrimary, fontSize: 14)),
                 Row(
                   children: [
                     Text(
                       '${row.$2!.toStringAsFixed(1)}cm',
-                      style: const TextStyle(color: AppColors.darkTextPrimary, fontWeight: FontWeight.w700, fontSize: 15),
+                      style: const TextStyle(
+                          color: AppColors.darkTextPrimary,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15),
                     ),
                     if (row.$3 != null) ...[
                       const SizedBox(width: 8),
                       Text(
                         _delta(row.$2!, row.$3!),
-                        style: const TextStyle(color: AppColors.emerald, fontSize: 12),
+                        style: const TextStyle(
+                            color: AppColors.emerald, fontSize: 12),
                       ),
                     ],
                   ],

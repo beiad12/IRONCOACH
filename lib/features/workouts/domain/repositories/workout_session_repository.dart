@@ -6,7 +6,8 @@ import '../entities/workout_session.dart';
 /// [SyncEngine] to reconcile with Supabase. `getHistory` reads from the
 /// same local cache, refreshed opportunistically when online.
 abstract interface class WorkoutSessionRepository {
-  Future<Result<WorkoutSession>> startSession({String? templateId, required String name});
+  Future<Result<WorkoutSession>> startSession(
+      {String? templateId, required String name});
 
   Future<Result<WorkoutSet>> logSet(WorkoutSet set);
 

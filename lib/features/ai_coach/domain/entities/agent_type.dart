@@ -33,8 +33,8 @@ enum AgentType {
         AgentType.dailyPlanner => "Your full day's plan in one shot",
       };
 
-  static AgentType fromKey(String key) =>
-      AgentType.values.firstWhere((e) => e.key == key, orElse: () => AgentType.workoutCoach);
+  static AgentType fromKey(String key) => AgentType.values
+      .firstWhere((e) => e.key == key, orElse: () => AgentType.workoutCoach);
 
   /// Agents surfaced as conversational chat tabs. `mealAnalysis` and
   /// `dailyPlanner` are invoked as structured one-shot actions from the

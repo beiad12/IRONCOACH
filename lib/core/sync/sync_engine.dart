@@ -32,7 +32,8 @@ class SyncEngine {
         unawaited(syncNow());
       }
     });
-    _periodicTimer = Timer.periodic(AppConstants.syncInterval, (_) => unawaited(syncNow()));
+    _periodicTimer =
+        Timer.periodic(AppConstants.syncInterval, (_) => unawaited(syncNow()));
   }
 
   final AppDatabase _db;
@@ -67,13 +68,20 @@ class SyncEngine {
         case 'update':
           await _supabase.from(entry.entityTable).upsert(payload);
         case 'delete':
-          await _supabase.from(entry.entityTable).delete().eq('id', entry.entityId);
+          await _supabase
+              .from(entry.entityTable)
+              .delete()
+              .eq('id', entry.entityId);
       }
-      await (_db.delete(_db.syncQueueEntries)..where((t) => t.id.equals(entry.id))).go();
+      await (_db.delete(_db.syncQueueEntries)
+            ..where((t) => t.id.equals(entry.id)))
+          .go();
       await _clearDirtyFlag(entry);
     } catch (e) {
       _logger.w('Sync failed for ${entry.entityTable}/${entry.entityId}: $e');
-      await (_db.update(_db.syncQueueEntries)..where((t) => t.id.equals(entry.id))).write(
+      await (_db.update(_db.syncQueueEntries)
+            ..where((t) => t.id.equals(entry.id)))
+          .write(
         SyncQueueEntriesCompanion(
           retryCount: Value(entry.retryCount + 1),
           lastError: Value(e.toString()),
@@ -85,10 +93,12 @@ class SyncEngine {
   Future<void> _clearDirtyFlag(SyncQueueEntry entry) async {
     switch (entry.entityTable) {
       case AppConstants.tableWorkoutSessions:
-        await (_db.update(_db.cachedWorkoutSessions)..where((t) => t.id.equals(entry.entityId)))
+        await (_db.update(_db.cachedWorkoutSessions)
+              ..where((t) => t.id.equals(entry.entityId)))
             .write(const CachedWorkoutSessionsCompanion(isDirty: Value(false)));
       case AppConstants.tableWorkoutSets:
-        await (_db.update(_db.cachedWorkoutSets)..where((t) => t.id.equals(entry.entityId)))
+        await (_db.update(_db.cachedWorkoutSets)
+              ..where((t) => t.id.equals(entry.entityId)))
             .write(const CachedWorkoutSetsCompanion(isDirty: Value(false)));
     }
   }

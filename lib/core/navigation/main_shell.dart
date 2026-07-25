@@ -28,7 +28,10 @@ class MainShell extends StatelessWidget {
             initialLocation: index == navigationShell.currentIndex,
           ),
           destinations: const [
-            NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Home'),
+            NavigationDestination(
+                icon: Icon(Icons.home_outlined),
+                selectedIcon: Icon(Icons.home),
+                label: 'Home'),
             NavigationDestination(
               icon: Icon(Icons.fitness_center_outlined),
               selectedIcon: Icon(Icons.fitness_center),

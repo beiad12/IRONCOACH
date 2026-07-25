@@ -21,7 +21,8 @@ class FriendsScreen extends HookConsumerWidget {
         searchResults.value = [];
         return;
       }
-      final result = await ref.read(socialRepositoryProvider).searchUsers(query);
+      final result =
+          await ref.read(socialRepositoryProvider).searchUsers(query);
       result.match((_) {}, (users) => searchResults.value = users);
     }
 
@@ -33,7 +34,9 @@ class FriendsScreen extends HookConsumerWidget {
             padding: const EdgeInsets.all(16),
             child: TextField(
               controller: searchController,
-              decoration: const InputDecoration(hintText: 'Search by username', prefixIcon: Icon(Icons.search)),
+              decoration: const InputDecoration(
+                  hintText: 'Search by username',
+                  prefixIcon: Icon(Icons.search)),
               onChanged: search,
             ),
           ),
@@ -42,19 +45,25 @@ class FriendsScreen extends HookConsumerWidget {
               (user) => ListTile(
                 leading: CircleAvatar(
                   backgroundColor: AppColors.darkActivePill,
-                  backgroundImage: user.avatarUrl != null ? NetworkImage(user.avatarUrl!) : null,
-                  child: user.avatarUrl == null ? Text(user.username[0].toUpperCase()) : null,
+                  backgroundImage: user.avatarUrl != null
+                      ? NetworkImage(user.avatarUrl!)
+                      : null,
+                  child: user.avatarUrl == null
+                      ? Text(user.username[0].toUpperCase())
+                      : null,
                 ),
                 title: Text(user.displayName ?? user.username),
                 subtitle: Text('@${user.username}'),
                 trailing: IconButton(
                   icon: const Icon(Icons.person_add_outlined),
                   onPressed: () async {
-                    await ref.read(socialRepositoryProvider).sendFriendRequest(user.userId);
+                    await ref
+                        .read(socialRepositoryProvider)
+                        .sendFriendRequest(user.userId);
                     ref.invalidate(friendshipsProvider);
                     if (context.mounted) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(const SnackBar(content: Text('Friend request sent')));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Friend request sent')));
                     }
                   },
                 ),
@@ -68,7 +77,8 @@ class FriendsScreen extends HookConsumerWidget {
                 children: [FriendsList(friendships: friendships)],
               ),
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (_, __) => const Center(child: Text('Something went wrong')),
+              error: (_, __) =>
+                  const Center(child: Text('Something went wrong')),
             ),
           ),
         ],

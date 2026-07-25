@@ -25,19 +25,25 @@ class ExerciseCard extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         leading: CircleAvatar(
           backgroundColor: theme.colorScheme.surfaceContainerHighest,
-          child: Icon(_iconFor(exercise.category), color: theme.colorScheme.primary),
+          child: Icon(_iconFor(exercise.category),
+              color: theme.colorScheme.primary),
         ),
         title: Text(exercise.name, style: theme.textTheme.titleSmall),
         subtitle: Text(
-          [exercise.primaryMuscle, exercise.equipment].whereType<String>().join(' · '),
+          [exercise.primaryMuscle, exercise.equipment]
+              .whereType<String>()
+              .join(' · '),
           style: theme.textTheme.bodySmall,
         ),
         trailing: trailing ??
             (onFavoriteToggle != null
                 ? IconButton(
                     icon: Icon(
-                      exercise.isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: exercise.isFavorite ? theme.colorScheme.error : null,
+                      exercise.isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color:
+                          exercise.isFavorite ? theme.colorScheme.error : null,
                     ),
                     onPressed: onFavoriteToggle,
                   )

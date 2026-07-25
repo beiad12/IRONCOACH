@@ -27,13 +27,15 @@ NutritionRepository nutritionRepository(Ref ref) {
 
 @riverpod
 Future<List<MealEntry>> mealsForDate(Ref ref, DateTime date) async {
-  final result = await ref.watch(nutritionRepositoryProvider).getMealsForDate(date);
+  final result =
+      await ref.watch(nutritionRepositoryProvider).getMealsForDate(date);
   return result.match((failure) => throw failure, (meals) => meals);
 }
 
 @riverpod
 Future<int> waterForDate(Ref ref, DateTime date) async {
-  final result = await ref.watch(nutritionRepositoryProvider).getWaterForDate(date);
+  final result =
+      await ref.watch(nutritionRepositoryProvider).getWaterForDate(date);
   return result.match((failure) => throw failure, (ml) => ml);
 }
 
@@ -44,7 +46,8 @@ Future<NutritionGoals> nutritionGoals(Ref ref) async {
 }
 
 @riverpod
-class DailyNutritionSummaryController extends _$DailyNutritionSummaryController {
+class DailyNutritionSummaryController
+    extends _$DailyNutritionSummaryController {
   @override
   Future<DailyNutritionSummary> build(DateTime date) async {
     final meals = await ref.watch(mealsForDateProvider(date).future);

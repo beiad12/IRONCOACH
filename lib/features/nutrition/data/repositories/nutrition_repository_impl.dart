@@ -169,7 +169,8 @@ class NutritionRepositoryImpl implements NutritionRepository {
     try {
       final row = await _remote.fetchGoals(userId);
       if (row == null) {
-        return const Right(NutritionGoals(calories: 2200, proteinG: 150, carbsG: 220, fatG: 70));
+        return const Right(NutritionGoals(
+            calories: 2200, proteinG: 150, carbsG: 220, fatG: 70));
       }
       return Right(_mapGoals(row));
     } on Object catch (e) {
@@ -216,7 +217,8 @@ class NutritionRepositoryImpl implements NutritionRepository {
   }
 
   MealEntry _mapMealEntry(Map<String, dynamic> row, String userId) {
-    final rawItems = List<Map<String, dynamic>>.from(row['meal_entry_items'] as List? ?? []);
+    final rawItems =
+        List<Map<String, dynamic>>.from(row['meal_entry_items'] as List? ?? []);
     return MealEntry(
       id: row['id'] as String,
       userId: userId,
@@ -228,7 +230,8 @@ class NutritionRepositoryImpl implements NutritionRepository {
           .map(
             (item) => MealEntryItem(
               id: item['id'] as String,
-              foodItem: _mapFoodItem(item['food_items'] as Map<String, dynamic>),
+              foodItem:
+                  _mapFoodItem(item['food_items'] as Map<String, dynamic>),
               quantity: (item['quantity'] as num).toDouble(),
               calories: (item['calories'] as num).toDouble(),
               proteinG: (item['protein_g'] as num).toDouble(),

@@ -39,7 +39,8 @@ class SplashScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Icon(Icons.fitness_center, color: AppColors.onPrimaryGradient, size: 40),
+                child: const Icon(Icons.fitness_center,
+                    color: AppColors.onPrimaryGradient, size: 40),
               ).animate(onPlay: (c) => c.repeat(reverse: true)).moveY(
                     begin: 0,
                     end: -6,

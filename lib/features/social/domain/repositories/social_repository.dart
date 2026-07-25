@@ -8,7 +8,8 @@ abstract interface class SocialRepository {
 
   Future<Result<void>> sendFriendRequest(String targetUserId);
 
-  Future<Result<void>> respondToFriendRequest(String friendshipId, {required bool accept});
+  Future<Result<void>> respondToFriendRequest(String friendshipId,
+      {required bool accept});
 
   Future<Result<void>> removeFriend(String friendshipId);
 
@@ -29,5 +30,6 @@ abstract interface class SocialRepository {
 
   Future<Result<PostComment>> addComment(String postId, String body);
 
-  Future<Result<List<LeaderboardEntry>>> getLeaderboard({bool friendsOnly = false});
+  Future<Result<List<LeaderboardEntry>>> getLeaderboard(
+      {bool friendsOnly = false});
 }

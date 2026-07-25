@@ -16,12 +16,17 @@ class FriendsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (friendships.isEmpty) {
-      return const EmptyState(icon: Icons.group_outlined, title: 'No friends yet — search above');
+      return const EmptyState(
+          icon: Icons.group_outlined, title: 'No friends yet — search above');
     }
 
-    final pending =
-        friendships.where((f) => f.status == FriendshipStatus.pending && f.isIncomingRequest).toList();
-    final accepted = friendships.where((f) => f.status == FriendshipStatus.accepted).toList();
+    final pending = friendships
+        .where(
+            (f) => f.status == FriendshipStatus.pending && f.isIncomingRequest)
+        .toList();
+    final accepted = friendships
+        .where((f) => f.status == FriendshipStatus.accepted)
+        .toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,19 +34,22 @@ class FriendsList extends StatelessWidget {
         if (pending.isNotEmpty) ...[
           Text('Requests', style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 8),
-          for (final f in pending) _FriendTile(friendship: f, showRequestActions: true),
+          for (final f in pending)
+            _FriendTile(friendship: f, showRequestActions: true),
           const SizedBox(height: 16),
         ],
         Text('Friends', style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(height: 8),
-        for (final f in accepted) _FriendTile(friendship: f, showRequestActions: false),
+        for (final f in accepted)
+          _FriendTile(friendship: f, showRequestActions: false),
       ],
     );
   }
 }
 
 class _FriendTile extends ConsumerWidget {
-  const _FriendTile({required this.friendship, required this.showRequestActions});
+  const _FriendTile(
+      {required this.friendship, required this.showRequestActions});
   final Friendship friendship;
   final bool showRequestActions;
 
@@ -53,8 +61,9 @@ class _FriendTile extends ConsumerWidget {
         children: [
           CircleAvatar(
             backgroundColor: AppColors.darkActivePill,
-            backgroundImage:
-                friendship.otherUser.avatarUrl != null ? NetworkImage(friendship.otherUser.avatarUrl!) : null,
+            backgroundImage: friendship.otherUser.avatarUrl != null
+                ? NetworkImage(friendship.otherUser.avatarUrl!)
+                : null,
             child: friendship.otherUser.avatarUrl == null
                 ? Text(friendship.otherUser.username[0].toUpperCase())
                 : null,
@@ -65,12 +74,17 @@ class _FriendTile extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  friendship.otherUser.displayName ?? friendship.otherUser.username,
-                  style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 13, fontWeight: FontWeight.w600),
+                  friendship.otherUser.displayName ??
+                      friendship.otherUser.username,
+                  style: const TextStyle(
+                      color: AppColors.darkTextPrimary,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600),
                 ),
                 Text(
                   '@${friendship.otherUser.username}',
-                  style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 11),
+                  style: const TextStyle(
+                      color: AppColors.darkTextTertiary, fontSize: 11),
                 ),
               ],
             ),

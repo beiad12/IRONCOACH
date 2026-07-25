@@ -16,11 +16,14 @@ Dio aiDio(Ref ref) => Dio();
 
 @Riverpod(keepAlive: true)
 AiRepository aiRepository(Ref ref) {
-  return AiRepositoryImpl(AiRemoteDataSource(ref.watch(supabaseClientProvider), ref.watch(aiDioProvider)));
+  return AiRepositoryImpl(AiRemoteDataSource(
+      ref.watch(supabaseClientProvider), ref.watch(aiDioProvider)));
 }
 
 @riverpod
-Future<List<ChatMessage>> conversationHistory(Ref ref, AgentType agentType) async {
-  final result = await ref.watch(aiRepositoryProvider).getConversationHistory(agentType);
+Future<List<ChatMessage>> conversationHistory(
+    Ref ref, AgentType agentType) async {
+  final result =
+      await ref.watch(aiRepositoryProvider).getConversationHistory(agentType);
   return result.match((failure) => throw failure, (messages) => messages);
 }

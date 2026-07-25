@@ -19,7 +19,9 @@ class BarcodeScannerScreen extends HookConsumerWidget {
           final barcode = capture.barcodes.firstOrNull?.rawValue;
           if (barcode == null) return;
 
-          final result = await ref.read(nutritionRepositoryProvider).lookupBarcode(barcode);
+          final result = await ref
+              .read(nutritionRepositoryProvider)
+              .lookupBarcode(barcode);
           if (!context.mounted) return;
 
           result.match(
@@ -27,8 +29,8 @@ class BarcodeScannerScreen extends HookConsumerWidget {
                 .showSnackBar(SnackBar(content: Text(failure.displayMessage))),
             (item) {
               if (item == null) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(content: Text('Product not found')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Product not found')));
                 return;
               }
               showModalBottomSheet<void>(
@@ -39,15 +41,19 @@ class BarcodeScannerScreen extends HookConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(item.name, style: Theme.of(sheetContext).textTheme.titleLarge),
+                      Text(item.name,
+                          style: Theme.of(sheetContext).textTheme.titleLarge),
                       if (item.brand != null) Text(item.brand!),
                       const SizedBox(height: 8),
                       Text('${item.caloriesPerServing.round()} kcal / serving'),
-                      Text('P ${item.proteinG.round()}g · C ${item.carbsG.round()}g · F ${item.fatG.round()}g'),
+                      Text(
+                          'P ${item.proteinG.round()}g · C ${item.carbsG.round()}g · F ${item.fatG.round()}g'),
                       const SizedBox(height: 16),
                       FilledButton(
                         onPressed: () async {
-                          final logResult = await ref.read(nutritionRepositoryProvider).logMeal(
+                          final logResult = await ref
+                              .read(nutritionRepositoryProvider)
+                              .logMeal(
                             mealType: MealType.snack,
                             items: [
                               MealEntryItem(
@@ -64,10 +70,12 @@ class BarcodeScannerScreen extends HookConsumerWidget {
                           if (!sheetContext.mounted) return;
                           logResult.match(
                             (failure) => ScaffoldMessenger.of(sheetContext)
-                                .showSnackBar(SnackBar(content: Text(failure.displayMessage))),
+                                .showSnackBar(SnackBar(
+                                    content: Text(failure.displayMessage))),
                             (_) {
                               ref.invalidate(mealsForDateProvider);
-                              ref.invalidate(dailyNutritionSummaryControllerProvider);
+                              ref.invalidate(
+                                  dailyNutritionSummaryControllerProvider);
                               Navigator.pop(sheetContext);
                               context.pop();
                             },

@@ -24,7 +24,9 @@ class WorkoutSummaryScreen extends ConsumerWidget {
         child: AsyncValueWidget(
           value: sessionAsync,
           data: (session) {
-            final completedSets = session.sets.where((s) => s.isCompleted && !s.isWarmup).toList();
+            final completedSets = session.sets
+                .where((s) => s.isCompleted && !s.isWarmup)
+                .toList();
             final duration = session.elapsed;
 
             return ListView(
@@ -38,7 +40,8 @@ class WorkoutSummaryScreen extends ConsumerWidget {
                       color: AppColors.emerald.withOpacity(0.15),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.check, size: 32, color: AppColors.emerald),
+                    child: const Icon(Icons.check,
+                        size: 32, color: AppColors.emerald),
                   ).animate().scale(
                         begin: const Offset(0.6, 0.6),
                         end: const Offset(1, 1),
@@ -48,18 +51,26 @@ class WorkoutSummaryScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 Center(
-                  child: Text('Workout Complete', style: Theme.of(context).textTheme.headlineSmall),
+                  child: Text('Workout Complete',
+                      style: Theme.of(context).textTheme.headlineSmall),
                 ),
                 const SizedBox(height: 4),
                 Center(
-                  child: Text(session.name, style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 13)),
+                  child: Text(session.name,
+                      style: const TextStyle(
+                          color: AppColors.darkTextSecondary, fontSize: 13)),
                 ),
                 const SizedBox(height: 24),
                 Row(
                   children: [
-                    Expanded(child: _StatTile(label: 'Duration', value: '${duration.inMinutes} min')),
+                    Expanded(
+                        child: _StatTile(
+                            label: 'Duration',
+                            value: '${duration.inMinutes} min')),
                     const SizedBox(width: 10),
-                    Expanded(child: _StatTile(label: 'Sets', value: '${completedSets.length}')),
+                    Expanded(
+                        child: _StatTile(
+                            label: 'Sets', value: '${completedSets.length}')),
                     const SizedBox(width: 10),
                     Expanded(
                       child: _StatTile(
@@ -75,22 +86,26 @@ class WorkoutSummaryScreen extends ConsumerWidget {
                   icon: const Icon(Icons.share_outlined),
                   label: const Text('Share with friends'),
                   onPressed: () async {
-                    final result = await ref.read(socialRepositoryProvider).createPost(
-                          postType: PostType.workout,
-                          caption: '${session.name} · ${session.totalVolumeKg.round()} kg volume',
-                          workoutSessionId: session.id,
-                        );
+                    final result =
+                        await ref.read(socialRepositoryProvider).createPost(
+                              postType: PostType.workout,
+                              caption:
+                                  '${session.name} · ${session.totalVolumeKg.round()} kg volume',
+                              workoutSessionId: session.id,
+                            );
                     if (!context.mounted) return;
                     result.match(
-                      (failure) => ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text(failure.displayMessage))),
-                      (_) => ScaffoldMessenger.of(context)
-                          .showSnackBar(const SnackBar(content: Text('Shared to your feed'))),
+                      (failure) => ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(failure.displayMessage))),
+                      (_) => ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Shared to your feed'))),
                     );
                   },
                 ),
                 const SizedBox(height: 12),
-                GradientButton(label: 'Done', onPressed: () => context.go(RoutePaths.workouts)),
+                GradientButton(
+                    label: 'Done',
+                    onPressed: () => context.go(RoutePaths.workouts)),
               ],
             );
           },
@@ -118,12 +133,18 @@ class _StatTile extends StatelessWidget {
         children: [
           Text(
             value,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: valueColor ?? AppColors.darkTextPrimary),
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(color: valueColor ?? AppColors.darkTextPrimary),
           ),
           const SizedBox(height: 4),
           Text(
             label.toUpperCase(),
-            style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 10, letterSpacing: 0.5),
+            style: const TextStyle(
+                color: AppColors.darkTextTertiary,
+                fontSize: 10,
+                letterSpacing: 0.5),
           ),
         ],
       ),

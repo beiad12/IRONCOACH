@@ -9,7 +9,11 @@ import '../../../../core/widgets/gradient_button.dart';
 import '../providers/onboarding_providers.dart';
 
 class _Slide {
-  const _Slide({required this.icon, required this.iconColor, required this.title, required this.body});
+  const _Slide(
+      {required this.icon,
+      required this.iconColor,
+      required this.title,
+      required this.body});
   final IconData icon;
   final Color iconColor;
   final String title;
@@ -21,21 +25,24 @@ const _slides = [
     icon: Icons.auto_awesome,
     iconColor: AppColors.electricBlue,
     title: 'Coaching that adapts to you',
-    body: 'IronCoach reads your recovery, effort and history to rebuild your plan every single '
+    body:
+        'IronCoach reads your recovery, effort and history to rebuild your plan every single '
         'day — no generic templates.',
   ),
   _Slide(
     icon: Icons.fitness_center,
     iconColor: AppColors.emerald,
     title: 'Train anywhere, anytime',
-    body: 'From full gyms to bodyweight-only sessions — every workout is built around the '
+    body:
+        'From full gyms to bodyweight-only sessions — every workout is built around the '
         'equipment you actually have.',
   ),
   _Slide(
     icon: Icons.bar_chart_rounded,
     iconColor: AppColors.electricBlue,
     title: 'See real progress',
-    body: 'Track weight, measurements and performance trends with analytics that actually '
+    body:
+        'Track weight, measurements and performance trends with analytics that actually '
         'explain what changed.',
   ),
 ];
@@ -59,7 +66,8 @@ class OnboardingScreen extends HookConsumerWidget {
 
     void next() {
       if (index.value < _slides.length - 1) {
-        pageController.nextPage(duration: const Duration(milliseconds: 320), curve: Curves.easeOut);
+        pageController.nextPage(
+            duration: const Duration(milliseconds: 320), curve: Curves.easeOut);
       } else {
         finish();
       }
@@ -75,7 +83,8 @@ class OnboardingScreen extends HookConsumerWidget {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: finish,
-                  child: const Text('Skip', style: TextStyle(color: AppColors.darkTextSecondary)),
+                  child: const Text('Skip',
+                      style: TextStyle(color: AppColors.darkTextSecondary)),
                 ),
               ),
               Expanded(
@@ -102,7 +111,9 @@ class OnboardingScreen extends HookConsumerWidget {
                         width: i == index.value ? 20 : 6,
                         height: 6,
                         decoration: BoxDecoration(
-                          color: i == index.value ? AppColors.electricBlue : AppColors.darkText(0.2),
+                          color: i == index.value
+                              ? AppColors.electricBlue
+                              : AppColors.darkText(0.2),
                           borderRadius: BorderRadius.circular(3),
                         ),
                       ),
@@ -140,7 +151,9 @@ class _SlideView extends StatelessWidget {
             borderRadius: BorderRadius.circular(40),
             border: Border.all(color: AppColors.darkBorder),
             boxShadow: [
-              BoxShadow(color: AppColors.electricBlue.withOpacity(0.14), blurRadius: 70),
+              BoxShadow(
+                  color: AppColors.electricBlue.withOpacity(0.14),
+                  blurRadius: 70),
             ],
           ),
           child: Icon(slide.icon, size: 70, color: slide.iconColor),
@@ -159,7 +172,10 @@ class _SlideView extends StatelessWidget {
               Text(
                 slide.body,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 14, height: 1.5),
+                style: const TextStyle(
+                    color: AppColors.darkTextSecondary,
+                    fontSize: 14,
+                    height: 1.5),
               ),
             ],
           ),

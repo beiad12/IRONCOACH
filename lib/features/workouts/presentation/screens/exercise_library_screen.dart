@@ -33,7 +33,8 @@ class ExerciseLibraryScreen extends HookConsumerWidget {
         title: const Text('Exercise library'),
         actions: [
           IconButton(
-            icon: Icon(favoritesOnly.value ? Icons.favorite : Icons.favorite_border),
+            icon: Icon(
+                favoritesOnly.value ? Icons.favorite : Icons.favorite_border),
             onPressed: () => favoritesOnly.value = !favoritesOnly.value,
           ),
         ],
@@ -57,7 +58,10 @@ class ExerciseLibraryScreen extends HookConsumerWidget {
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
-                _CategoryChip(label: 'All', selected: category.value == null, onTap: () => category.value = null),
+                _CategoryChip(
+                    label: 'All',
+                    selected: category.value == null,
+                    onTap: () => category.value = null),
                 for (final c in ExerciseCategory.values)
                   _CategoryChip(
                     label: c.name[0].toUpperCase() + c.name.substring(1),
@@ -74,7 +78,8 @@ class ExerciseLibraryScreen extends HookConsumerWidget {
               onRetry: () => ref.invalidate(exerciseListProvider),
               data: (exercises) {
                 if (exercises.isEmpty) {
-                  return const EmptyState(icon: Icons.search_off, title: 'No exercises found');
+                  return const EmptyState(
+                      icon: Icons.search_off, title: 'No exercises found');
                 }
                 return ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -88,7 +93,8 @@ class ExerciseLibraryScreen extends HookConsumerWidget {
                       ),
                       onFavoriteToggle: () => ref
                           .read(exerciseRepositoryProvider)
-                          .toggleFavorite(exercise.id, isFavorite: !exercise.isFavorite)
+                          .toggleFavorite(exercise.id,
+                              isFavorite: !exercise.isFavorite)
                           .then((_) => ref.invalidate(exerciseListProvider)),
                     );
                   },
@@ -103,7 +109,8 @@ class ExerciseLibraryScreen extends HookConsumerWidget {
 }
 
 class _CategoryChip extends StatelessWidget {
-  const _CategoryChip({required this.label, required this.selected, required this.onTap});
+  const _CategoryChip(
+      {required this.label, required this.selected, required this.onTap});
   final String label;
   final bool selected;
   final VoidCallback onTap;
@@ -112,7 +119,8 @@ class _CategoryChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
-      child: ChoiceChip(label: Text(label), selected: selected, onSelected: (_) => onTap()),
+      child: ChoiceChip(
+          label: Text(label), selected: selected, onSelected: (_) => onTap()),
     );
   }
 }

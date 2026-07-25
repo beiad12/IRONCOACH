@@ -8,7 +8,11 @@ class NutritionRemoteDataSource {
   final SupabaseClient _client;
 
   Future<Map<String, dynamic>?> findFoodByBarcode(String barcode) async {
-    return _client.from(AppConstants.tableFoodItems).select().eq('barcode', barcode).maybeSingle();
+    return _client
+        .from(AppConstants.tableFoodItems)
+        .select()
+        .eq('barcode', barcode)
+        .maybeSingle();
   }
 
   Future<List<Map<String, dynamic>>> searchFood(String query) async {
@@ -21,11 +25,19 @@ class NutritionRemoteDataSource {
   }
 
   Future<Map<String, dynamic>> upsertFoodItem(Map<String, dynamic> data) async {
-    return _client.from(AppConstants.tableFoodItems).upsert(data, onConflict: 'barcode').select().single();
+    return _client
+        .from(AppConstants.tableFoodItems)
+        .upsert(data, onConflict: 'barcode')
+        .select()
+        .single();
   }
 
   Future<Map<String, dynamic>> insertFoodItem(Map<String, dynamic> data) async {
-    return _client.from(AppConstants.tableFoodItems).insert(data).select().single();
+    return _client
+        .from(AppConstants.tableFoodItems)
+        .insert(data)
+        .select()
+        .single();
   }
 
   Future<Map<String, dynamic>> insertMealEntry({
@@ -57,7 +69,8 @@ class NutritionRemoteDataSource {
     await _client.from(AppConstants.tableMealEntries).delete().eq('id', id);
   }
 
-  Future<List<Map<String, dynamic>>> fetchMealsForDate({required String userId, required DateTime date}) async {
+  Future<List<Map<String, dynamic>>> fetchMealsForDate(
+      {required String userId, required DateTime date}) async {
     final start = DateTime(date.year, date.month, date.day);
     final end = start.add(const Duration(days: 1));
     final rows = await _client
@@ -70,11 +83,15 @@ class NutritionRemoteDataSource {
     return List<Map<String, dynamic>>.from(rows as List);
   }
 
-  Future<void> insertWaterLog({required String userId, required int amountMl}) async {
-    await _client.from(AppConstants.tableWaterLogs).insert({'user_id': userId, 'amount_ml': amountMl});
+  Future<void> insertWaterLog(
+      {required String userId, required int amountMl}) async {
+    await _client
+        .from(AppConstants.tableWaterLogs)
+        .insert({'user_id': userId, 'amount_ml': amountMl});
   }
 
-  Future<int> fetchWaterForDate({required String userId, required DateTime date}) async {
+  Future<int> fetchWaterForDate(
+      {required String userId, required DateTime date}) async {
     final start = DateTime(date.year, date.month, date.day);
     final end = start.add(const Duration(days: 1));
     final rows = await _client
@@ -88,10 +105,18 @@ class NutritionRemoteDataSource {
   }
 
   Future<Map<String, dynamic>?> fetchGoals(String userId) async {
-    return _client.from(AppConstants.tableNutritionGoals).select().eq('user_id', userId).maybeSingle();
+    return _client
+        .from(AppConstants.tableNutritionGoals)
+        .select()
+        .eq('user_id', userId)
+        .maybeSingle();
   }
 
   Future<Map<String, dynamic>> upsertGoals(Map<String, dynamic> data) async {
-    return _client.from(AppConstants.tableNutritionGoals).upsert(data).select().single();
+    return _client
+        .from(AppConstants.tableNutritionGoals)
+        .upsert(data)
+        .select()
+        .single();
   }
 }

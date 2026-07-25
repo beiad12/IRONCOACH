@@ -33,13 +33,16 @@ sealed class Failure with _$Failure {
 
   /// Human-readable message safe to show directly in the UI.
   String get displayMessage => when(
-        network: (m) => m ?? 'No internet connection. Please check your network.',
+        network: (m) =>
+            m ?? 'No internet connection. Please check your network.',
         server: (m, _) => m,
-        unauthorized: (m) => m ?? 'Your session has expired. Please sign in again.',
+        unauthorized: (m) =>
+            m ?? 'Your session has expired. Please sign in again.',
         validation: (m) => m,
         notFound: (m) => m ?? 'We couldn\'t find what you were looking for.',
         cache: (m) => m ?? 'Something went wrong reading local data.',
-        conflict: (m) => m ?? 'This was already updated elsewhere. Please refresh.',
+        conflict: (m) =>
+            m ?? 'This was already updated elsewhere. Please refresh.',
         rateLimited: (m) => m ?? 'Too many requests. Please try again shortly.',
         unexpected: (m) => m ?? 'Something unexpected happened.',
       );

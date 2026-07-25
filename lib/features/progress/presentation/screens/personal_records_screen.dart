@@ -22,7 +22,9 @@ class PersonalRecordsScreen extends ConsumerWidget {
         onRetry: () => ref.invalidate(personalRecordsProvider),
         data: (records) {
           if (records.isEmpty) {
-            return const EmptyState(icon: Icons.emoji_events_outlined, title: 'No records yet — go lift!');
+            return const EmptyState(
+                icon: Icons.emoji_events_outlined,
+                title: 'No records yet — go lift!');
           }
           return ListView.builder(
             padding: const EdgeInsets.all(16),
@@ -33,7 +35,8 @@ class PersonalRecordsScreen extends ConsumerWidget {
                 child: ListTile(
                   leading: const Icon(Icons.emoji_events, color: Colors.amber),
                   title: Text(record.exerciseName),
-                  subtitle: Text('${record.recordType.label} · ${dateFormat.format(record.achievedAt)}'),
+                  subtitle: Text(
+                      '${record.recordType.label} · ${dateFormat.format(record.achievedAt)}'),
                   trailing: Text(
                     record.recordType == RecordType.maxReps
                         ? '${record.value.round()} reps'

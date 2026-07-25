@@ -27,16 +27,20 @@ AppUser? currentUser(Ref ref) {
 }
 
 @riverpod
-SignInWithEmail signInWithEmail(Ref ref) => SignInWithEmail(ref.watch(authRepositoryProvider));
+SignInWithEmail signInWithEmail(Ref ref) =>
+    SignInWithEmail(ref.watch(authRepositoryProvider));
 
 @riverpod
-SignUpWithEmail signUpWithEmail(Ref ref) => SignUpWithEmail(ref.watch(authRepositoryProvider));
+SignUpWithEmail signUpWithEmail(Ref ref) =>
+    SignUpWithEmail(ref.watch(authRepositoryProvider));
 
 @riverpod
-SignInWithGoogle signInWithGoogle(Ref ref) => SignInWithGoogle(ref.watch(authRepositoryProvider));
+SignInWithGoogle signInWithGoogle(Ref ref) =>
+    SignInWithGoogle(ref.watch(authRepositoryProvider));
 
 @riverpod
-SignInWithApple signInWithApple(Ref ref) => SignInWithApple(ref.watch(authRepositoryProvider));
+SignInWithApple signInWithApple(Ref ref) =>
+    SignInWithApple(ref.watch(authRepositoryProvider));
 
 @riverpod
 SendPasswordResetEmail sendPasswordResetEmail(Ref ref) =>

@@ -20,6 +20,6 @@ class Achievement with _$Achievement {
 }
 
 extension AchievementTierX on AchievementTier {
-  static AchievementTier fromKey(String key) =>
-      AchievementTier.values.firstWhere((e) => e.name == key, orElse: () => AchievementTier.bronze);
+  static AchievementTier fromKey(String key) => AchievementTier.values
+      .firstWhere((e) => e.name == key, orElse: () => AchievementTier.bronze);
 }

@@ -25,7 +25,8 @@ class NutritionScreen extends HookConsumerWidget {
     final tab = useState(_NutritionTab.tracker);
     final today = DateTime.now();
     final normalizedDate = DateTime(today.year, today.month, today.day);
-    final summaryAsync = ref.watch(dailyNutritionSummaryControllerProvider(normalizedDate));
+    final summaryAsync =
+        ref.watch(dailyNutritionSummaryControllerProvider(normalizedDate));
     final mealsAsync = ref.watch(mealsForDateProvider(normalizedDate));
 
     return Scaffold(
@@ -42,14 +43,18 @@ class NutritionScreen extends HookConsumerWidget {
               selected: tab.value,
               onChanged: (v) => tab.value = v,
               options: const [
-                SegmentedTabOption(value: _NutritionTab.tracker, label: 'Tracker'),
-                SegmentedTabOption(value: _NutritionTab.calories, label: 'Calories'),
-                SegmentedTabOption(value: _NutritionTab.scanner, label: 'Scanner'),
+                SegmentedTabOption(
+                    value: _NutritionTab.tracker, label: 'Tracker'),
+                SegmentedTabOption(
+                    value: _NutritionTab.calories, label: 'Calories'),
+                SegmentedTabOption(
+                    value: _NutritionTab.scanner, label: 'Scanner'),
               ],
             ),
             const SizedBox(height: 20),
             switch (tab.value) {
-              _NutritionTab.tracker => _TrackerTab(mealsAsync: mealsAsync, summaryAsync: summaryAsync),
+              _NutritionTab.tracker =>
+                _TrackerTab(mealsAsync: mealsAsync, summaryAsync: summaryAsync),
               _NutritionTab.calories => AsyncValueWidget(
                   value: summaryAsync,
                   data: (summary) => _CaloriesTab(summary: summary),
@@ -81,15 +86,18 @@ class _TrackerTab extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     '${summary.waterMl} / ${summary.goals.waterMl} ml',
-                    style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 13),
+                    style: const TextStyle(
+                        color: AppColors.darkTextPrimary, fontSize: 13),
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.add_circle_outline, color: AppColors.water),
+                  icon: const Icon(Icons.add_circle_outline,
+                      color: AppColors.water),
                   onPressed: () async {
                     final today = DateTime.now();
                     await ref.read(nutritionRepositoryProvider).logWater(250);
-                    ref.invalidate(waterForDateProvider(DateTime(today.year, today.month, today.day)));
+                    ref.invalidate(waterForDateProvider(
+                        DateTime(today.year, today.month, today.day)));
                   },
                 ),
               ],
@@ -102,7 +110,8 @@ class _TrackerTab extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Today's meals", style: Theme.of(context).textTheme.titleMedium),
+            Text("Today's meals",
+                style: Theme.of(context).textTheme.titleMedium),
             TextButton.icon(
               onPressed: () => context.push(RoutePaths.logMeal),
               icon: const Icon(Icons.add),
@@ -115,9 +124,12 @@ class _TrackerTab extends ConsumerWidget {
           value: mealsAsync,
           data: (meals) {
             if (meals.isEmpty) {
-              return const EmptyState(icon: Icons.restaurant_outlined, title: 'No meals logged yet');
+              return const EmptyState(
+                  icon: Icons.restaurant_outlined,
+                  title: 'No meals logged yet');
             }
-            return Column(children: meals.map((m) => _MealTile(meal: m)).toList());
+            return Column(
+                children: meals.map((m) => _MealTile(meal: m)).toList());
           },
         ),
       ],
@@ -133,7 +145,9 @@ class _CaloriesTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(child: CalorieRing(consumed: summary.calories, goal: summary.goals.calories)),
+        Center(
+            child: CalorieRing(
+                consumed: summary.calories, goal: summary.goals.calories)),
         const SizedBox(height: 24),
         Row(
           children: [
@@ -146,11 +160,17 @@ class _CaloriesTab extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: _MacroStat(label: 'Carbs', value: '${summary.carbsG.round()}g', color: AppColors.carbs),
+              child: _MacroStat(
+                  label: 'Carbs',
+                  value: '${summary.carbsG.round()}g',
+                  color: AppColors.carbs),
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: _MacroStat(label: 'Fat', value: '${summary.fatG.round()}g', color: AppColors.fat),
+              child: _MacroStat(
+                  label: 'Fat',
+                  value: '${summary.fatG.round()}g',
+                  color: AppColors.fat),
             ),
           ],
         ),
@@ -160,7 +180,8 @@ class _CaloriesTab extends StatelessWidget {
 }
 
 class _MacroStat extends StatelessWidget {
-  const _MacroStat({required this.label, required this.value, required this.color});
+  const _MacroStat(
+      {required this.label, required this.value, required this.color});
   final String label;
   final String value;
   final Color color;
@@ -169,14 +190,21 @@ class _MacroStat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14),
-      decoration: BoxDecoration(color: AppColors.darkSurface, borderRadius: BorderRadius.circular(14)),
+      decoration: BoxDecoration(
+          color: AppColors.darkSurface,
+          borderRadius: BorderRadius.circular(14)),
       child: Column(
         children: [
-          Text(value, style: TextStyle(color: color, fontWeight: FontWeight.w700, fontSize: 16)),
+          Text(value,
+              style: TextStyle(
+                  color: color, fontWeight: FontWeight.w700, fontSize: 16)),
           const SizedBox(height: 2),
           Text(
             label.toUpperCase(),
-            style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 10, letterSpacing: 0.4),
+            style: const TextStyle(
+                color: AppColors.darkTextTertiary,
+                fontSize: 10,
+                letterSpacing: 0.4),
           ),
         ],
       ),
@@ -202,15 +230,20 @@ class _ScannerTab extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.photo_camera_outlined, size: 36, color: AppColors.darkTextTertiary),
+                Icon(Icons.photo_camera_outlined,
+                    size: 36, color: AppColors.darkTextTertiary),
                 SizedBox(height: 12),
-                Text('point camera at meal', style: TextStyle(color: AppColors.darkTextTertiary, fontSize: 12)),
+                Text('point camera at meal',
+                    style: TextStyle(
+                        color: AppColors.darkTextTertiary, fontSize: 12)),
               ],
             ),
           ),
         ),
         const SizedBox(height: 16),
-        GradientButton(label: 'Scan Meal', onPressed: () => context.push(RoutePaths.barcodeScanner)),
+        GradientButton(
+            label: 'Scan Meal',
+            onPressed: () => context.push(RoutePaths.barcodeScanner)),
       ],
     );
   }
@@ -228,24 +261,30 @@ class _MealTile extends StatelessWidget {
         children: [
           CircleAvatar(
             backgroundColor: AppColors.electricBlue.withOpacity(0.15),
-            child: Text(meal.mealType.label[0], style: const TextStyle(color: AppColors.electricBlue)),
+            child: Text(meal.mealType.label[0],
+                style: const TextStyle(color: AppColors.electricBlue)),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(meal.mealType.label, style: const TextStyle(color: AppColors.darkTextPrimary, fontWeight: FontWeight.w600)),
+                Text(meal.mealType.label,
+                    style: const TextStyle(
+                        color: AppColors.darkTextPrimary,
+                        fontWeight: FontWeight.w600)),
                 Text(
                   '${meal.items.length} items',
-                  style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 12),
+                  style: const TextStyle(
+                      color: AppColors.darkTextTertiary, fontSize: 12),
                 ),
               ],
             ),
           ),
           Text(
             '${meal.totalCalories.round()} kcal',
-            style: const TextStyle(color: AppColors.emerald, fontWeight: FontWeight.w700),
+            style: const TextStyle(
+                color: AppColors.emerald, fontWeight: FontWeight.w700),
           ),
         ],
       ),

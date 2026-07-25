@@ -20,7 +20,9 @@ class ForgotPasswordScreen extends HookConsumerWidget {
     Future<void> submit() async {
       if (!formKey.currentState!.validate()) return;
       isLoading.value = true;
-      final result = await ref.read(sendPasswordResetEmailProvider).call(emailController.text.trim());
+      final result = await ref
+          .read(sendPasswordResetEmailProvider)
+          .call(emailController.text.trim());
       isLoading.value = false;
       if (!context.mounted) return;
       result.match(
@@ -53,7 +55,8 @@ class ForgotPasswordScreen extends HookConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text('Reset your password', style: Theme.of(context).textTheme.headlineMedium),
+                      Text('Reset your password',
+                          style: Theme.of(context).textTheme.headlineMedium),
                       const SizedBox(height: 8),
                       Text(
                         "We'll email you a link to reset it.",
@@ -67,10 +70,15 @@ class ForgotPasswordScreen extends HookConsumerWidget {
                         prefixIcon: Icons.email_outlined,
                         onFieldSubmitted: (_) => submit(),
                         validator: (value) =>
-                            (value == null || !value.contains('@')) ? 'Enter a valid email' : null,
+                            (value == null || !value.contains('@'))
+                                ? 'Enter a valid email'
+                                : null,
                       ),
                       const SizedBox(height: 24),
-                      GradientButton(label: 'Send reset link', isLoading: isLoading.value, onPressed: submit),
+                      GradientButton(
+                          label: 'Send reset link',
+                          isLoading: isLoading.value,
+                          onPressed: submit),
                     ],
                   ),
                 ),

@@ -16,14 +16,16 @@ class LeaderboardList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (entries.isEmpty) {
-      return const EmptyState(icon: Icons.leaderboard_outlined, title: 'No leaderboard data yet');
+      return const EmptyState(
+          icon: Icons.leaderboard_outlined, title: 'No leaderboard data yet');
     }
     final myId = ref.watch(currentUserProvider)?.id;
 
     return Column(
       children: [
         for (var i = 0; i < entries.length; i++) ...[
-          _LeaderboardRow(rank: i + 1, entry: entries[i], isMe: entries[i].userId == myId),
+          _LeaderboardRow(
+              rank: i + 1, entry: entries[i], isMe: entries[i].userId == myId),
           const SizedBox(height: 8),
         ],
       ],
@@ -32,7 +34,8 @@ class LeaderboardList extends ConsumerWidget {
 }
 
 class _LeaderboardRow extends StatelessWidget {
-  const _LeaderboardRow({required this.rank, required this.entry, required this.isMe});
+  const _LeaderboardRow(
+      {required this.rank, required this.entry, required this.isMe});
   final int rank;
   final LeaderboardEntry entry;
   final bool isMe;
@@ -48,7 +51,8 @@ class _LeaderboardRow extends StatelessWidget {
             child: Text(
               '$rank',
               style: TextStyle(
-                color: rank <= 3 ? AppColors.xpGold : AppColors.darkTextTertiary,
+                color:
+                    rank <= 3 ? AppColors.xpGold : AppColors.darkTextTertiary,
                 fontWeight: FontWeight.w700,
                 fontSize: 13,
               ),
@@ -58,9 +62,12 @@ class _LeaderboardRow extends StatelessWidget {
           CircleAvatar(
             radius: 17,
             backgroundColor: AppColors.darkActivePill,
-            backgroundImage: entry.avatarUrl != null ? NetworkImage(entry.avatarUrl!) : null,
+            backgroundImage:
+                entry.avatarUrl != null ? NetworkImage(entry.avatarUrl!) : null,
             child: entry.avatarUrl == null
-                ? Text(entry.username.isNotEmpty ? entry.username[0].toUpperCase() : '?')
+                ? Text(entry.username.isNotEmpty
+                    ? entry.username[0].toUpperCase()
+                    : '?')
                 : null,
           ),
           const SizedBox(width: 12),
@@ -70,11 +77,15 @@ class _LeaderboardRow extends StatelessWidget {
               children: [
                 Text(
                   entry.displayName ?? entry.username,
-                  style: const TextStyle(color: AppColors.darkTextPrimary, fontSize: 13, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                      color: AppColors.darkTextPrimary,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600),
                 ),
                 Text(
                   'Level ${entry.level} · ${entry.totalXp} XP',
-                  style: const TextStyle(color: AppColors.darkTextTertiary, fontSize: 11),
+                  style: const TextStyle(
+                      color: AppColors.darkTextTertiary, fontSize: 11),
                 ),
               ],
             ),
@@ -82,9 +93,12 @@ class _LeaderboardRow extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.local_fire_department, color: AppColors.streakFlame, size: 16),
+              const Icon(Icons.local_fire_department,
+                  color: AppColors.streakFlame, size: 16),
               const SizedBox(width: 4),
-              Text('${entry.currentStreak}', style: const TextStyle(color: AppColors.darkTextSecondary, fontSize: 12)),
+              Text('${entry.currentStreak}',
+                  style: const TextStyle(
+                      color: AppColors.darkTextSecondary, fontSize: 12)),
             ],
           ),
         ],

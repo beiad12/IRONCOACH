@@ -15,11 +15,16 @@ const _hasSeenOnboardingKey = 'has_seen_onboarding_carousel';
 class HasSeenOnboarding extends _$HasSeenOnboarding {
   @override
   bool build() {
-    return ref.watch(sharedPreferencesProvider).getBool(_hasSeenOnboardingKey) ?? false;
+    return ref
+            .watch(sharedPreferencesProvider)
+            .getBool(_hasSeenOnboardingKey) ??
+        false;
   }
 
   Future<void> markSeen() async {
-    await ref.read(sharedPreferencesProvider).setBool(_hasSeenOnboardingKey, true);
+    await ref
+        .read(sharedPreferencesProvider)
+        .setBool(_hasSeenOnboardingKey, true);
     state = true;
   }
 }

@@ -25,6 +25,6 @@ class Friendship with _$Friendship {
 }
 
 extension FriendshipStatusX on FriendshipStatus {
-  static FriendshipStatus fromKey(String key) =>
-      FriendshipStatus.values.firstWhere((e) => e.name == key, orElse: () => FriendshipStatus.pending);
+  static FriendshipStatus fromKey(String key) => FriendshipStatus.values
+      .firstWhere((e) => e.name == key, orElse: () => FriendshipStatus.pending);
 }

@@ -13,7 +13,8 @@ class OpenFoodFactsDataSource {
     final response = await _dio.get<Map<String, dynamic>>(
       '$_baseUrl/$barcode.json',
       queryParameters: {
-        'fields': 'product_name,brands,serving_quantity,nutriments,image_front_url',
+        'fields':
+            'product_name,brands,serving_quantity,nutriments,image_front_url',
       },
     );
 
@@ -30,16 +31,30 @@ class OpenFoodFactsDataSource {
       'name': product['product_name'] as String? ?? 'Unknown product',
       'brand': product['brands'] as String?,
       'serving_size_g': (product['serving_quantity'] as num?)?.toDouble(),
-      'calories_per_serving': (nutriments['energy-kcal_serving'] ?? nutriments['energy-kcal_100g'] as num?)
+      'calories_per_serving': (nutriments['energy-kcal_serving'] ??
+                  nutriments['energy-kcal_100g'] as num?)
               ?.toDouble() ??
           0,
-      'protein_g': (nutriments['proteins_serving'] ?? nutriments['proteins_100g'] as num?)?.toDouble() ?? 0,
-      'carbs_g':
-          (nutriments['carbohydrates_serving'] ?? nutriments['carbohydrates_100g'] as num?)?.toDouble() ?? 0,
-      'fat_g': (nutriments['fat_serving'] ?? nutriments['fat_100g'] as num?)?.toDouble() ?? 0,
-      'fiber_g': (nutriments['fiber_serving'] ?? nutriments['fiber_100g'] as num?)?.toDouble(),
-      'sugar_g': (nutriments['sugars_serving'] ?? nutriments['sugars_100g'] as num?)?.toDouble(),
-      'sodium_mg': (nutriments['sodium_serving'] ?? nutriments['sodium_100g'] as num?)?.toDouble(),
+      'protein_g': (nutriments['proteins_serving'] ??
+                  nutriments['proteins_100g'] as num?)
+              ?.toDouble() ??
+          0,
+      'carbs_g': (nutriments['carbohydrates_serving'] ??
+                  nutriments['carbohydrates_100g'] as num?)
+              ?.toDouble() ??
+          0,
+      'fat_g': (nutriments['fat_serving'] ?? nutriments['fat_100g'] as num?)
+              ?.toDouble() ??
+          0,
+      'fiber_g':
+          (nutriments['fiber_serving'] ?? nutriments['fiber_100g'] as num?)
+              ?.toDouble(),
+      'sugar_g':
+          (nutriments['sugars_serving'] ?? nutriments['sugars_100g'] as num?)
+              ?.toDouble(),
+      'sodium_mg':
+          (nutriments['sodium_serving'] ?? nutriments['sodium_100g'] as num?)
+              ?.toDouble(),
       'image_url': product['image_front_url'] as String?,
       'source': 'openfoodfacts',
     };

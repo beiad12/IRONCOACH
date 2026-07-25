@@ -50,24 +50,32 @@ class ChatController extends _$ChatController {
           .read(aiRepositoryProvider)
           .streamMessage(agentType: agentType, message: trimmed)) {
         buffer.write(delta);
-        _updateAssistantMessage(assistantId, buffer.toString(), isStreaming: true);
+        _updateAssistantMessage(assistantId, buffer.toString(),
+            isStreaming: true);
       }
-      _updateAssistantMessage(assistantId, buffer.toString(), isStreaming: false);
+      _updateAssistantMessage(assistantId, buffer.toString(),
+          isStreaming: false);
     } on Object {
       _updateAssistantMessage(
         assistantId,
-        buffer.isEmpty ? "Sorry, I couldn't respond just now. Please try again." : buffer.toString(),
+        buffer.isEmpty
+            ? "Sorry, I couldn't respond just now. Please try again."
+            : buffer.toString(),
         isStreaming: false,
       );
     }
   }
 
-  void _updateAssistantMessage(String id, String content, {required bool isStreaming}) {
+  void _updateAssistantMessage(String id, String content,
+      {required bool isStreaming}) {
     final current = state.valueOrNull;
     if (current == null) return;
     state = AsyncValue.data([
       for (final m in current)
-        if (m.id == id) m.copyWith(content: content, isStreaming: isStreaming) else m,
+        if (m.id == id)
+          m.copyWith(content: content, isStreaming: isStreaming)
+        else
+          m,
     ]);
   }
 }

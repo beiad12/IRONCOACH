@@ -23,7 +23,9 @@ class SocialRepositoryImpl implements SocialRepository {
           .select('id, username, display_name, avatar_url')
           .ilike('username', '%$query%')
           .limit(20);
-      return Right(List<Map<String, dynamic>>.from(rows as List).map(_mapProfile).toList());
+      return Right(List<Map<String, dynamic>>.from(rows as List)
+          .map(_mapProfile)
+          .toList());
     } on Object catch (e) {
       return Left(Failure.server(message: e.toString()));
     }
@@ -44,15 +46,19 @@ class SocialRepositoryImpl implements SocialRepository {
   }
 
   @override
-  Future<Result<void>> respondToFriendRequest(String friendshipId, {required bool accept}) async {
+  Future<Result<void>> respondToFriendRequest(String friendshipId,
+      {required bool accept}) async {
     try {
       if (accept) {
+        await _client.from(AppConstants.tableFriendships).update({
+          'status': 'accepted',
+          'responded_at': DateTime.now().toIso8601String()
+        }).eq('id', friendshipId);
+      } else {
         await _client
             .from(AppConstants.tableFriendships)
-            .update({'status': 'accepted', 'responded_at': DateTime.now().toIso8601String()})
+            .delete()
             .eq('id', friendshipId);
-      } else {
-        await _client.from(AppConstants.tableFriendships).delete().eq('id', friendshipId);
       }
       return const Right(null);
     } on Object catch (e) {
@@ -63,7 +69,10 @@ class SocialRepositoryImpl implements SocialRepository {
   @override
   Future<Result<void>> removeFriend(String friendshipId) async {
     try {
-      await _client.from(AppConstants.tableFriendships).delete().eq('id', friendshipId);
+      await _client
+          .from(AppConstants.tableFriendships)
+          .delete()
+          .eq('id', friendshipId);
       return const Right(null);
     } on Object catch (e) {
       return Left(Failure.server(message: e.toString()));
@@ -87,7 +96,8 @@ class SocialRepositoryImpl implements SocialRepository {
       return Right(
         List<Map<String, dynamic>>.from(rows as List).map((row) {
           final isRequester = row['requester_id'] == userId;
-          final otherRaw = (isRequester ? row['addressee'] : row['requester']) as Map<String, dynamic>;
+          final otherRaw = (isRequester ? row['addressee'] : row['requester'])
+              as Map<String, dynamic>;
           return Friendship(
             id: row['id'] as String,
             otherUser: _mapProfile(otherRaw),
@@ -120,7 +130,8 @@ class SocialRepositoryImpl implements SocialRepository {
             'media_url': mediaUrl,
             'workout_session_id': workoutSessionId,
           })
-          .select('*, profiles!posts_user_id_fkey(id, username, display_name, avatar_url)')
+          .select(
+              '*, profiles!posts_user_id_fkey(id, username, display_name, avatar_url)')
           .single();
       return Right(_mapPost(row, userId));
     } on Object catch (e) {
@@ -141,21 +152,30 @@ class SocialRepositoryImpl implements SocialRepository {
           )
           .order('created_at', ascending: false)
           .limit(50);
-      return Right(List<Map<String, dynamic>>.from(rows as List).map((r) => _mapPost(r, userId)).toList());
+      return Right(List<Map<String, dynamic>>.from(rows as List)
+          .map((r) => _mapPost(r, userId))
+          .toList());
     } on Object catch (e) {
       return Left(Failure.server(message: e.toString()));
     }
   }
 
   @override
-  Future<Result<void>> toggleLike(String postId, {required bool isLiked}) async {
+  Future<Result<void>> toggleLike(String postId,
+      {required bool isLiked}) async {
     final userId = _currentUserId();
     if (userId == null) return const Left(Failure.unauthorized());
     try {
       if (isLiked) {
-        await _client.from(AppConstants.tablePostLikes).upsert({'post_id': postId, 'user_id': userId});
+        await _client
+            .from(AppConstants.tablePostLikes)
+            .upsert({'post_id': postId, 'user_id': userId});
       } else {
-        await _client.from(AppConstants.tablePostLikes).delete().eq('post_id', postId).eq('user_id', userId);
+        await _client
+            .from(AppConstants.tablePostLikes)
+            .delete()
+            .eq('post_id', postId)
+            .eq('user_id', userId);
       }
       return const Right(null);
     } on Object catch (e) {
@@ -168,7 +188,8 @@ class SocialRepositoryImpl implements SocialRepository {
     try {
       final rows = await _client
           .from(AppConstants.tablePostComments)
-          .select('*, profiles!post_comments_user_id_fkey(id, username, display_name, avatar_url)')
+          .select(
+              '*, profiles!post_comments_user_id_fkey(id, username, display_name, avatar_url)')
           .eq('post_id', postId)
           .order('created_at');
       return Right(
@@ -196,7 +217,8 @@ class SocialRepositoryImpl implements SocialRepository {
       final row = await _client
           .from(AppConstants.tablePostComments)
           .insert({'post_id': postId, 'user_id': userId, 'body': body})
-          .select('*, profiles!post_comments_user_id_fkey(id, username, display_name, avatar_url)')
+          .select(
+              '*, profiles!post_comments_user_id_fkey(id, username, display_name, avatar_url)')
           .single();
       return Right(
         PostComment(
@@ -212,10 +234,14 @@ class SocialRepositoryImpl implements SocialRepository {
   }
 
   @override
-  Future<Result<List<LeaderboardEntry>>> getLeaderboard({bool friendsOnly = false}) async {
+  Future<Result<List<LeaderboardEntry>>> getLeaderboard(
+      {bool friendsOnly = false}) async {
     try {
-      final rows =
-          await _client.from('leaderboard_view').select().order('total_xp', ascending: false).limit(50);
+      final rows = await _client
+          .from('leaderboard_view')
+          .select()
+          .order('total_xp', ascending: false)
+          .limit(50);
       return Right(
         List<Map<String, dynamic>>.from(rows as List)
             .map(
@@ -246,8 +272,10 @@ class SocialRepositoryImpl implements SocialRepository {
   }
 
   Post _mapPost(Map<String, dynamic> row, String currentUserId) {
-    final likes = List<Map<String, dynamic>>.from(row['post_likes'] as List? ?? []);
-    final comments = List<Map<String, dynamic>>.from(row['post_comments'] as List? ?? []);
+    final likes =
+        List<Map<String, dynamic>>.from(row['post_likes'] as List? ?? []);
+    final comments =
+        List<Map<String, dynamic>>.from(row['post_comments'] as List? ?? []);
     return Post(
       id: row['id'] as String,
       author: _mapProfile(row['profiles'] as Map<String, dynamic>),

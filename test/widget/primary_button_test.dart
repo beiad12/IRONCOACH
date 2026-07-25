@@ -26,7 +26,8 @@ void main() {
     expect(tapCount, 0);
   });
 
-  testWidgets('shows its label and responds to taps when not loading', (tester) async {
+  testWidgets('shows its label and responds to taps when not loading',
+      (tester) async {
     var tapCount = 0;
 
     await tester.pumpWidget(

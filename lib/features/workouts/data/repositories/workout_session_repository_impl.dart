@@ -32,7 +32,8 @@ class WorkoutSessionRepositoryImpl implements WorkoutSessionRepository {
   final Uuid _uuid;
 
   @override
-  Future<Result<WorkoutSession>> startSession({String? templateId, required String name}) async {
+  Future<Result<WorkoutSession>> startSession(
+      {String? templateId, required String name}) async {
     final userId = _currentUserId();
     if (userId == null) return const Left(Failure.unauthorized());
 
@@ -61,7 +62,12 @@ class WorkoutSessionRepositoryImpl implements WorkoutSessionRepository {
       },
     );
 
-    return Right(WorkoutSession(id: id, userId: userId, templateId: templateId, name: name, startedAt: startedAt));
+    return Right(WorkoutSession(
+        id: id,
+        userId: userId,
+        templateId: templateId,
+        name: name,
+        startedAt: startedAt));
   }
 
   @override
@@ -98,7 +104,8 @@ class WorkoutSessionRepositoryImpl implements WorkoutSessionRepository {
         'rest_seconds': resolved.restSeconds,
         'is_warmup': resolved.isWarmup,
         'is_completed': resolved.isCompleted,
-        if (resolved.isCompleted) 'completed_at': DateTime.now().toIso8601String(),
+        if (resolved.isCompleted)
+          'completed_at': DateTime.now().toIso8601String(),
       },
     );
 
@@ -108,7 +115,8 @@ class WorkoutSessionRepositoryImpl implements WorkoutSessionRepository {
   @override
   Future<Result<void>> deleteSet(String setId) async {
     await _local.deleteSet(setId);
-    await _enqueue(table: 'workout_sets', id: setId, op: 'delete', payload: {'id': setId});
+    await _enqueue(
+        table: 'workout_sets', id: setId, op: 'delete', payload: {'id': setId});
     return const Right(null);
   }
 
@@ -152,7 +160,8 @@ class WorkoutSessionRepositoryImpl implements WorkoutSessionRepository {
     if (userId == null) return const Left(Failure.unauthorized());
 
     try {
-      final remoteSessions = await _remote.fetchRecentSessions(userId: userId, limit: limit);
+      final remoteSessions =
+          await _remote.fetchRecentSessions(userId: userId, limit: limit);
       for (final row in remoteSessions) {
         await _local.cacheRemoteSession(row);
       }
@@ -172,7 +181,11 @@ class WorkoutSessionRepositoryImpl implements WorkoutSessionRepository {
   @override
   Future<Result<void>> deleteSession(String sessionId) async {
     await _local.deleteSession(sessionId);
-    await _enqueue(table: 'workout_sessions', id: sessionId, op: 'delete', payload: {'id': sessionId});
+    await _enqueue(
+        table: 'workout_sessions',
+        id: sessionId,
+        op: 'delete',
+        payload: {'id': sessionId});
     return const Right(null);
   }
 
@@ -201,7 +214,8 @@ class WorkoutSessionRepositoryImpl implements WorkoutSessionRepository {
     );
   }
 
-  WorkoutSession _mapSession(CachedWorkoutSession row, List<CachedWorkoutSet> sets) {
+  WorkoutSession _mapSession(
+      CachedWorkoutSession row, List<CachedWorkoutSet> sets) {
     return WorkoutSession(
       id: row.id,
       userId: row.userId,
@@ -212,7 +226,8 @@ class WorkoutSessionRepositoryImpl implements WorkoutSessionRepository {
       notes: row.notes,
       totalVolumeKg: sets
           .where((s) => s.isCompleted && !s.isWarmup)
-          .fold<double>(0, (sum, s) => sum + ((s.weightKg ?? 0) * (s.reps ?? 0))),
+          .fold<double>(
+              0, (sum, s) => sum + ((s.weightKg ?? 0) * (s.reps ?? 0))),
       sets: sets
           .map(
             (s) => WorkoutSet(

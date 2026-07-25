@@ -46,8 +46,8 @@ class ShimmerLoading extends StatelessWidget {
         for (var i = 0; i < lines; i++) ...[
           if (i > 0) const SizedBox(height: 8),
           LayoutBuilder(
-            builder: (context, constraints) =>
-                ShimmerBar(width: constraints.maxWidth * widths[i % widths.length]),
+            builder: (context, constraints) => ShimmerBar(
+                width: constraints.maxWidth * widths[i % widths.length]),
           ),
         ],
       ],

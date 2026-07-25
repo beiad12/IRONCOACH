@@ -25,7 +25,8 @@ void main() {
 
   setUpAll(() async {
     await dotenv.load(fileName: '.env');
-    await Supabase.initialize(url: Env.supabaseUrl, anonKey: Env.supabaseAnonKey);
+    await Supabase.initialize(
+        url: Env.supabaseUrl, anonKey: Env.supabaseAnonKey);
   });
 
   testWidgets('unauthenticated users land on the login screen', (tester) async {

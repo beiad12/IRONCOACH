@@ -8,5 +8,6 @@ abstract interface class ProfileRepository {
 
   Future<Result<UserProfile>> updateProfile(UserProfile profile);
 
-  Future<Result<String>> uploadAvatar({required String userId, required File file});
+  Future<Result<String>> uploadAvatar(
+      {required String userId, required File file});
 }

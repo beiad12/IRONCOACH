@@ -9,7 +9,8 @@ class ExerciseLocalDataSource {
 
   final AppDatabase _db;
 
-  Future<List<CachedExercise>> getAll() => _db.select(_db.cachedExercises).get();
+  Future<List<CachedExercise>> getAll() =>
+      _db.select(_db.cachedExercises).get();
 
   Future<void> replaceAll(List<Map<String, dynamic>> remoteRows) async {
     await _db.transaction(() async {
@@ -23,7 +24,8 @@ class ExerciseLocalDataSource {
               name: row['name'] as String,
               category: row['category'] as String,
               primaryMuscle: row['primary_muscle'] as String,
-              secondaryMusclesJson: Value(jsonEncode(row['secondary_muscles'] ?? <String>[])),
+              secondaryMusclesJson:
+                  Value(jsonEncode(row['secondary_muscles'] ?? <String>[])),
               equipment: Value(row['equipment'] as String?),
               difficulty: row['difficulty'] as String,
               instructions: Value(row['instructions'] as String?),
@@ -47,19 +49,21 @@ class ExerciseLocalDataSource {
       await _db.batch((batch) {
         batch.insertAll(
           _db.cachedFavoriteExercises,
-          ids.map((id) => CachedFavoriteExercisesCompanion.insert(exerciseId: id)),
+          ids.map(
+              (id) => CachedFavoriteExercisesCompanion.insert(exerciseId: id)),
         );
       });
     });
   }
 
-  Future<void> setFavoriteLocally(String exerciseId, {required bool isFavorite}) async {
+  Future<void> setFavoriteLocally(String exerciseId,
+      {required bool isFavorite}) async {
     if (isFavorite) {
-      await _db
-          .into(_db.cachedFavoriteExercises)
-          .insertOnConflictUpdate(CachedFavoriteExercisesCompanion.insert(exerciseId: exerciseId));
+      await _db.into(_db.cachedFavoriteExercises).insertOnConflictUpdate(
+          CachedFavoriteExercisesCompanion.insert(exerciseId: exerciseId));
     } else {
-      await (_db.delete(_db.cachedFavoriteExercises)..where((t) => t.exerciseId.equals(exerciseId)))
+      await (_db.delete(_db.cachedFavoriteExercises)
+            ..where((t) => t.exerciseId.equals(exerciseId)))
           .go();
     }
   }

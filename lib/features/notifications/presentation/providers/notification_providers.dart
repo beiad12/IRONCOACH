@@ -16,12 +16,14 @@ const _nutritionReminderId = 1002;
 
 @Riverpod(keepAlive: true)
 NotificationRepository notificationRepository(Ref ref) {
-  return NotificationRepositoryImpl(ref.watch(supabaseClientProvider), () => ref.read(currentUserProvider)?.id);
+  return NotificationRepositoryImpl(ref.watch(supabaseClientProvider),
+      () => ref.read(currentUserProvider)?.id);
 }
 
 @riverpod
 Future<NotificationPreferences> notificationPreferences(Ref ref) async {
-  final result = await ref.watch(notificationRepositoryProvider).getPreferences();
+  final result =
+      await ref.watch(notificationRepositoryProvider).getPreferences();
   return result.match((failure) => throw failure, (prefs) => prefs);
 }
 
@@ -50,7 +52,9 @@ class NotificationSettingsController {
         channel: ReminderChannel.workout,
         title: 'Time to train 💪',
         body: "Don't break your streak — log today's workout.",
-        time: ReminderTime(hour: prefs.workoutReminderHour, minute: prefs.workoutReminderMinute),
+        time: ReminderTime(
+            hour: prefs.workoutReminderHour,
+            minute: prefs.workoutReminderMinute),
       );
     }
 
@@ -61,7 +65,9 @@ class NotificationSettingsController {
         channel: ReminderChannel.nutrition,
         title: 'Log your meals',
         body: 'Keep your nutrition tracking on point.',
-        time: ReminderTime(hour: prefs.nutritionReminderHour, minute: prefs.nutritionReminderMinute),
+        time: ReminderTime(
+            hour: prefs.nutritionReminderHour,
+            minute: prefs.nutritionReminderMinute),
       );
     }
   }

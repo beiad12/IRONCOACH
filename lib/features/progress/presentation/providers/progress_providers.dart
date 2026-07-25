@@ -13,7 +13,8 @@ part 'progress_providers.g.dart';
 
 @Riverpod(keepAlive: true)
 ProgressRepository progressRepository(Ref ref) {
-  return ProgressRepositoryImpl(ref.watch(supabaseClientProvider), () => ref.read(currentUserProvider)?.id);
+  return ProgressRepositoryImpl(ref.watch(supabaseClientProvider),
+      () => ref.read(currentUserProvider)?.id);
 }
 
 @riverpod
@@ -24,12 +25,14 @@ Future<List<BodyMeasurement>> bodyMeasurements(Ref ref) async {
 
 @riverpod
 Future<List<ProgressPhoto>> progressPhotos(Ref ref) async {
-  final result = await ref.watch(progressRepositoryProvider).getProgressPhotos();
+  final result =
+      await ref.watch(progressRepositoryProvider).getProgressPhotos();
   return result.match((failure) => throw failure, (list) => list);
 }
 
 @riverpod
 Future<List<PersonalRecord>> personalRecords(Ref ref) async {
-  final result = await ref.watch(progressRepositoryProvider).getPersonalRecords();
+  final result =
+      await ref.watch(progressRepositoryProvider).getPersonalRecords();
   return result.match((failure) => throw failure, (list) => list);
 }

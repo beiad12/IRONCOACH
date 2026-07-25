@@ -16,6 +16,6 @@ class ChatMessage with _$ChatMessage {
 }
 
 extension ChatRoleX on ChatRole {
-  static ChatRole fromKey(String key) =>
-      ChatRole.values.firstWhere((e) => e.name == key, orElse: () => ChatRole.user);
+  static ChatRole fromKey(String key) => ChatRole.values
+      .firstWhere((e) => e.name == key, orElse: () => ChatRole.user);
 }

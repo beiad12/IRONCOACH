@@ -13,8 +13,9 @@ class UserLevel with _$UserLevel {
   const UserLevel._();
 
   int get xpForCurrentLevel => level * 100;
-  double get progress =>
-      xpForCurrentLevel == 0 ? 0 : (xpForCurrentLevel - xpToNextLevel) / xpForCurrentLevel;
+  double get progress => xpForCurrentLevel == 0
+      ? 0
+      : (xpForCurrentLevel - xpToNextLevel) / xpForCurrentLevel;
 }
 
 @freezed

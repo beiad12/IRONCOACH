@@ -13,7 +13,8 @@ part 'social_providers.g.dart';
 
 @Riverpod(keepAlive: true)
 SocialRepository socialRepository(Ref ref) {
-  return SocialRepositoryImpl(ref.watch(supabaseClientProvider), () => ref.read(currentUserProvider)?.id);
+  return SocialRepositoryImpl(ref.watch(supabaseClientProvider),
+      () => ref.read(currentUserProvider)?.id);
 }
 
 @riverpod

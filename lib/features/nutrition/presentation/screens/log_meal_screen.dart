@@ -29,7 +29,8 @@ class LogMealScreen extends HookConsumerWidget {
         searchResults.value = [];
         return;
       }
-      final result = await ref.read(nutritionRepositoryProvider).searchFoodItems(query);
+      final result =
+          await ref.read(nutritionRepositoryProvider).searchFoodItems(query);
       result.match((_) {}, (items) => searchResults.value = items);
     }
 
@@ -49,12 +50,15 @@ class LogMealScreen extends HookConsumerWidget {
     }
 
     Future<void> pickPhoto() async {
-      final picked = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 80);
+      final picked = await ImagePicker()
+          .pickImage(source: ImageSource.camera, imageQuality: 80);
       if (picked == null) return;
       photo.value = File(picked.path);
 
       isBusy.value = true;
-      final result = await ref.read(aiRepositoryProvider).analyzeMealPhoto(imageFile: photo.value!);
+      final result = await ref
+          .read(aiRepositoryProvider)
+          .analyzeMealPhoto(imageFile: photo.value!);
       isBusy.value = false;
       result.match(
         (failure) {
@@ -76,7 +80,8 @@ class LogMealScreen extends HookConsumerWidget {
           );
           if (context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Estimated from photo: ${analysis.notes}')),
+              SnackBar(
+                  content: Text('Estimated from photo: ${analysis.notes}')),
             );
           }
         },
@@ -106,7 +111,10 @@ class LogMealScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Log a meal'),
-        actions: [IconButton(icon: const Icon(Icons.camera_alt_outlined), onPressed: pickPhoto)],
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.camera_alt_outlined), onPressed: pickPhoto)
+        ],
       ),
       body: Column(
         children: [
@@ -129,7 +137,8 @@ class LogMealScreen extends HookConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
               controller: searchController,
-              decoration: const InputDecoration(hintText: 'Search foods', prefixIcon: Icon(Icons.search)),
+              decoration: const InputDecoration(
+                  hintText: 'Search foods', prefixIcon: Icon(Icons.search)),
               onChanged: search,
             ),
           ),
@@ -140,19 +149,24 @@ class LogMealScreen extends HookConsumerWidget {
                 for (final item in searchResults.value)
                   ListTile(
                     title: Text(item.name),
-                    subtitle: Text('${item.caloriesPerServing.round()} kcal / serving'),
-                    trailing: IconButton(icon: const Icon(Icons.add), onPressed: () => addToCart(item)),
+                    subtitle: Text(
+                        '${item.caloriesPerServing.round()} kcal / serving'),
+                    trailing: IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () => addToCart(item)),
                   ),
                 if (cart.value.isNotEmpty) ...[
                   const Divider(),
-                  Text('Added items', style: Theme.of(context).textTheme.titleSmall),
+                  Text('Added items',
+                      style: Theme.of(context).textTheme.titleSmall),
                   for (final item in cart.value)
                     ListTile(
                       title: Text(item.foodItem.name),
                       subtitle: Text('${item.calories.round()} kcal'),
                       trailing: IconButton(
                         icon: const Icon(Icons.close),
-                        onPressed: () => cart.value = cart.value.where((i) => i != item).toList(),
+                        onPressed: () => cart.value =
+                            cart.value.where((i) => i != item).toList(),
                       ),
                     ),
                 ],
@@ -161,7 +175,8 @@ class LogMealScreen extends HookConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(16),
-            child: GradientButton(label: 'Save meal', isLoading: isBusy.value, onPressed: save),
+            child: GradientButton(
+                label: 'Save meal', isLoading: isBusy.value, onPressed: save),
           ),
         ],
       ),
