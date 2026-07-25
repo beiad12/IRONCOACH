@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch: {}
 
 env:
   FLUTTER_VERSION: "3.24.0"
@@ -73,6 +74,11 @@ jobs:
       - run: flutter pub get
       - run: dart run build_runner build --delete-conflicting-outputs
       - run: flutter build apk --debug
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ironcoach-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
 
   supabase-lint:
     name: Lint Supabase Edge Functions

@@ -1,5 +1,6 @@
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 part 'shared_providers.g.dart';

@@ -50,7 +50,7 @@ abstract final class AppTheme {
         surfaceTintColor: Colors.transparent,
         titleTextStyle: AppTextStyles.textTheme(textColor).titleLarge,
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         color: isDark ? AppColors.darkSurfaceElevatedTop : colorScheme.surface,
         elevation: 0,
         margin: EdgeInsets.zero,
@@ -119,7 +119,7 @@ abstract final class AppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: isDark ? const Color(0xE6141517) : colorScheme.surface,
-        indicatorColor: AppColors.electricBlue.withValues(alpha: 0.12),
+        indicatorColor: AppColors.electricBlue.withOpacity(0.12),
         surfaceTintColor: Colors.transparent,
         labelTextStyle: WidgetStateProperty.resolveWith(
           (states) => TextStyle(

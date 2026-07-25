@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/local_db/database_provider.dart';

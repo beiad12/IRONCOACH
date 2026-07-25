@@ -40,7 +40,7 @@ class _LeaderboardRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      borderColor: isMe ? AppColors.electricBlue.withValues(alpha: 0.35) : null,
+      borderColor: isMe ? AppColors.electricBlue.withOpacity(0.35) : null,
       child: Row(
         children: [
           SizedBox(

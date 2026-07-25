@@ -9,6 +9,7 @@ import '../../../../core/widgets/async_value_widget.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../gamification/presentation/providers/gamification_providers.dart';
 import '../../../workouts/presentation/providers/workout_providers.dart';
+import '../../domain/entities/user_profile.dart';
 import '../providers/profile_providers.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -101,7 +102,7 @@ class ProfileScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               AppCard(
                 gradient: AppColors.premiumCardGradient,
-                borderColor: AppColors.electricBlue.withValues(alpha: 0.25),
+                borderColor: AppColors.electricBlue.withOpacity(0.25),
                 onTap: () => context.push(RoutePaths.premium),
                 child: Row(
                   children: [

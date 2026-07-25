@@ -33,7 +33,7 @@ abstract final class AppColors {
   // Text — dark theme uses white at fixed opacity tiers throughout the
   // design rather than separate named colors.
   static const Color darkTextPrimary = Color(0xFFF5F6F7);
-  static Color darkText(double opacity) => darkTextPrimary.withValues(alpha: opacity);
+  static Color darkText(double opacity) => darkTextPrimary.withOpacity(opacity);
   static const Color darkTextSecondary = Color(0x80F5F6F7); // ~50%
   static const Color darkTextTertiary = Color(0x66F5F6F7); // ~40%
   static const Color lightTextPrimary = Color(0xFF14161A);

@@ -170,14 +170,14 @@ class WorkoutGeneratorScreen extends HookConsumerWidget {
           if (generated.value != null) ...[
             const SizedBox(height: 20),
             AppCard(
-              borderColor: AppColors.emerald.withValues(alpha: 0.25),
+              borderColor: AppColors.emerald.withOpacity(0.25),
               child: Row(
                 children: [
                   Container(
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
-                      color: AppColors.emerald.withValues(alpha: 0.15),
+                      color: AppColors.emerald.withOpacity(0.15),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(Icons.check, color: AppColors.emerald, size: 18),

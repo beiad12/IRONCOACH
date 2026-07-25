@@ -46,7 +46,7 @@ class WorkoutTemplateDetailScreen extends ConsumerWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: AppColors.electricBlue.withValues(alpha: 0.12),
+                          color: AppColors.electricBlue.withOpacity(0.12),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         alignment: Alignment.center,

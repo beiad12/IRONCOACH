@@ -227,7 +227,7 @@ class _MealTile extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
-            backgroundColor: AppColors.electricBlue.withValues(alpha: 0.15),
+            backgroundColor: AppColors.electricBlue.withOpacity(0.15),
             child: Text(meal.mealType.label[0], style: const TextStyle(color: AppColors.electricBlue)),
           ),
           const SizedBox(width: 12),

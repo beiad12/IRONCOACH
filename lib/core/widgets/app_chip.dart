@@ -30,8 +30,8 @@ class AppChip extends StatelessWidget {
             gradient: selected
                 ? LinearGradient(
                     colors: [
-                      AppColors.electricBlue.withValues(alpha: 0.22),
-                      AppColors.electricBlue.withValues(alpha: 0.1),
+                      AppColors.electricBlue.withOpacity(0.22),
+                      AppColors.electricBlue.withOpacity(0.1),
                     ],
                   )
                 : null,

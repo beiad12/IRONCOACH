@@ -140,7 +140,7 @@ class _SlideView extends StatelessWidget {
             borderRadius: BorderRadius.circular(40),
             border: Border.all(color: AppColors.darkBorder),
             boxShadow: [
-              BoxShadow(color: AppColors.electricBlue.withValues(alpha: 0.14), blurRadius: 70),
+              BoxShadow(color: AppColors.electricBlue.withOpacity(0.14), blurRadius: 70),
             ],
           ),
           child: Icon(slide.icon, size: 70, color: slide.iconColor),

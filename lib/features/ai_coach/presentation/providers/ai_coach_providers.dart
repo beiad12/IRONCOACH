@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod/riverpod.dart';
 
 import '../../../../core/network/supabase_client_provider.dart';
 import '../../data/datasources/ai_remote_data_source.dart';

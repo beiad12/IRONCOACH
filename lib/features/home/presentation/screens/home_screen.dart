@@ -174,7 +174,7 @@ class _TodayWorkoutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppCard(
       gradient: AppColors.heroCardGradient,
-      borderColor: AppColors.electricBlue.withValues(alpha: 0.22),
+      borderColor: AppColors.electricBlue.withOpacity(0.22),
       onTap: () => template == null
           ? context.push(RoutePaths.workoutGenerator)
           : context.push(RoutePaths.workoutTemplateDetail.replaceFirst(':templateId', template!.id)),
@@ -288,7 +288,7 @@ class _CoachNoteCard extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.electricBlue.withValues(alpha: 0.15),
+              color: AppColors.electricBlue.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(Icons.auto_awesome, color: AppColors.electricBlue, size: 18),
@@ -329,7 +329,7 @@ class _PlanMyDayCard extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.electricBlue.withValues(alpha: 0.15),
+              color: AppColors.electricBlue.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(Icons.auto_awesome, color: AppColors.electricBlue, size: 18),
@@ -384,7 +384,7 @@ class _PremiumBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppCard(
       gradient: AppColors.premiumCardGradient,
-      borderColor: AppColors.electricBlue.withValues(alpha: 0.28),
+      borderColor: AppColors.electricBlue.withOpacity(0.28),
       onTap: onTap,
       child: Row(
         children: [

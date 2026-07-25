@@ -70,7 +70,7 @@ class _NotificationRow extends StatelessWidget {
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: AppColors.electricBlue.withValues(alpha: 0.15),
+                color: AppColors.electricBlue.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(11),
               ),
               child: const Icon(Icons.auto_awesome, color: AppColors.electricBlue, size: 16),

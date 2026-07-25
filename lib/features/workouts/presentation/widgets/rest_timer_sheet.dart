@@ -14,7 +14,7 @@ Future<void> showRestTimerSheet(BuildContext context) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    barrierColor: Colors.black.withValues(alpha: 0.65),
+    barrierColor: Colors.black.withOpacity(0.65),
     builder: (context) => const _RestTimerSheetContent(),
   );
 }

@@ -45,7 +45,7 @@ class _AchievementBadge extends StatelessWidget {
             Container(
               width: 44,
               height: 44,
-              decoration: BoxDecoration(color: color.withValues(alpha: 0.15), shape: BoxShape.circle),
+              decoration: BoxDecoration(color: color.withOpacity(0.15), shape: BoxShape.circle),
               child: Icon(Icons.emoji_events, color: color, size: 20),
             ),
             const SizedBox(height: 8),

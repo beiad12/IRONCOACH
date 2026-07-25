@@ -91,9 +91,6 @@ class SyncQueueEntries extends Table {
   IntColumn get retryCount => integer().withDefault(const Constant(0))();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
   TextColumn get lastError => text().nullable()();
-
-  @override
-  Set<Column> get primaryKey => {id};
 }
 
 @DriftDatabase(

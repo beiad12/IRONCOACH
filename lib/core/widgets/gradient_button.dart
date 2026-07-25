@@ -33,8 +33,8 @@ class GradientButton extends StatelessWidget {
     final gradient = isPrimary ? AppColors.primaryButtonGradient : AppColors.successButtonGradient;
     final onColor = isPrimary ? AppColors.onPrimaryGradient : AppColors.onSuccessGradient;
     final shadowColor = isPrimary
-        ? AppColors.electricBlue.withValues(alpha: 0.3)
-        : AppColors.emerald.withValues(alpha: 0.25);
+        ? AppColors.electricBlue.withOpacity(0.3)
+        : AppColors.emerald.withOpacity(0.25);
     final disabled = onPressed == null || isLoading;
 
     return Opacity(

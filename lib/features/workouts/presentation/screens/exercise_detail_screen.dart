@@ -38,7 +38,7 @@ class ExerciseDetailScreen extends ConsumerWidget {
                       child: BackButton(
                         color: Colors.white,
                         style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(Colors.black.withValues(alpha: 0.4)),
+                          backgroundColor: WidgetStatePropertyAll(Colors.black.withOpacity(0.4)),
                           shape: const WidgetStatePropertyAll(CircleBorder()),
                         ),
                       ),

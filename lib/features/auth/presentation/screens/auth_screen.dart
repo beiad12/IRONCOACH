@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../core/router/route_paths.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/result.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/gradient_button.dart';
 import '../../../../core/widgets/segmented_tabs.dart';
@@ -29,7 +30,7 @@ class AuthScreen extends HookConsumerWidget {
     final obscurePassword = useState(true);
     final isLoading = useState(false);
 
-    Future<void> handleFailure(void Function() onSuccess, Future<dynamic> Function() action) async {
+    Future<void> handleFailure<T>(void Function() onSuccess, Future<Result<T>> Function() action) async {
       isLoading.value = true;
       final result = await action();
       isLoading.value = false;

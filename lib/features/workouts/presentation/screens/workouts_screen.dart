@@ -38,7 +38,7 @@ class WorkoutsScreen extends ConsumerWidget {
           children: [
             AppCard(
               gradient: AppColors.heroCardGradient,
-              borderColor: AppColors.electricBlue.withValues(alpha: 0.22),
+              borderColor: AppColors.electricBlue.withOpacity(0.22),
               onTap: () => context.push(RoutePaths.workoutGenerator),
               child: Row(
                 children: [
@@ -46,7 +46,7 @@ class WorkoutsScreen extends ConsumerWidget {
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(
-                      color: AppColors.electricBlue.withValues(alpha: 0.15),
+                      color: AppColors.electricBlue.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: const Icon(Icons.auto_awesome, color: AppColors.electricBlue),

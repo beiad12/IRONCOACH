@@ -35,7 +35,7 @@ class WorkoutSummaryScreen extends ConsumerWidget {
                     width: 72,
                     height: 72,
                     decoration: BoxDecoration(
-                      color: AppColors.emerald.withValues(alpha: 0.15),
+                      color: AppColors.emerald.withOpacity(0.15),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(Icons.check, size: 32, color: AppColors.emerald),

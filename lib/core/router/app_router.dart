@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod/riverpod.dart';
 
 import '../../features/ai_coach/domain/entities/agent_type.dart';
 import '../../features/ai_coach/presentation/screens/ai_chat_screen.dart';

@@ -88,8 +88,8 @@ class _Pill extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        AppColors.electricBlue.withValues(alpha: 0.22),
-                        AppColors.electricBlue.withValues(alpha: 0.1),
+                        AppColors.electricBlue.withOpacity(0.22),
+                        AppColors.electricBlue.withOpacity(0.1),
                       ],
                     )
                   : null,

@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod/riverpod.dart';
 
 import '../../../../core/network/supabase_client_provider.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
